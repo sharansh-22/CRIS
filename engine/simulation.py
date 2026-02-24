@@ -24,6 +24,7 @@ Usage
     python -m engine.simulation --ticker NSEI  # use NSEI instead
 """
 
+import argparse
 import logging
 import os
 import sys
@@ -31,8 +32,14 @@ from pathlib import Path
 
 import matplotlib
 
-# Use Agg backend when no display is available (headless / CI)
-if not os.environ.get("DISPLAY"):
+# Use Agg backend when no display is available (headless / CI).
+# DISPLAY is X11-specific; also check WAYLAND_DISPLAY and CI env vars
+# to avoid incorrectly forcing Agg on macOS / Windows / Wayland.
+if os.environ.get("CI") or (
+    sys.platform.startswith("linux")
+    and not os.environ.get("DISPLAY")
+    and not os.environ.get("WAYLAND_DISPLAY")
+):
     matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
@@ -49,11 +56,6 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 OUTPUT_DIR = DATA_DIR / "simulation_output"
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
 logger = logging.getLogger(__name__)
 
 # Trading days per year (standard for US markets)
@@ -97,6 +99,12 @@ def calibrate_from_data(csv_path: str | Path) -> tuple[float, float, float]:
     # Daily log-returns: r_t = ln(S_t / S_{t-1})
     log_returns = np.log(close / close.shift(1)).dropna()
 
+    if len(log_returns) < 2:
+        raise ValueError(
+            f"Insufficient data in {csv_path.name}: need ≥ 2 valid Close prices, "
+            f"got {len(close)}"
+        )
+
     S0 = float(close.iloc[-1])
     mu = float(log_returns.mean()) * TRADING_DAYS_PER_YEAR
     sigma = float(log_returns.std()) * np.sqrt(TRADING_DAYS_PER_YEAR)
@@ -138,7 +146,7 @@ def simulate_gbm(
     S : ndarray    Simulated price path.
     """
     rng = np.random.default_rng(seed)
-    n_steps = int(T / dt)
+    n_steps = round(T / dt)
 
     t = np.arange(n_steps + 1)
     S = np.zeros(n_steps + 1)
@@ -196,7 +204,7 @@ def simulate_jumps(
     jump_indices : list  Indices where jumps occurred (for annotation).
     """
     rng = np.random.default_rng(seed)
-    n_steps = int(T / dt)
+    n_steps = round(T / dt)
 
     t = np.arange(n_steps + 1)
     S = np.zeros(n_steps + 1)
@@ -418,18 +426,29 @@ def print_return_statistics(
 def main() -> None:
     """Run the full calibration → simulation → visualisation pipeline."""
 
+    # --- Configure logging (only when run as a script, not on import) ---
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)-8s | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+    # --- Parse CLI arguments ---
+    parser = argparse.ArgumentParser(
+        description="Merton Jump-Diffusion Stress Test",
+    )
+    parser.add_argument(
+        "--ticker", default="SPY", type=str.upper,
+        help="Ticker symbol to calibrate from (default: SPY)",
+    )
+    args = parser.parse_args()
+    ticker_name = args.ticker
+
     # --- Resolve data file ---
     ticker_map = {
         "SPY": DATA_DIR / "Indices" / "SPY.csv",
         "NSEI": DATA_DIR / "Indices" / "NSEI.csv",
     }
-
-    # Use CLI arg if provided:  python -m engine.simulation --ticker NSEI
-    ticker_name = "SPY"
-    if "--ticker" in sys.argv:
-        idx = sys.argv.index("--ticker")
-        if idx + 1 < len(sys.argv):
-            ticker_name = sys.argv[idx + 1].upper()
 
     csv_path = ticker_map.get(ticker_name)
     if csv_path is None or not csv_path.exists():
@@ -456,8 +475,9 @@ def main() -> None:
     mu_j = -0.15       # mean jump = −15 % (crash bias)
     sigma_j = 0.10     # jump-size volatility
 
+    n_days = round(T / dt)
     print(f"\n🔬  Simulation Parameters")
-    print(f"   Horizon       : {T} year ({int(T/dt)} trading days)")
+    print(f"   Horizon       : {T} year ({n_days} trading days)")
     print(f"   Jump intensity: λ = {lambda_j} jumps/year")
     print(f"   Jump mean     : μ_j = {mu_j} (log-space)")
     print(f"   Jump vol      : σ_j = {sigma_j}")
