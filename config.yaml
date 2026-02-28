@@ -1,0 +1,74 @@
+# ============================================================
+# CRIS — Cascade Risk Intelligence System Configuration
+# ============================================================
+
+# --- Data ---
+data:
+  synthetic_orderbook:
+    n_levels: 5           # number of price levels each side of the book
+    poisson_lambda: 10    # order arrival rate per minute
+    depth_decay: 0.7      # exponential decay factor for depth away from best
+    output_dir: data/synthetic_orderbook/
+  event_windows:
+    flash_crash_2010:
+      ticker: SPY
+      start: "2010-05-01"
+      end: "2010-05-15"
+    covid_2020:
+      ticker: SPY
+      start: "2020-02-01"
+      end: "2020-03-31"
+    china_2015:
+      ticker: SPY
+      start: "2015-06-01"
+      end: "2016-01-31"
+
+# --- Layer 1: Signal Harvester ---
+# layer1:
+#   gdelt_api_key:
+#   fred_api_key:
+#   finbert_model_path:
+#   geopolitical_index_weights:
+
+# --- Layer 2: Market Microstructure Anomaly Detector ---
+# layer2:
+#   vpin_bucket_size:
+#   isolation_forest_contamination:
+#   lstm_sequence_length:
+#   hmm_n_states:
+#   quote_stuffing_window_ms:
+
+# --- Layer 3: Black Swan & Slippage Computer ---
+# layer3:
+#   simulation_horizon_years:
+#   jump_intensity:
+#   jump_mean:
+#   jump_volatility:
+
+# --- Layer 4: Credit Risk ---
+# layer4:
+#   sovereign_cds_countries:
+#   corporate_spread_source:
+#   contagion_shock_magnitude:
+
+# --- Convergence Engine ---
+# convergence:
+#   layer_weights:
+#     layer1:
+#     layer2:
+#     layer3:
+#     layer4:
+#   alert_thresholds:
+#     warning:
+#     critical:
+
+# --- Dashboard ---
+# dashboard:
+#   host:
+#   port:
+#   refresh_interval_seconds:
+
+# --- Backtesting ---
+# backtesting:
+#   data_directory:
+#   replay_scenarios:
