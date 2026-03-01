@@ -208,8 +208,8 @@ def compute_rolling_entropy(
 def classify_market_state(
     current_entropy: float,
     baseline_entropy: float,
-    stress_threshold: float = 0.15,
-    black_swan_threshold: float = 0.30,
+    stress_threshold: float | None = None,
+    black_swan_threshold: float | None = None,
 ) -> str:
     """Classify the current market state based on entropy deviation.
 
@@ -222,12 +222,12 @@ def classify_market_state(
         Entropy value at the current time window.
     baseline_entropy : float
         Mean entropy during a calm reference period.
-    stress_threshold : float, optional
-        Excess entropy above baseline that triggers ``"STRESS"``
-        (default 0.15).  Read from ``config.yaml`` if present.
-    black_swan_threshold : float, optional
-        Excess entropy above baseline that triggers ``"BLACK_SWAN"``
-        (default 0.30).  Read from ``config.yaml`` if present.
+    stress_threshold : float | None, optional
+        Excess entropy above baseline that triggers ``"STRESS"``.
+        Read from ``config.yaml`` if ``None`` / omitted.
+    black_swan_threshold : float | None, optional
+        Excess entropy above baseline that triggers ``"BLACK_SWAN"``.
+        Read from ``config.yaml`` if ``None`` / omitted.
 
     Returns
     -------
@@ -236,10 +236,8 @@ def classify_market_state(
     """
     # Try to read thresholds from config, falling back to func defaults
     cfg_stress, cfg_black_swan = _load_config_thresholds()
-    if stress_threshold == 0.15:
-        stress_threshold = cfg_stress
-    if black_swan_threshold == 0.30:
-        black_swan_threshold = cfg_black_swan
+    stress_threshold = stress_threshold if stress_threshold is not None else cfg_stress
+    black_swan_threshold = black_swan_threshold if black_swan_threshold is not None else cfg_black_swan
 
     excess = current_entropy - baseline_entropy
 
@@ -352,8 +350,13 @@ def run_entropy_analysis(
     )
 
     # --- Classify each day in event period ---
+    cfg_stress, cfg_bswan = _load_config_thresholds()
     classifications = event_entropy_series.apply(
-        lambda h: classify_market_state(h, baseline_entropy)
+        lambda h: classify_market_state(
+            h, baseline_entropy, 
+            stress_threshold=cfg_stress, 
+            black_swan_threshold=cfg_bswan
+        )
     )
 
     black_swan_days = int((classifications == "BLACK_SWAN").sum())
@@ -380,6 +383,8 @@ def run_entropy_analysis(
         baseline_entropy=baseline_entropy,
         event_start=event_start,
         event_end=event_end,
+        stress_threshold=cfg_stress,
+        black_swan_threshold=cfg_bswan,
     )
 
     return {
@@ -408,6 +413,8 @@ def _plot_entropy_analysis(
     baseline_entropy: float,
     event_start: str,
     event_end: str,
+    stress_threshold: float = 0.15,
+    black_swan_threshold: float = 0.30,
 ) -> Path:
     """Generate a three-panel entropy diagnostic plot in dark mode."""
 
@@ -440,8 +447,8 @@ def _plot_entropy_analysis(
     ev_start = pd.Timestamp(event_start)
     ev_end = pd.Timestamp(event_end)
 
-    stress_line = baseline_entropy + 0.15
-    bswan_line = baseline_entropy + 0.30
+    stress_line = baseline_entropy + stress_threshold
+    bswan_line = baseline_entropy + black_swan_threshold
 
     # --- Subplot 1: Price ---
     ax1.plot(close.index, close.values, color=COLOR_PRICE, linewidth=1.0)
