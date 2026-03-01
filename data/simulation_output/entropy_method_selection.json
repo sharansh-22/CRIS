@@ -1,0 +1,47 @@
+{
+  "primary_method": "sample",
+  "confirmation_method": "permutation",
+  "primary_score": 0.7000000000000001,
+  "confirmation_score": 0.40026398903261035,
+  "selection_rationale": "Empirical historical selection across 3 crises prioritizing lead time and low false positive rate. Runner-up selected for correlation < 0.7",
+  "rejected_methods": {
+    "shannon": "Lower composite score (0.377), did not meet selection criteria.",
+    "tsallis": "Lower composite score (0.346), did not meet selection criteria."
+  },
+  "metrics_table": {
+    "shannon": {
+      "lead_time": 0.0,
+      "false_pos_rate": 0.0,
+      "magnitude": 0.08764669429571108,
+      "consistency": 0.6666666666666666,
+      "score": 0.37742032529232367
+    },
+    "permutation": {
+      "lead_time": 0.0,
+      "false_pos_rate": 0.0,
+      "magnitude": 0.17750204744465714,
+      "consistency": 0.6666666666666666,
+      "score": 0.40026398903261035
+    },
+    "sample": {
+      "lead_time": 35.0,
+      "false_pos_rate": 2.1742765273311897,
+      "magnitude": 0.8320455363408348,
+      "consistency": 1.0,
+      "score": 0.7000000000000001
+    },
+    "tsallis": {
+      "lead_time": 0.0,
+      "false_pos_rate": 0.14855305466237942,
+      "magnitude": 0.045347271381884914,
+      "consistency": 0.6666666666666666,
+      "score": 0.3461697722567288
+    }
+  },
+  "evaluated_on": [
+    "covid_2020",
+    "q4_2018_selloff",
+    "fed_2022"
+  ],
+  "timestamp": "2026-03-01T12:13:35.594659"
+}
