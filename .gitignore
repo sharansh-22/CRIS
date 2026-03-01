@@ -1,23 +1,10 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-env/
-venv/
-ENV/
+# Sensitive/System Files
+config.yaml
 .env
-
-# Data
-data/Indices/*.csv
-data/Equities/*.csv
-data/Macro/*.csv
-data/*.csv
-
-# IDEs
-.vscode/
-.idea/
-
-# OS
+.ipynb_checkpoints/
+__pycache__/
 .DS_Store
-Thumbs.db
+
+# Deprecated/Removed Files
+requirements.txt
+final_test_results.md

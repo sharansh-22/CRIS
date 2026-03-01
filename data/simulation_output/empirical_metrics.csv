@@ -1,0 +1,5 @@
+Method,LeadTime,FPRate,SNR,Consistency,BreachDur,Composite
+shannon,0.0,0.000,0.994,0.67,0.0,0.367
+permutation,0.0,0.000,0.994,1.00,0.0,0.400
+sample,35.0,2.174,1.361,1.00,18.0,0.700
+tsallis,0.0,0.149,0.995,0.67,0.0,0.347

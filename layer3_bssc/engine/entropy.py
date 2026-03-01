@@ -41,6 +41,7 @@ import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
 import numpy as np
 import pandas as pd
+import antropy
 
 # Use Agg backend when no display is available (consistent with simulation.py)
 if os.environ.get("CI") or (
@@ -87,7 +88,7 @@ def _load_config_thresholds() -> tuple[float, float]:
 
 
 # ---------------------------------------------------------------------------
-# 1. Core Shannon Entropy Computation
+# 1. Core Entropy Computations
 # ---------------------------------------------------------------------------
 
 
@@ -154,6 +155,174 @@ def compute_shannon_entropy(
     return float(np.clip(entropy / max_entropy, 0.0, 1.0))
 
 
+def compute_permutation_entropy(
+    returns: pd.Series | np.ndarray,
+    order: int = 3,
+    delay: int = 1,
+) -> float:
+    """Compute normalised Permutation Entropy of a return sequence.
+
+    Measures the diversity of ordinal patterns in return sequences. It
+    splits the returns into overlapping subsequences of length `order`,
+    records the rank ordering (e.g. up-up, down-up), and computes the 
+    Shannon entropy of these ordinal patterns.
+
+    Parameters
+    ----------
+    returns : pd.Series or np.ndarray
+        Log-return series.
+    order : int, optional
+        Length of subsequences (default 3). Captures up-up, up-down, 
+        down-up, down-down patterns — the minimum meaningful structure.
+    delay : int, optional
+        Time delay between elements (default 1).
+
+    Returns
+    -------
+    float
+        Normalised permutation entropy in [0, 1].
+
+    Notes
+    -----
+    Consumed by BSSC Layer 3 -> Convergence. During directional crashes,
+    ordinal patterns become monotonically decreasing, reducing entropy.
+    """
+    arr = np.asarray(returns, dtype=float)
+    arr = arr[~np.isnan(arr)]
+    
+    if len(arr) < order:
+        return 0.0
+        
+    try:
+        perm_en = antropy.perm_entropy(arr, order=order, delay=delay, normalize=True)
+    except Exception:
+        return 0.0
+        
+    if np.isnan(perm_en) or np.isinf(perm_en):
+        return 0.0
+        
+    return float(np.clip(perm_en, 0.0, 1.0))
+
+
+def compute_sample_entropy(
+    returns: pd.Series | np.ndarray,
+    order: int = 2,
+    metric: str = "chebyshev",
+    tolerance: float = 0.005,
+) -> float:
+    """Compute normalised Sample Entropy of a return sequence.
+
+    Measures the negative log probability that sequences similar in `order` 
+    points remain similar at `order+1` points. Detects breakdown in self-similarity.
+    High SampEn = patterns stop repeating = structural breakdown.
+
+    Parameters
+    ----------
+    returns : pd.Series or np.ndarray
+        Log-return series.
+    order : int, optional
+        Template length `m` (default 2).
+    metric : str, optional
+        Distance metric (default 'chebyshev').
+    tolerance : float, optional
+        Absolute similarity distance threshold (default 0.005). Must be fixed
+        rather than dynamic (antropy default scales by std) so crashes don't
+        artificially widen the acceptance band.
+
+    Returns
+    -------
+    float
+        Normalised sample entropy in [0, 1].
+        
+    Notes
+    -----
+    Has an INVERSE relationship with Shannon entropy during crashes:
+    Shannon drops during directional crash, while SampEn rises.
+    """
+    arr = np.asarray(returns, dtype=float)
+    arr = arr[~np.isnan(arr)]
+    n = len(arr)
+    
+    if n <= order:
+        return 0.0
+        
+    try:
+        samp_en = antropy.sample_entropy(arr, order=order, metric=metric, tolerance=tolerance)
+    except Exception:
+        samp_en = np.nan
+        
+    if np.isnan(samp_en) or np.isinf(samp_en):
+        return 1.0  # Max disorder
+        
+    # Normalise manually: divide by max log(N)
+    max_en = np.log(n)
+    if max_en == 0:
+        return 0.0
+        
+    return float(np.clip(samp_en / max_en, 0.0, 1.0))
+
+
+def compute_tsallis_entropy(
+    returns: pd.Series | np.ndarray,
+    q: float = 0.5,
+    n_bins: int = 50,
+) -> float:
+    """Compute normalised Tsallis Entropy of a return distribution.
+
+    A generalised entropy that amplifies the contribution of rare events
+    when `q < 1`. Highly sensitive to fat tails indicative of Black Swans.
+
+    Parameters
+    ----------
+    returns : pd.Series or np.ndarray
+        Log-return series.
+    q : float, optional
+        Entropic index (default 0.5 for black swan sensitivity).
+    n_bins : int, optional
+        Number of bins for discretization (default 50).
+
+    Returns
+    -------
+    float
+        Normalised Tsallis entropy in [0, 1].
+    """
+    if np.isclose(q, 1.0):
+        return compute_shannon_entropy(returns, n_bins=n_bins)
+        
+    arr = np.asarray(returns, dtype=float)
+    arr = arr[~np.isnan(arr)]
+
+    if len(arr) == 0:
+        return 0.0
+
+    n_unique = len(np.unique(arr))
+    if n_unique <= 1:
+        return 0.0
+
+    effective_bins = min(n_bins, n_unique)
+    counts, _ = np.histogram(arr, bins=effective_bins)
+    total = counts.sum()
+
+    if total == 0:
+        return 0.0
+
+    probs = counts / total
+    probs = probs[probs > 0]
+    
+    # Tsallis formula: S_q = (1 - sum(p^q)) / (q - 1)
+    s_q = (1.0 - np.sum(np.power(probs, q))) / (q - 1.0)
+    
+    # Max possible Tsallis entropy: S_q_max = (1 - n_bins^(1-q)) / (q - 1)
+    s_q_max = (1.0 - np.power(effective_bins, 1.0 - q)) / (q - 1.0)
+    
+    if s_q_max == 0.0 or np.isnan(s_q_max):
+        return 0.0
+        
+    return float(np.clip(s_q / s_q_max, 0.0, 1.0))
+
+
+
+
 # ---------------------------------------------------------------------------
 # 2. Rolling Entropy Time Series
 # ---------------------------------------------------------------------------
@@ -199,6 +368,47 @@ def compute_rolling_entropy(
 
     return entropy_values
 
+def compute_rolling_multi_entropy(
+    returns: pd.Series,
+    window: int = 30,
+) -> pd.DataFrame:
+    """Compute all four entropy types over a rolling window.
+
+    Rolls Shannon, Permutation, Sample, and Tsallis entropy across
+    the return series.
+
+    Parameters
+    ----------
+    returns : pd.Series
+        Log-return series with a DatetimeIndex.
+    window : int, optional
+        Rolling window size in trading days (default 30).
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with columns ['shannon', 'permutation', 'sample', 'tsallis'].
+    """
+    min_periods = window // 2
+    
+    cols = ["shannon", "permutation", "sample", "tsallis"]
+    df = pd.DataFrame(np.nan, index=returns.index, columns=cols, dtype=float)
+
+    for i in range(len(returns)):
+        start = max(0, i - window + 1)
+        chunk = returns.iloc[start : i + 1]
+
+        if len(chunk) < min_periods:
+            continue
+
+        vals = chunk.values
+        df.iloc[i, 0] = compute_shannon_entropy(vals, n_bins=20)
+        df.iloc[i, 1] = compute_permutation_entropy(vals)
+        df.iloc[i, 2] = compute_sample_entropy(vals)
+        df.iloc[i, 3] = compute_tsallis_entropy(vals, n_bins=20)
+
+    return df
+
 
 # ---------------------------------------------------------------------------
 # 3. Market State Classification
@@ -210,42 +420,80 @@ def classify_market_state(
     baseline_entropy: float,
     stress_threshold: float | None = None,
     black_swan_threshold: float | None = None,
+    confirmation_entropy: float | None = None,
+    confirmation_baseline: float | None = None
 ) -> str:
     """Classify the current market state based on entropy deviation.
 
     Compares the current entropy value against a baseline (calm-period)
-    reference.  The excess entropy determines the classification.
+    reference. The primary signal verifies against a confirmation 
+    signal to reduce false positives.
 
     Parameters
     ----------
     current_entropy : float
-        Entropy value at the current time window.
+        Primary signal (Sample Entropy) value at the current time window.
     baseline_entropy : float
-        Mean entropy during a calm reference period.
+        Primary signal (Sample Entropy) baseline from a calm reference period.
     stress_threshold : float | None, optional
         Excess entropy above baseline that triggers ``"STRESS"``.
         Read from ``config.yaml`` if ``None`` / omitted.
     black_swan_threshold : float | None, optional
         Excess entropy above baseline that triggers ``"BLACK_SWAN"``.
         Read from ``config.yaml`` if ``None`` / omitted.
+    confirmation_entropy : float | None, optional
+        Confirmation signal (Permutation Entropy).
+    confirmation_baseline : float | None, optional
+        Confirmation signal (Permutation Entropy) baseline from calm period.
 
     Returns
     -------
     str
         One of ``"NORMAL"``, ``"STRESS"``, or ``"BLACK_SWAN"``.
+
+    Notes
+    -----
+    Primary signal is now Sample Entropy (selected empirically — see 
+    final_test_results.md Entry 001). Confirmation signal is Permutation Entropy.
+    Two-signal mode requires both to agree for BLACK_SWAN.
+    Single-signal mode (confirmation_entropy=None) preserves original 
+    behavior for backward compatibility.
+    Reference: data/simulation_output/entropy_method_selection.json
     """
     # Try to read thresholds from config, falling back to func defaults
     cfg_stress, cfg_black_swan = _load_config_thresholds()
     stress_threshold = stress_threshold if stress_threshold is not None else cfg_stress
     black_swan_threshold = black_swan_threshold if black_swan_threshold is not None else cfg_black_swan
 
+    # Primary signal (Sample Entropy)
     excess = current_entropy - baseline_entropy
-
-    if excess >= black_swan_threshold:
-        return "BLACK_SWAN"
-    if excess >= stress_threshold:
-        return "STRESS"
-    return "NORMAL"
+    
+    if confirmation_entropy is not None and confirmation_baseline is not None:
+        # Two-signal mode: require confirmation for BLACK_SWAN
+        # Permutation entropy drops consistently during crashes
+        # Confirmed if permutation is below its baseline (directional check)
+        permutation_confirmed = (
+            confirmation_entropy < confirmation_baseline
+        )
+        
+        if excess >= black_swan_threshold and permutation_confirmed:
+            return "BLACK_SWAN"
+        elif excess >= black_swan_threshold and not permutation_confirmed:
+            return "STRESS"  # Primary fires but confirmation absent
+        elif excess >= stress_threshold:
+            return "STRESS"
+        else:
+            return "NORMAL"
+    
+    else:
+        # Single-signal mode: original behavior preserved exactly
+        # This ensures backward compatibility
+        if excess >= black_swan_threshold:
+            return "BLACK_SWAN"
+        elif excess >= stress_threshold:
+            return "STRESS"
+        else:
+            return "NORMAL"
 
 
 # ---------------------------------------------------------------------------
@@ -539,3 +787,332 @@ def _plot_entropy_analysis(
         plt.close(fig)
 
     return out_file
+
+# ---------------------------------------------------------------------------
+# 6. Multi-Entropy Empirical Evaluation
+# ---------------------------------------------------------------------------
+
+def plot_multi_entropy_comparison(
+    ticker: str,
+    csv_path: str,
+    event_start: str,
+    event_end: str,
+    calm_start: str | None = None,
+    calm_end: str | None = None,
+) -> dict:
+    """Generate a 5-panel comparison plot for all four entropy types.
+
+    Parameters
+    ----------
+    ticker : str
+    csv_path : str
+    event_start : str
+    event_end : str
+    calm_start : str | None, optional
+    calm_end : str | None, optional
+
+    Returns
+    -------
+    dict
+        plot_path, entropy_df, correlation_matrix
+    """
+    df = _load_ohlcv(csv_path)
+    close = df["Close"].dropna().astype(float)
+    log_returns = np.log(close / close.shift(1)).dropna()
+    log_returns = log_returns.loc[~log_returns.index.duplicated(keep="first")]
+
+    rolling_df = compute_rolling_multi_entropy(log_returns, window=30)
+    
+    # Baseline logic
+    if calm_start and calm_end:
+        calm_df = rolling_df.loc[calm_start:calm_end].dropna()
+        if len(calm_df) == 0:
+            calm_df = rolling_df.dropna().iloc[:252]
+    else:
+        calm_df = rolling_df.dropna().iloc[:252]
+        
+    baselines = calm_df.mean() if len(calm_df) > 0 else pd.Series(0.0, index=rolling_df.columns)
+    
+    # Event logic for correlation
+    event_df = rolling_df.loc[event_start:event_end].dropna()
+    corr_matrix = event_df.corr() if len(event_df) > 0 else pd.DataFrame()
+    
+    # Plotting
+    COLOR_BG = "#0d0d0d"
+    COLOR_GRID = "#21262d"
+    COLOR_TEXT = "#c9d1d9"
+    COLOR_PRICE = "#58a6ff"
+    COLOR_SHAN = "#f0883e"
+    COLOR_PERM = "#3fb950"
+    COLOR_SAMP = "#2f81f7"
+    COLOR_TSAL = "#d29922"
+    COLOR_EVENT_BG = "#f8514920"
+    COLOR_BSWAN = "#f85149"
+    COLOR_BASELINE = "#8b949e"
+    
+    fig, axes = plt.subplots(5, 1, figsize=(18, 22), sharex=True, dpi=150)
+    fig.patch.set_facecolor(COLOR_BG)
+    
+    for ax in axes:
+        ax.set_facecolor(COLOR_BG)
+        ax.tick_params(colors=COLOR_TEXT, labelsize=9)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_color(COLOR_GRID)
+        ax.spines["bottom"].set_color(COLOR_GRID)
+        ax.grid(True, alpha=0.15, color=COLOR_GRID, linestyle="--")
+        
+    ev_start = pd.Timestamp(event_start)
+    ev_end = pd.Timestamp(event_end)
+    
+    # Subplot 1: Price
+    ax = axes[0]
+    ax.plot(close.index, close.values, color=COLOR_PRICE, linewidth=1.2)
+    ax.axvspan(ev_start, ev_end, alpha=0.12, color=COLOR_BSWAN)
+    ax.set_ylabel("Close Price", fontsize=11, color=COLOR_TEXT)
+    ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v:,.0f}"))
+    ax.set_title(f"Multi-Entropy Analysis — {ticker}", fontsize=15, fontweight="bold", color=COLOR_TEXT, pad=12)
+    
+    # Subplot 2: All Entropies
+    ax = axes[1]
+    ax.plot(rolling_df.index, rolling_df["shannon"], color=COLOR_SHAN, label="Shannon", linewidth=1.2)
+    ax.plot(rolling_df.index, rolling_df["permutation"], color=COLOR_PERM, label="Permutation", linewidth=1.2)
+    ax.plot(rolling_df.index, rolling_df["sample"], color=COLOR_SAMP, label="Sample", linewidth=1.2)
+    ax.plot(rolling_df.index, rolling_df["tsallis"], color=COLOR_TSAL, label="Tsallis", linewidth=1.2)
+    ax.axvspan(ev_start, ev_end, alpha=0.12, color=COLOR_BSWAN)
+    ax.set_ylabel("Normalized Entropy [0-1]", fontsize=11, color=COLOR_TEXT)
+    ax.legend(loc="upper left", facecolor=COLOR_BG, edgecolor=COLOR_GRID, labelcolor=COLOR_TEXT)
+    
+    # Subplot 3: Shannon alone
+    ax = axes[2]
+    sh_base = baselines["shannon"]
+    ax.plot(rolling_df.index, rolling_df["shannon"], color=COLOR_SHAN, linewidth=1.2, label="Shannon Entropy")
+    ax.axhline(sh_base, color=COLOR_BASELINE, linestyle="--", label="Baseline")
+    ax.axhline(sh_base + 0.15, color="#d29922", linestyle="--", label="Stress +0.15")
+    ax.axhline(sh_base + 0.30, color=COLOR_BSWAN, linestyle="--", label="Black Swan +0.30")
+    ax.axvspan(ev_start, ev_end, alpha=0.12, color=COLOR_BSWAN)
+    ax.set_ylabel("Shannon Entropy [0-1]", fontsize=11, color=COLOR_TEXT)
+    ax.legend(loc="upper left", facecolor=COLOR_BG, edgecolor=COLOR_GRID, labelcolor=COLOR_TEXT)
+    
+    # Subplot 4: Sample alone
+    ax = axes[3]
+    sa_base = baselines["sample"]
+    ax.plot(rolling_df.index, rolling_df["sample"], color=COLOR_SAMP, linewidth=1.2, label="Sample Entropy")
+    ax.axhline(sa_base, color=COLOR_BASELINE, linestyle="--", label="Baseline")
+    ax.axhline(sa_base + 0.15, color="#d29922", linestyle="--", label="Stress +0.15")
+    ax.axhline(sa_base + 0.30, color=COLOR_BSWAN, linestyle="--", label="Black Swan +0.30")
+    ax.axvspan(ev_start, ev_end, alpha=0.12, color=COLOR_BSWAN)
+    ax.set_ylabel("Sample Entropy [normalized]", fontsize=11, color=COLOR_TEXT)
+    ax.set_title("Sample Entropy (rises during directional crash)", fontsize=11, color=COLOR_TEXT)
+    ax.legend(loc="upper left", facecolor=COLOR_BG, edgecolor=COLOR_GRID, labelcolor=COLOR_TEXT)
+    
+    # Subplot 5: Tsallis alone
+    ax = axes[4]
+    ts_base = baselines["tsallis"]
+    ax.plot(rolling_df.index, rolling_df["tsallis"], color=COLOR_TSAL, linewidth=1.2, label="Tsallis Entropy")
+    ax.axhline(ts_base, color=COLOR_BASELINE, linestyle="--", label="Baseline")
+    ax.axhline(ts_base + 0.15, color="#d29922", linestyle="--", label="Stress +0.15")
+    ax.axhline(ts_base + 0.30, color=COLOR_BSWAN, linestyle="--", label="Black Swan +0.30")
+    ax.axvspan(ev_start, ev_end, alpha=0.12, color=COLOR_BSWAN)
+    ax.set_ylabel("Tsallis Entropy [normalized]", fontsize=11, color=COLOR_TEXT)
+    ax.set_title("Tsallis Entropy (amplifies fat tail events)", fontsize=11, color=COLOR_TEXT)
+    ax.legend(loc="upper left", facecolor=COLOR_BG, edgecolor=COLOR_GRID, labelcolor=COLOR_TEXT)
+    
+    axes[-1].xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+    axes[-1].xaxis.set_major_locator(mdates.MonthLocator(interval=3))
+    fig.autofmt_xdate(rotation=30, ha="right")
+    
+    fig.tight_layout(rect=[0, 0, 1, 0.98])
+    
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_file = OUTPUT_DIR / f"multi_entropy_{ticker}_{event_end}.png"
+    fig.savefig(out_file, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor(), edgecolor="none")
+    
+    if matplotlib.get_backend().lower() != "agg":
+        plt.show()
+    else:
+        plt.close(fig)
+        
+    return {
+        "plot_path": str(out_file),
+        "entropy_df": rolling_df,
+        "correlation_matrix": corr_matrix
+    }
+
+def run_entropy_method_selection(ticker: str, csv_path: str) -> dict:
+    import json
+    from datetime import datetime
+    
+    df = _load_ohlcv(csv_path)
+    close = df["Close"].dropna().astype(float)
+    log_returns = np.log(close / close.shift(1)).dropna()
+    log_returns = log_returns.loc[~log_returns.index.duplicated(keep="first")]
+
+    rolling_df = compute_rolling_multi_entropy(log_returns, window=30)
+    
+    events = {
+        "covid_2020": {"start": "2020-02-01", "end": "2020-03-31"},
+        "q4_2018_selloff": {"start": "2018-10-01", "end": "2018-12-31"},
+        "fed_2022": {"start": "2022-01-01", "end": "2022-06-30"}
+    }
+    
+    methods = ["shannon", "permutation", "sample", "tsallis"]
+    
+    # 1. False Positive Rate (Calm period = outside 60 days of any event)
+    def is_calm(d):
+        for ev in events.values():
+            e_start = pd.Timestamp(ev["start"]) - pd.Timedelta(days=60)
+            e_end = pd.Timestamp(ev["end"]) + pd.Timedelta(days=60)
+            if e_start <= d <= e_end:
+                return False
+        return True
+        
+    calm_mask = rolling_df.index.map(is_calm)
+    calm_df = rolling_df.loc[calm_mask].dropna()
+    
+    if len(calm_df) == 0:
+        calm_df = rolling_df.dropna().iloc[:252]
+        
+    baselines = calm_df.mean()
+    stds = calm_df.std()
+    
+    calm_months = len(calm_df) / 21.0
+    
+    fp_rate = {}
+    for m in methods:
+        breaches = (calm_df[m] > baselines[m] + 0.15).sum()
+        fp_rate[m] = breaches / calm_months if calm_months > 0 else 0.0
+
+    # For each method, aggregate Lead Time, Magnitude, and Direction
+    lead_times = {m: [] for m in methods}
+    magnitudes = {m: [] for m in methods}
+    directions = {m: [] for m in methods}
+    
+    corr_matrices = []
+    
+    for en, ev in events.items():
+        ev_start, ev_end = ev["start"], ev["end"]
+        ev_df = rolling_df.loc[ev_start:ev_end]
+        ev_close = close.loc[ev_start:ev_end]
+        
+        if len(ev_df) == 0 or len(ev_close) == 0:
+            continue
+            
+        corr_matrices.append(ev_df.corr())
+        min_date = ev_close.idxmin()
+        
+        for m in methods:
+            # Shift magnitude
+            mag = (ev_df[m].mean() - baselines[m]) / (stds[m] if stds[m] > 0 else 1.0)
+            magnitudes[m].append(mag)
+            
+            # Direction
+            direction = 1 if ev_df[m].mean() > baselines[m] else -1
+            directions[m].append(direction)
+            
+            # Lead time
+            pre_min_df = ev_df.loc[:min_date]
+            breach_idx = pre_min_df[pre_min_df[m] > baselines[m] + 0.15].index
+            
+            if len(breach_idx) > 0:
+                first_breach = breach_idx[0]
+                # count trading days
+                days_diff = len(ev_close.loc[first_breach:min_date]) - 1
+                lead_times[m].append(max(0, days_diff))
+            else:
+                lead_times[m].append(0)
+                
+    # Averages
+    avg_lt = {m: np.mean(lead_times[m]) if len(lead_times[m]) > 0 else 0 for m in methods}
+    avg_mag = {m: np.abs(np.mean(magnitudes[m])) if len(magnitudes[m]) > 0 else 0 for m in methods}
+    
+    consistency = {}
+    for m in methods:
+        if len(directions[m]) == 0:
+            consistency[m] = 0.0
+            continue
+        from collections import Counter
+        mc = Counter(directions[m]).most_common(1)[0][1]
+        consistency[m] = mc / len(directions[m])
+        
+    # Normalizing functions
+    def normalize_dict(d, invert=False):
+        vals = list(d.values())
+        if max(vals) == min(vals):
+            return {m: 1.0 for m in methods}
+        if invert:
+            return {m: (max(vals) - d[m]) / (max(vals) - min(vals)) for m in methods}
+        return {m: (d[m] - min(vals)) / (max(vals) - min(vals)) for m in methods}
+        
+    norm_lt = normalize_dict(avg_lt)
+    norm_fp = normalize_dict(fp_rate, invert=True)  # lower is better
+    norm_mag = normalize_dict(avg_mag)
+    
+    scores = {}
+    for m in methods:
+        scores[m] = (0.40 * norm_lt[m]) + (0.30 * norm_fp[m]) + (0.20 * norm_mag[m]) + (0.10 * consistency[m])
+        
+    sorted_methods = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    winner = sorted_methods[0][0]
+    
+    # Event correlations to find runner up
+    avg_corr = sum(corr_matrices) / len(corr_matrices) if len(corr_matrices) > 0 else pd.DataFrame()
+    runner_up = None
+    
+    for m, sc in sorted_methods[1:]:
+        c = avg_corr.loc[winner, m] if not avg_corr.empty else 0.0
+        if c < 0.7:
+            runner_up = m
+            break
+            
+    if runner_up is None:
+        runner_up = sorted_methods[1][0]
+        
+    rejected = {}
+    for m, sc in sorted_methods:
+        if m in (winner, runner_up):
+            continue
+        rejected[m] = f"Lower composite score ({sc:.3f}), did not meet selection criteria."
+        
+    print("╔══════════════╦═══════════╦══════════════╦═══════════╦═══════════════╗")
+    print("║ Method       ║ Lead Time ║ False Pos/Mo ║ Magnitude ║ Consistency   ║")
+    print("╠══════════════╬═══════════╬══════════════╬═══════════╬═══════════════╣")
+    for m in methods:
+        print(f"║ {m.capitalize():<12} ║ {avg_lt[m]:>6.1f} days ║ {fp_rate[m]:>12.2f} ║ {avg_mag[m]:>9.2f} ║ {consistency[m]:>13.2f} ║")
+    print("╚══════════════╩═══════════╩══════════════╩═══════════╩═══════════════╝")
+    print()
+    print(f"SELECTED PRIMARY METHOD: {winner} (score: {scores[winner]:.3f})")
+    print(f"SELECTED CONFIRMATION METHOD: {runner_up} (score: {scores[runner_up]:.3f})")
+    print("REASON: Elected empirically via historical event framework weighting lead time heavily.")
+    print()
+    print("REJECTED METHODS:")
+    for m, r in rejected.items():
+        print(f"  {m}: {r}")
+
+    out_metrics = {
+        m: {
+            "lead_time": float(avg_lt[m]),
+            "false_pos_rate": float(fp_rate[m]),
+            "magnitude": float(avg_mag[m]),
+            "consistency": float(consistency[m]),
+            "score": float(scores[m])
+        } for m in methods
+    }
+    
+    res = {
+        "primary_method": winner,
+        "confirmation_method": runner_up,
+        "primary_score": float(scores[winner]),
+        "confirmation_score": float(scores[runner_up]),
+        "selection_rationale": "Empirical historical selection across 3 crises prioritizing lead time and low false positive rate. Runner-up selected for correlation < 0.7",
+        "rejected_methods": rejected,
+        "metrics_table": out_metrics,
+        "evaluated_on": ["covid_2020", "q4_2018_selloff", "fed_2022"],
+        "timestamp": datetime.now().isoformat()
+    }
+    
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    with open(OUTPUT_DIR / "entropy_method_selection.json", "w") as f:
+        json.dump(res, f, indent=2)
+        
+    return res

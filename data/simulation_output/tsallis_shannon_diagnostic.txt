@@ -1,0 +1,46 @@
+Shannon probability distribution (nonzero bins):
+[0.03225806 0.03225806 0.03225806 0.03225806 0.03225806 0.06451613
+ 0.06451613 0.09677419 0.03225806 0.06451613 0.03225806 0.12903226
+ 0.06451613 0.03225806 0.03225806 0.03225806 0.03225806 0.06451613
+ 0.03225806 0.03225806 0.03225806]
+Shannon manual H: 4.220168
+Shannon from function: 0.786724
+
+Tsallis probability distribution (nonzero bins):
+[0.03225806 0.03225806 0.03225806 0.03225806 0.03225806 0.06451613
+ 0.06451613 0.09677419 0.03225806 0.06451613 0.03225806 0.12903226
+ 0.06451613 0.03225806 0.03225806 0.03225806 0.03225806 0.06451613
+ 0.03225806 0.03225806 0.03225806]
+Tsallis manual S_q: 0.964326
+Tsallis from function: 0.654664
+
+--- DIAGNOSTIC VERDICT ---
+Probability distributions identical: True
+Final values identical: False
+Shannon value:  0.786724
+Tsallis value:  0.654664
+Absolute difference: 0.13206043
+
+--- TSALLIS q SENSITIVITY ---
+q value         Tsallis    Shannon   Difference
+----------------------------------------------
+0.1            0.555400   0.786724   0.23132457
+0.3            0.603122   0.786724   0.18360212
+0.5            0.654664   0.786724   0.13206043
+0.7            0.708187   0.786724   0.07853695
+0.9            0.761229   0.786724   0.02549550
+1.5            0.892891   0.786724   0.10616657
+2.0            0.954839   0.786724   0.16811433
+
+--- ROLLING CORRELATION WITH SHANNON BY q VALUE ---
+q value           COVID    Q4 2018       2022       Mean
+----------------------------------------------
+0.1              0.8881     0.9713     0.9563     0.9386
+0.5              0.9625     0.9920     0.9854     0.9800
+2.0              0.9113     0.9829     0.9431     0.9458
+
+
+FINDING: BUG CONFIRMED — Both methods use identical
+probability distributions. The 1.00 correlation is
+a computational artifact. Tsallis function requires
+investigation of its binning implementation.
