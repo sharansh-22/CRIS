@@ -338,13 +338,30 @@ def run_entropy_analysis(
     rolling_ent = compute_rolling_entropy(log_returns, window=30, n_bins=20)
 
     # --- Baseline entropy (calm period) ---
-    calm_mask = (rolling_ent.index >= calm_start) & (rolling_ent.index <= calm_end)
-    calm_entropy = rolling_ent.loc[calm_mask].dropna()
-    baseline_entropy = float(calm_entropy.mean()) if len(calm_entropy) > 0 else 0.0
+    calm_entropy = rolling_ent.loc[calm_start:calm_end].dropna()
+
+    print(f"[DEBUG] Requested calm period ({calm_start} to {calm_end}) has {len(calm_entropy)} days of data.")
+    
+    if len(calm_entropy) > 0:
+        print(f"[DEBUG] Raw entropy values (first 5): {calm_entropy.head().values}")
+        baseline_entropy = float(calm_entropy.mean())
+        print(f"[DEBUG] Computed mean baseline: {baseline_entropy:.6f}")
+        
+        baseline_period_used = "requested"
+        baseline_start_date = str(calm_entropy.index[0].date())
+        baseline_end_date = str(calm_entropy.index[-1].date())
+    else:
+        print("[WARNING] Calm period slice is empty. Falling back to the first 252 available trading days.")
+        calm_entropy = rolling_ent.dropna().iloc[:252]
+        baseline_entropy = float(calm_entropy.mean()) if len(calm_entropy) > 0 else 0.0
+        print(f"[DEBUG] Fallback mean baseline: {baseline_entropy:.6f}")
+        
+        baseline_period_used = "fallback_first_252_days"
+        baseline_start_date = str(calm_entropy.index[0].date()) if len(calm_entropy) > 0 else calm_start
+        baseline_end_date = str(calm_entropy.index[-1].date()) if len(calm_entropy) > 0 else calm_end
 
     # --- Event entropy ---
-    event_mask = (rolling_ent.index >= event_start) & (rolling_ent.index <= event_end)
-    event_entropy_series = rolling_ent.loc[event_mask].dropna()
+    event_entropy_series = rolling_ent.loc[event_start:event_end].dropna()
     event_entropy = (
         float(event_entropy_series.mean()) if len(event_entropy_series) > 0 else 0.0
     )
@@ -389,6 +406,9 @@ def run_entropy_analysis(
 
     return {
         "baseline_entropy": round(baseline_entropy, 6),
+        "baseline_period_used": baseline_period_used,
+        "baseline_start_date": baseline_start_date,
+        "baseline_end_date": baseline_end_date,
         "event_entropy": round(event_entropy, 6),
         "entropy_delta": round(event_entropy - baseline_entropy, 6),
         "peak_entropy": round(peak_entropy, 6),
