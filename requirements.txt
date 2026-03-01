@@ -11,4 +11,4 @@ pydantic                # Critical for Type-Safety in financial data streams
 # --- Visualization & Analysis ---
 matplotlib              # Static charts for your technical post-mortems
 plotly                  # Interactive charts for Slippage over time
-statsmodels             # For advanced statistical modeling and GARCH tests
+statsmodels             # For advanced statistical modeling and GARCH testspyyaml>=6.0.1
