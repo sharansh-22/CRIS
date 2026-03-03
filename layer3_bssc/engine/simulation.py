@@ -52,7 +52,7 @@ from scipy import stats
 # Configuration
 # ---------------------------------------------------------------------------
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 OUTPUT_DIR = DATA_DIR / "simulation_output"
 
@@ -270,7 +270,7 @@ def plot_comparison(
     output_dir : Path     Directory to save the PNG (created if needed).
     """
     fig, (ax1, ax2) = plt.subplots(
-        1, 2, figsize=(16, 6.5), sharey=True, dpi=120
+        1, 2, figsize=(16, 6.5), sharey=False, dpi=120
     )
     fig.patch.set_facecolor("#0d1117")
 
@@ -281,6 +281,7 @@ def plot_comparison(
     COLOR_GBM = "#58a6ff"       # cool blue
     COLOR_JD = "#f0883e"        # warm amber
     COLOR_JUMP = "#f85149"      # vivid red for jump markers
+    COLOR_S0 = "#8b949e"        # baseline reference
 
     for ax in (ax1, ax2):
         ax.set_facecolor(COLOR_BG)
@@ -293,6 +294,11 @@ def plot_comparison(
         ax.yaxis.set_major_formatter(
             mticker.FuncFormatter(lambda v, _: f"${v:,.0f}")
         )
+        # S₀ baseline on both plots
+        ax.axhline(
+            S0, color=COLOR_S0, linestyle="--", linewidth=0.9,
+            alpha=0.6, label=f"S₀ = ${S0:,.0f}",
+        )
 
     # --- Plot A: GBM ("Normal") ---
     ax1.plot(t, gbm_path, color=COLOR_GBM, linewidth=1.3, alpha=0.9)
@@ -304,6 +310,10 @@ def plot_comparison(
     )
     ax1.set_xlabel("Trading Days", fontsize=11, color=COLOR_TEXT, labelpad=8)
     ax1.set_ylabel("Simulated Price", fontsize=11, color=COLOR_TEXT, labelpad=8)
+    ax1.legend(
+        loc="upper left", fontsize=8, facecolor=COLOR_BG,
+        edgecolor=COLOR_GRID, labelcolor=COLOR_TEXT,
+    )
 
     # --- Plot B: Jump-Diffusion ("Black Swan") ---
     ax2.plot(

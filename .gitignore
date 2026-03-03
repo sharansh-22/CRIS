@@ -3,7 +3,11 @@ config.yaml
 .env
 .ipynb_checkpoints/
 __pycache__/
+*.pyc
 .DS_Store
+
+# WandB local cache
+wandb/
 
 # Deprecated/Removed Files
 requirements.txt

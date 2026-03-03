@@ -1,413 +1,274 @@
 """
-entropy_comparison.py — Empirical Validation of Entropy Methods
+entropy_comparison.py — Dynamic WandB Experiment Runner for TS-001
 
-This script runs a full empirical comparison of four entropy methods:
-  - Shannon Entropy
-  - Permutation Entropy
-  - Sample Entropy
-  - Tsallis Entropy
+Calls run_entropy_method_selection() from entropy.py, extracts all metrics
+from the results dict, and logs them live to Weights & Biases with a rich
+dashboard: summary metrics, per-method tables, ranking chart, per-event
+breakdowns, and system resource tracking.
 
-It evaluates them across three historical market events using six metrics:
-  1. Crisis Lead Time (days)
-  2. False Positive Rate (breaches per calm month)
-  3. Signal-to-Noise Ratio
-  4. Directional Consistency
-  5. Threshold Breach Duration
-  6. Inter-Method Correlation
-
-Produces three plots and outputs the raw data for `final_test_results.md`.
+NO HARDCODED NUMBERS — every value comes from the results variable.
 """
 
 import os
-import numpy as np
-import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import matplotlib.ticker as mticker
+import wandb
+import psutil
 from pathlib import Path
 
-# Use Agg backend for headless generation
-if os.environ.get("CI") or (os.name == "posix" and not os.environ.get("DISPLAY")):
-    matplotlib.use("Agg")
-
-from layer3_bssc.engine.entropy import (
-    compute_rolling_multi_entropy,
-    _load_ohlcv,
-    run_entropy_method_selection
-)
+from layer3_bssc.engine.entropy import run_entropy_method_selection
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 OUTPUT_DIR = DATA_DIR / "simulation_output"
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
 
-EVENTS = {
-    "COVID Crash": {"start": "2020-02-01", "end": "2020-03-31", "color": "#f85149"},
-    "Q4 2018 Selloff": {"start": "2018-10-01", "end": "2018-12-31", "color": "#f0883e"},
-    "2022 Bear Market": {"start": "2022-01-01", "end": "2022-06-30", "color": "#d29922"}
-}
+def main():
+    # ==================================================================
+    # 1. Initialise WandB Run
+    # ==================================================================
+    csv_path = str(DATA_DIR / "Indices" / "SPY.csv")
 
-METHODS = ["shannon", "permutation", "sample", "tsallis"]
+    run = wandb.init(
+        project="CRIS",
+        job_type="validation",
+        name="TS-001-Entropy-Comparison",
+        tags=["ts-001", "entropy", "method-selection", "SPY"],
+        notes="Empirical comparison of 4 entropy methods across 3 historical crises. "
+              "Selects primary + confirmation method for black swan detection.",
+        config={
+            "ticker": "SPY",
+            "csv_path": csv_path,
+            "test_id": "TS-001",
+            "events": ["covid_2020", "q4_2018_selloff", "fed_2022"],
+            "methods": ["shannon", "permutation", "sample", "tsallis"],
+            "scoring_weights": {
+                "lead_time": 0.40,
+                "false_positive_rate": 0.30,
+                "magnitude": 0.20,
+                "consistency": 0.10,
+            },
+        },
+    )
 
-COLORS = {
-    "shannon": "#f0883e",
-    "permutation": "#3fb950",
-    "sample": "#2f81f7",
-    "tsallis": "#d29922",
-    "bg": "#0d0d0d",
-    "grid": "#21262d",
-    "text": "#c9d1d9",
-    "price": "#58a6ff"
-}
+    # ==================================================================
+    # 2. Run the Entropy Method Selection Engine
+    # ==================================================================
+    print("=" * 60)
+    print("  CRIS TS-001 — Entropy Method Comparison")
+    print("  Running run_entropy_method_selection('SPY', ...)")
+    print("=" * 60)
 
-def is_calm_period(date_idx, events_dict):
-    """Check if a date is outside 60 days of any event window."""
-    for ev in events_dict.values():
-        e_start = pd.Timestamp(ev["start"]) - pd.Timedelta(days=60)
-        e_end = pd.Timestamp(ev["end"]) + pd.Timedelta(days=60)
-        if e_start <= date_idx <= e_end:
-            return False
-    return True
+    results = run_entropy_method_selection("SPY", csv_path)
+    metrics_table = results["metrics_table"]
+    methods = list(metrics_table.keys())
 
-# ---------------------------------------------------------------------------
-# Metric Computations
-# ---------------------------------------------------------------------------
+    print(f"\nEngine completed. Primary: {results['primary_method']}, "
+          f"Confirmation: {results['confirmation_method']}")
 
-def compute_metrics(csv_path: str):
-    print("Loading data and computing rolling entropies...")
-    df = _load_ohlcv(csv_path)
-    close = df["Close"].dropna().astype(float)
-    log_returns = np.log(close / close.shift(1)).dropna()
-    log_returns = log_returns.loc[~log_returns.index.duplicated(keep="first")]
-    
-    # Needs to be 30 day rolling to match simulation
-    rolling_df = compute_rolling_multi_entropy(log_returns, window=30)
-    
-    print("Defining calm periods and baselines...")
-    calm_mask = rolling_df.index.map(lambda d: is_calm_period(d, EVENTS))
-    calm_df = rolling_df.loc[calm_mask].dropna()
-    
-    if len(calm_df) == 0:
-        calm_df = rolling_df.dropna().iloc[:252]
-        
-    baselines = calm_df.mean()
-    calm_months = max(1, len(calm_df) / 21.0)
-    
-    # Metric 2: False Positive Rate
-    fp_rate = {}
-    for m in METHODS:
-        breaches = (calm_df[m] > baselines[m] + 0.15).sum()
-        fp_rate[m] = breaches / calm_months
+    # ==================================================================
+    # 3. Log Summary Metrics — Top-Level Dashboard Cards
+    # ==================================================================
+    summary = {
+        # Winner info
+        "winner/method": results["primary_method"],
+        "winner/composite_score": results["primary_score"],
+        "winner/lead_time_days": metrics_table[results["primary_method"]]["lead_time"],
 
-    lead_times = {m: [] for m in METHODS}
-    snrs = {m: [] for m in METHODS}
-    directions = {m: [] for m in METHODS}
-    breach_durations = {m: [] for m in METHODS}
-    corr_matrices = []
+        # Confirmation info
+        "confirmation/method": results["confirmation_method"],
+        "confirmation/composite_score": results["confirmation_score"],
 
-    print("Evaluating events...")
-    for ev_name, ev_dates in EVENTS.items():
-        start = pd.Timestamp(ev_dates["start"])
-        end = pd.Timestamp(ev_dates["end"])
-        
-        ev_df = rolling_df.loc[start:end]
-        ev_close = close.loc[start:end]
-        
-        if len(ev_df) == 0:
-            continue
-            
-        corr_matrices.append(ev_df.corr())
-        min_date = ev_close.idxmin()
-        
-        # Pre-event data for directionality (30 days before start)
-        pre_start = start - pd.Timedelta(days=45) # grab extra to ensure 30 trading days
-        pre_df = rolling_df.loc[pre_start:start].iloc[-30:] if len(rolling_df.loc[:start]) > 0 else calm_df
-        pre_means = pre_df.mean()
-        
-        for m in METHODS:
-            m_base = baselines[m]
-            m_thresh = m_base + 0.15
-            
-            # Metric 3: SNR
-            m_ev_mean = ev_df[m].mean()
-            snr = m_ev_mean / (m_base if m_base > 0 else 1.0)
-            snrs[m].append(snr)
-            
-            # Metric 4 inputs: Direction
-            if m_ev_mean > pre_means[m]:
-                directions[m].append(1)  # UP
-            else:
-                directions[m].append(-1) # DOWN
-                
-            # Metric 1: Lead Time
-            pre_min_df = ev_df.loc[:min_date]
-            breaches = pre_min_df[pre_min_df[m] > m_thresh]
-            if len(breaches) > 0:
-                first_cross = breaches.index[0]
-                days = len(ev_close.loc[first_cross:min_date]) - 1
-                lead_times[m].append(max(0, days))
-            else:
-                lead_times[m].append(0)
-                
-            # Metric 5: Breach Duration
-            ev_breaches = ev_df[m] > m_thresh
-            if not ev_breaches.any():
-                breach_durations[m].append(0)
-            else:
-                # Count consecutive True values
-                consec = ev_breaches * (ev_breaches.groupby((ev_breaches != ev_breaches.shift()).cumsum()).cumcount() + 1)
-                breach_durations[m].append(consec.max())
-
-    # Aggregate means
-    avg_lt = {m: np.mean(lead_times[m]) if len(lead_times[m]) > 0 else 0 for m in METHODS}
-    avg_snr = {m: np.mean(snrs[m]) if len(snrs[m]) > 0 else 0 for m in METHODS}
-    avg_dur = {m: np.mean(breach_durations[m]) if len(breach_durations[m]) > 0 else 0 for m in METHODS}
-    
-    # Compute consistency
-    consistency = {}
-    for m in METHODS:
-        if not directions[m]:
-            consistency[m] = 0.0
-            continue
-        from collections import Counter
-        modal = Counter(directions[m]).most_common(1)[0][1]
-        consistency[m] = modal / len(directions[m])
-        
-    avg_corr = sum(corr_matrices) / len(corr_matrices) if len(corr_matrices) > 0 else pd.DataFrame()
-
-    def norm(d, invert=False):
-        vals = list(d.values())
-        if max(vals) == min(vals):
-            return {m: 1.0 for m in METHODS}
-        if invert:
-            return {m: (max(vals) - d[m]) / (max(vals) - min(vals)) for m in METHODS}
-        return {m: (d[m] - min(vals)) / (max(vals) - min(vals)) for m in METHODS}
-
-    n_lt = norm(avg_lt)
-    n_fp = norm(fp_rate, invert=True)
-    n_snr = norm(avg_snr)
-    n_dur = norm(avg_dur)
-    
-    scores = {}
-    for m in METHODS:
-        scores[m] = (
-            0.35 * n_lt[m] +
-            0.30 * n_fp[m] +
-            0.15 * n_snr[m] +
-            0.10 * consistency[m] +
-            0.10 * n_dur[m]
-        )
-        
-    sorted_methods = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-    winner = sorted_methods[0][0]
-    
-    runner_up = None
-    for m, sc in sorted_methods[1:]:
-        c = avg_corr.loc[winner, m] if not avg_corr.empty else 0.0
-        if c < 0.70:
-            runner_up = m
-            break
-            
-    if not runner_up and len(sorted_methods) > 1:
-        runner_up = sorted_methods[1][0]
-        
-    metrics = {
-        "lead_time": avg_lt,
-        "fp_rate": fp_rate,
-        "snr": avg_snr,
-        "consistency": consistency,
-        "duration": avg_dur,
-        "scores": scores,
-        "winner": winner,
-        "runner_up": runner_up,
-        "correlation": avg_corr
+        # Overview counts
+        "overview/methods_evaluated": len(methods),
+        "overview/events_tested": len(results["evaluated_on"]),
+        "overview/methods_rejected": len(results["rejected_methods"]),
     }
-    
-    return close, rolling_df, baselines, metrics
+    wandb.log(summary)
 
-# ---------------------------------------------------------------------------
-# Plotting
-# ---------------------------------------------------------------------------
+    # ==================================================================
+    # 4. Log Per-Method Metrics — Individual Metric Cards
+    # ==================================================================
+    for method, m in metrics_table.items():
+        wandb.log({
+            f"scores/{method}_composite": m["score"],
+            f"lead_time/{method}_days": m["lead_time"],
+            f"false_positives/{method}_per_month": m["false_pos_rate"],
+            f"magnitude/{method}_sigma": m["magnitude"],
+            f"consistency/{method}": m["consistency"],
+        })
 
-def style_ax(ax):
-    ax.set_facecolor(COLORS["bg"])
-    ax.tick_params(colors=COLORS["text"], labelsize=9)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["left"].set_color(COLORS["grid"])
-    ax.spines["bottom"].set_color(COLORS["grid"])
-    ax.grid(True, alpha=0.15, color=COLORS["grid"], linestyle="--")
+    # ==================================================================
+    # 5. Main Comparison Table — All Methods Side-by-Side
+    # ==================================================================
+    comparison_table = wandb.Table(
+        columns=[
+            "Method",
+            "Lead Time (days)",
+            "FP Rate (/mo)",
+            "Magnitude (σ)",
+            "Consistency",
+            "Composite Score",
+            "Role",
+        ],
+        data=[
+            [
+                method.capitalize(),
+                round(m["lead_time"], 1),
+                round(m["false_pos_rate"], 3),
+                round(m["magnitude"], 3),
+                round(m["consistency"], 2),
+                round(m["score"], 3),
+                "🥇 Primary" if method == results["primary_method"]
+                else "🥈 Confirmation" if method == results["confirmation_method"]
+                else "❌ Rejected",
+            ]
+            for method, m in metrics_table.items()
+        ],
+    )
+    wandb.log({"comparison/full_metrics_table": comparison_table})
 
-def plot_overview(close, rolling_df, baselines):
-    fig, axes = plt.subplots(6, 1, figsize=(20, 24), sharex=True, dpi=150)
-    fig.patch.set_facecolor(COLORS["bg"])
-    for ax in axes: style_ax(ax)
-    
-    ax = axes[0]
-    ax.plot(close.index, close.values, color=COLORS["price"], linewidth=1.2)
-    ax.set_ylabel("Price", color=COLORS["text"])
-    ax.set_title("Entropy Method Comparison — CRIS Empirical Validation", color=COLORS["text"], fontsize=16, fontweight="bold", pad=15)
-    
-    sub_titles = ["Shannon Entropy", "Permutation Entropy", "Sample Entropy", "Tsallis Entropy"]
-    for i, m in enumerate(METHODS):
-        ax = axes[i+1]
-        ax.plot(rolling_df.index, rolling_df[m], color=COLORS[m], linewidth=1.2)
-        ax.axhline(baselines[m], color="white", linestyle="--", alpha=0.5, label="Baseline")
-        ax.axhline(baselines[m]+0.15, color="#d29922", linestyle="--", label="Stress")
-        ax.axhline(baselines[m]+0.30, color="#f85149", linestyle="--", label="Black Swan")
-        ax.set_ylabel(m.capitalize(), color=COLORS["text"])
-        ax.set_title(sub_titles[i], color=COLORS["text"], fontsize=11)
-        ax.legend(loc="upper left", facecolor=COLORS["bg"], edgecolor=COLORS["grid"], labelcolor=COLORS["text"])
-        
-    ax = axes[5]
-    for m in METHODS:
-        ax.plot(rolling_df.index, rolling_df[m], color=COLORS[m], linewidth=1.2, label=m.capitalize())
-    ax.set_ylabel("Normalized", color=COLORS["text"])
-    ax.set_title("All Methods Overlaid", color=COLORS["text"], fontsize=11)
-    ax.legend(loc="upper left", facecolor=COLORS["bg"], edgecolor=COLORS["grid"], labelcolor=COLORS["text"])
-    
-    # Shade events across all axes
-    for ev in EVENTS.values():
-        start = pd.Timestamp(ev["start"])
-        end = pd.Timestamp(ev["end"])
-        for ax in axes:
-            ax.axvspan(start, end, alpha=0.15, color=ev["color"])
-            
-    fig.tight_layout()
-    plot_path = OUTPUT_DIR / "entropy_comparison_overview.png"
-    fig.savefig(plot_path, facecolor=fig.get_facecolor(), bbox_inches="tight")
-    plt.close(fig)
-    print(f"Saved {plot_path}")
+    # ==================================================================
+    # 6. Ranking Table — Sorted by Composite Score
+    # ==================================================================
+    sorted_methods = sorted(
+        metrics_table.items(), key=lambda x: x[1]["score"], reverse=True
+    )
 
-def plot_metrics(metrics):
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12), dpi=150)
-    fig.patch.set_facecolor(COLORS["bg"])
-    for ax in axes.flatten(): style_ax(ax)
-    
-    # Plot 1: Lead Time
-    ax = axes[0, 0]
-    bars = []
-    for i, m in enumerate(METHODS):
-        bars.append(ax.bar(i, metrics["lead_time"][m], color=COLORS[m]))
-    ax.set_xticks(range(4))
-    ax.set_xticklabels([m.capitalize() for m in METHODS])
-    ax.set_ylabel("Days", color=COLORS["text"])
-    ax.set_title("Mean Crisis Lead Time", color=COLORS["text"])
-    
-    # Plot 2: FPR
-    ax = axes[0, 1]
-    for i, m in enumerate(METHODS):
-        ax.bar(i, metrics["fp_rate"][m], color=COLORS[m])
-    ax.set_xticks(range(4))
-    ax.set_xticklabels([m.capitalize() for m in METHODS])
-    ax.set_ylabel("Breaches / Month", color=COLORS["text"])
-    ax.set_title("False Positive Rate (Lower is Better)", color=COLORS["text"])
-    
-    # Plot 3: SNR
-    ax = axes[1, 0]
-    for i, m in enumerate(METHODS):
-        ax.bar(i, metrics["snr"][m], color=COLORS[m])
-    ax.set_xticks(range(4))
-    ax.set_xticklabels([m.capitalize() for m in METHODS])
-    ax.set_ylabel("SNR Ratio", color=COLORS["text"])
-    ax.set_title("Mean Signal-to-Noise Ratio", color=COLORS["text"])
-    
-    # Plot 4: Composite Score
-    ax = axes[1, 1]
-    scores = metrics["scores"]
-    sorted_m = sorted(scores.items(), key=lambda x: x[1])
-    names = [x[0].capitalize() for x in sorted_m]
-    vals = [x[1] for x in sorted_m]
-    
-    y_pos = np.arange(len(names))
-    rects = ax.barh(y_pos, vals, color=COLORS["grid"])
-    
-    # Color winner/runner-up
-    for i, name in enumerate(names):
-        if name.lower() == metrics["winner"]:
-            rects[i].set_color("#ffd700") # gold
-        elif name.lower() == metrics["runner_up"]:
-            rects[i].set_color("#c0c0c0") # silver
-            
-    ax.set_yticks(y_pos)
-    ax.set_yticklabels(names)
-    ax.set_xlabel("Composite Score [0-1]", color=COLORS["text"])
-    ax.set_title("Final Method Ranking", color=COLORS["text"])
-    
-    for i, v in enumerate(vals):
-        ax.text(v + 0.01, i, f"{v:.3f}", color=COLORS["text"], va='center')
+    ranking_table = wandb.Table(
+        columns=["Rank", "Method", "Composite Score", "Status"],
+        data=[
+            [
+                i + 1,
+                method.capitalize(),
+                round(m["score"], 3),
+                "✅ Selected" if method in (results["primary_method"], results["confirmation_method"])
+                else "❌ Rejected",
+            ]
+            for i, (method, m) in enumerate(sorted_methods)
+        ],
+    )
+    wandb.log({"comparison/ranking_table": ranking_table})
 
-    fig.tight_layout()
-    plot_path = OUTPUT_DIR / "entropy_metrics_bar_chart.png"
-    fig.savefig(plot_path, facecolor=fig.get_facecolor(), bbox_inches="tight")
-    plt.close(fig)
-    print(f"Saved {plot_path}")
+    # ==================================================================
+    # 7. Rejection Table — Why Methods Were Rejected
+    # ==================================================================
+    if results["rejected_methods"]:
+        rejection_table = wandb.Table(
+            columns=["Method", "Composite Score", "Reason"],
+            data=[
+                [
+                    method.capitalize(),
+                    round(metrics_table[method]["score"], 3),
+                    reason,
+                ]
+                for method, reason in results["rejected_methods"].items()
+            ],
+        )
+        wandb.log({"comparison/rejection_reasons": rejection_table})
 
-def plot_correlation(corr_df):
-    fig, ax = plt.subplots(figsize=(10, 8), dpi=150)
-    fig.patch.set_facecolor(COLORS["bg"])
-    ax.set_facecolor(COLORS["bg"])
-    ax.tick_params(colors=COLORS["text"])
-    
-    cax = ax.imshow(corr_df.values, cmap="coolwarm", vmin=-1, vmax=1)
-    fig.colorbar(cax, ax=ax, fraction=0.046, pad=0.04).ax.yaxis.set_tick_params(color=COLORS["text"], labelcolor=COLORS["text"])
-    
-    ax.set_xticks(np.arange(len(corr_df.columns)))
-    ax.set_yticks(np.arange(len(corr_df.index)))
-    ax.set_xticklabels([c.capitalize() for c in corr_df.columns])
-    ax.set_yticklabels([c.capitalize() for c in corr_df.index])
-    
-    for i in range(len(corr_df.index)):
-        for j in range(len(corr_df.columns)):
-            ax.text(j, i, f"{corr_df.iloc[i, j]:.2f}", ha="center", va="center", color="white" if abs(corr_df.iloc[i, j]) > 0.5 else "black")
-            
-    ax.set_title("Entropy Method Correlation During Crisis Windows\nLow correlation = complementary signals", color=COLORS["text"], pad=20)
-    
-    fig.tight_layout()
-    plot_path = OUTPUT_DIR / "entropy_correlation_heatmap.png"
-    fig.savefig(plot_path, facecolor=fig.get_facecolor(), bbox_inches="tight")
-    plt.close(fig)
-    print(f"Saved {plot_path}")
+    # ==================================================================
+    # 8. Bar Charts — Visual Comparison of Each Metric
+    # ==================================================================
+    # Composite Score Bar Chart
+    score_chart_data = [
+        [method.capitalize(), round(m["score"], 3)]
+        for method, m in sorted_methods
+    ]
+    score_table = wandb.Table(columns=["Method", "Composite Score"], data=score_chart_data)
+    wandb.log({
+        "charts/composite_scores": wandb.plot.bar(
+            score_table, "Method", "Composite Score",
+            title="Composite Score by Method"
+        )
+    })
 
-# ---------------------------------------------------------------------------
-# Execution
-# ---------------------------------------------------------------------------
+    # Lead Time Bar Chart
+    lt_data = [
+        [method.capitalize(), round(m["lead_time"], 1)]
+        for method, m in metrics_table.items()
+    ]
+    lt_table = wandb.Table(columns=["Method", "Lead Time (days)"], data=lt_data)
+    wandb.log({
+        "charts/lead_times": wandb.plot.bar(
+            lt_table, "Method", "Lead Time (days)",
+            title="Crisis Lead Time by Method (days before trough)"
+        )
+    })
+
+    # False Positive Rate Bar Chart
+    fp_data = [
+        [method.capitalize(), round(m["false_pos_rate"], 3)]
+        for method, m in metrics_table.items()
+    ]
+    fp_table = wandb.Table(columns=["Method", "FP Rate (/mo)"], data=fp_data)
+    wandb.log({
+        "charts/false_positive_rates": wandb.plot.bar(
+            fp_table, "Method", "FP Rate (/mo)",
+            title="False Positive Rate by Method (lower is better)"
+        )
+    })
+
+    # ==================================================================
+    # 9. Decision Summary Table
+    # ==================================================================
+    decision_table = wandb.Table(
+        columns=["Field", "Value"],
+        data=[
+            ["Primary Method", results["primary_method"].capitalize()],
+            ["Primary Score", str(round(results["primary_score"], 3))],
+            ["Confirmation Method", results["confirmation_method"].capitalize()],
+            ["Confirmation Score", str(round(results["confirmation_score"], 3))],
+            ["Selection Rationale", results["selection_rationale"]],
+            ["Events Evaluated", ", ".join(results["evaluated_on"])],
+        ],
+    )
+    wandb.log({"decision/summary": decision_table})
+
+    # ==================================================================
+    # 10. System Resource Tracking
+    # ==================================================================
+    mem = psutil.virtual_memory()
+    proc = psutil.Process(os.getpid())
+
+    system_metrics = {
+        "system/ram_total_gb": round(mem.total / (1024 ** 3), 2),
+        "system/ram_used_gb": round(mem.used / (1024 ** 3), 2),
+        "system/ram_available_gb": round(mem.available / (1024 ** 3), 2),
+        "system/ram_percent": mem.percent,
+        "system/process_rss_mb": round(proc.memory_info().rss / (1024 ** 2), 2),
+    }
+    wandb.log(system_metrics)
+
+    print(
+        f"\n[System] RAM: {mem.total / (1024**3):.1f} GB total, "
+        f"{mem.percent}% used | Process RSS: "
+        f"{proc.memory_info().rss / (1024**2):.1f} MB"
+    )
+
+    # ==================================================================
+    # 11. Upload Remaining Artifacts
+    # ==================================================================
+    # Upload the JSON selection output as an artifact
+    json_path = OUTPUT_DIR / "entropy_method_selection.json"
+    if json_path.exists():
+        artifact = wandb.Artifact("entropy-selection-results", type="results")
+        artifact.add_file(str(json_path))
+        wandb.log_artifact(artifact)
+        print(f"[Artifact] Uploaded {json_path.name}")
+
+    # Upload any remaining plots
+    plot_path = OUTPUT_DIR / "jump_diffusion_SPY.png"
+    if plot_path.exists():
+        wandb.log({"plots/jump_diffusion": wandb.Image(str(plot_path))})
+        print(f"[Plot] Uploaded {plot_path.name}")
+
+    # ==================================================================
+    # 12. Finish
+    # ==================================================================
+    wandb.finish()
+    print("\n" + "=" * 60)
+    print("  TS-001 Complete — Results logged to WandB")
+    print("=" * 60)
+
 
 if __name__ == "__main__":
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    csv_file = DATA_DIR / "Indices" / "SPY.csv"
-    
-    if not csv_file.exists():
-        print(f"Error: Required data file {csv_file} not found.")
-        exit(1)
-        
-    close, rolling_df, baselines, metrics = compute_metrics(str(csv_file))
-    
-    print("\n--- Generating Plots ---")
-    plot_overview(close, rolling_df, baselines)
-    plot_metrics(metrics)
-    plot_correlation(metrics["correlation"])
-    
-    # Generate the JSON output
-    print("\n--- Generating JSON Payload ---")
-    run_entropy_method_selection("SPY", str(csv_file))
-    
-    print("\n--- Final Metrics Summary ---")
-    print(f"Winner: {metrics['winner']}")
-    print(f"Runner-up: {metrics['runner_up']}")
-    
-    # Store for formatting the markdown
-    with open(OUTPUT_DIR / "empirical_metrics.csv", "w") as f:
-        f.write("Method,LeadTime,FPRate,SNR,Consistency,BreachDur,Composite\n")
-        for m in METHODS:
-            lt = metrics["lead_time"][m]
-            fpr = metrics["fp_rate"][m]
-            snr = metrics["snr"][m]
-            cons = metrics["consistency"][m]
-            dur = metrics["duration"][m]
-            comp = metrics["scores"][m]
-            f.write(f"{m},{lt:.1f},{fpr:.3f},{snr:.3f},{cons:.2f},{dur:.1f},{comp:.3f}\n")
+    main()
