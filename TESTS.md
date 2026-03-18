@@ -54,3 +54,35 @@
 ```bash
 conda run -n CRIS python -m layer3_bssc.engine.entropy_comparison
 ```
+
+### Design Note DN-001 — Slippage Execution Anchoring
+**Component:** Layer 3 BSSC — `engine/slippage.py`
+**Decision Date:** 2026-03-18
+
+**Decision:** Execution in `run_monte_carlo_slippage()` is anchored to the maximum drawdown peak of each path.
+
+**Rationale:** Random execution point averaging masked the crisis impact — an initial implementation using random execution produced JD slippage lower than GBM slippage, contradicting financial reality. Anchoring to max drawdown peak reflects forced liquidation dynamics: margin calls, redemption requests, and risk limit breaches concentrate at peak loss periods.
+
+**Known conservatism:** voluntary traders experience lower slippage. Conservatism is intentional for risk assessment.
+
+**Trigger for revision:** actual crisis Implementation Shortfall (IS) in backtesting consistently below modeled IS by more than 40%.
+
+### Design Note DN-002 — Permutation Entropy Deferral
+**Component:** Layer 3 BSSC — `engine/slippage.py`
+**Decision Date:** 2026-03-18
+
+**Deferred:** `compute_execution_speed_recommendation()` using Permutation Entropy score as directional filter for optimal execution speed.
+
+**Reason for deferral:** Permutation Entropy's role as execution speed signal requires validation against real directional market events. Layer 2 MMAD will provide additional microstructure regime data that strengthens this validation. Implementing before that data exists risks calibrating on insufficient evidence.
+
+**Trigger for implementation:** Layer 2 MMAD complete and microstructure regime comparison test suite run.
+
+---
+
+## Validation Runs
+
+### VR-001 — Slippage Monte Carlo Validation
+**Component:** Layer 3 BSSC — `engine/slippage.py`
+**Date:** 2026-03-18
+**Purpose:** Confirm JD slippage > GBM slippage at >1.5x ratio
+**Result:** PASSED — 2.29x ratio at mean, 4.98x at P99
