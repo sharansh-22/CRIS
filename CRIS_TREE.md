@@ -6,9 +6,9 @@ Last updated: 2026-03-21
 ```
 CRIS
 ├── Layer 3 BSSC        [IN PROGRESS → feature/bssc]
-├── Layer 2 MMAD        [NOT STARTED]
-├── Layer 1 Signal      [NOT STARTED]
-├── Layer 4 Credit      [NOT STARTED]
+├── Layer 2 XXXX        [NOT STARTED]
+├── Layer 1 XXXXXX      [NOT STARTED]
+├── Layer 4 XXXXXX      [NOT STARTED]
 ├── Convergence         [NOT STARTED]
 └── Dashboard           [NOT STARTED]
 ```
@@ -29,9 +29,9 @@ CRIS
 │       ├── BSSC_TESTS.md
 │       ├── BSSC_TEST_RESULTS.md
 │       └── stress_test_layer3.py
-├── Layer 2 MMAD        [NOT STARTED]
-├── Layer 1 Signal      [NOT STARTED]
-├── Layer 4 Credit      [NOT STARTED]
+├── Layer 2 XXXX        [NOT STARTED]
+├── Layer 1 XXXXXX      [NOT STARTED]
+├── Layer 4 XXXXXX      [NOT STARTED]
 ├── Convergence         [NOT STARTED]
 └── Dashboard           [NOT STARTED]
 ```
