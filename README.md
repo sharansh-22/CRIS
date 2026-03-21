@@ -10,9 +10,6 @@ and fires an alert only when multiple domains
 confirm stress simultaneously:
 
 - Layer 3 BSSC — Execution damage modeling
-- Layer 2 MMAD — Microstructure anomaly detection
-- Layer 1 Signal Harvester — News and macro signals
-- Layer 4 Credit Risk — Credit stress transmission
 - Convergence Engine — Multi-layer alert generation
 
 ## Repository Structure
