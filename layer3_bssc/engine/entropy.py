@@ -43,6 +43,12 @@ import numpy as np
 import pandas as pd
 import antropy
 
+# Fixed normalization reference for Sample Entropy.
+# All sample entropy values are normalized against log(252)
+# regardless of actual window length to ensure comparability
+# across windows of different sizes.
+_SAMPLE_ENTROPY_NORM_CONSTANT = np.log(252)  # ≈ 5.529
+
 # Use Agg backend when no display is available (consistent with simulation.py)
 if os.environ.get("CI") or (
     sys.platform.startswith("linux")
@@ -254,12 +260,16 @@ def compute_sample_entropy(
     if np.isnan(samp_en) or np.isinf(samp_en):
         return 1.0  # Max disorder
         
-    # Normalise manually: divide by max log(N)
-    max_en = np.log(n)
-    if max_en == 0:
-        return 0.0
-        
-    return float(np.clip(samp_en / max_en, 0.0, 1.0))
+    # Normalise by fixed reference window (252 trading days = 1 year).
+    # Using np.log(n) where n = current window length makes values
+    # incomparable across windows of different sizes — short windows
+    # produce artificially inflated values because the denominator
+    # is smaller. A fixed reference constant ensures all windows
+    # are normalized to the same scale regardless of length.
+    # Reference: log(252) = 5.529 (one trading year baseline)
+    return float(np.clip(
+        samp_en / _SAMPLE_ENTROPY_NORM_CONSTANT, 0.0, 1.0
+    ))
 
 
 def compute_tsallis_entropy(

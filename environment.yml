@@ -15,3 +15,4 @@ dependencies:
   - pip:
     - yfinance
     - antropy
+    - pydantic>=2.0
