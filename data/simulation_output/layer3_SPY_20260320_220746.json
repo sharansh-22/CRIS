@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "cris_layer": "layer3",
+  "generation_timestamp": "2026-03-20T22:07:46.217886",
+  "generation_config": {
+    "n_paths": 2000,
+    "eta": 0.3,
+    "event_start": "2020-02-01",
+    "event_end": "2020-03-31"
+  },
+  "ticker": "SPY",
+  "overall_risk_level": "BLACK_SWAN",
+  "recommended_action": "LIQUIDATE",
+  "pipeline_timestamp": "2026-03-20T22:07:46.217706",
+  "simulation": {
+    "ticker": "SPY",
+    "S0": 450.0,
+    "mu": 0.12,
+    "sigma": 0.18,
+    "n_paths": 2000,
+    "kurtosis_gbm": 0.158,
+    "kurtosis_jd": 80.58,
+    "skewness_jd": -6.83,
+    "min_return_gbm": -0.0258,
+    "min_return_jd": -0.2129,
+    "simulation_timestamp": "2026-03-20T22:07:46.217647",
+    "notes": null
+  },
+  "entropy": {
+    "ticker": "SPY",
+    "primary_method": "sample",
+    "confirmation_method": "permutation",
+    "baseline_entropy": 0.827,
+    "event_entropy": 1.142,
+    "entropy_delta": 0.315,
+    "peak_entropy_date": "2020-03-16",
+    "market_state": "BLACK_SWAN",
+    "breach_duration_days": 18,
+    "baseline_period_used": "2018-01-02 to 2018-12-31",
+    "entropy_acceleration_peak": null,
+    "analysis_timestamp": "2026-03-20T22:07:46.217675"
+  },
+  "slippage": {
+    "ticker": "SPY",
+    "mode": "jump_diffusion",
+    "n_paths": 2000,
+    "mean_bps": 490.58,
+    "median_bps": 241.91,
+    "p95_bps": 1948.61,
+    "p99_bps": 2729.41,
+    "max_bps": 4492.89,
+    "std_bps": 629.62,
+    "jd_gbm_ratio": 2.29,
+    "validation_passed": true,
+    "regime_breakdown": {
+      "NORMAL": 1887,
+      "STRESS": 112,
+      "BLACK_SWAN": 1
+    },
+    "entropy_state_at_execution": "BLACK_SWAN",
+    "wandb_run_url": "https://wandb.ai/sharanshpandeyxib-adgitm/CRIS/runs/jyylkc1o",
+    "validation_timestamp": "2026-03-20T22:07:46.217685"
+  },
+  "consistency_warnings": []
+}

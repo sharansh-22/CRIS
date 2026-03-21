@@ -1,0 +1,92 @@
+CRIS Layer 3: Black Swan and Slippage Computer (BSSC) - Core Flow and Structure
+
+================================================================================
+Overview
+================================================================================
+Layer 3 (BSSC) evaluates tail risk and implementation shortfall. It aims to 
+identify the probability and severity of Black Swan events (market crashes) 
+and estimate how much execution slippage a portfolio would suffer during an 
+orchestrated liquidation under those extreme conditions.
+
+It uses a modular, sequential pipeline structure terminating in a unified 
+report designed for both human visualization and machine consumption by the 
+downstream convergence engine (Layer 4).
+
+================================================================================
+Directory Structure
+================================================================================
+layer3_bssc/
+├── engine/
+│   ├── simulation.py   (Simulates normal vs crisis price paths)
+│   ├── entropy.py      (Calculates market disorder and regime)
+│   ├── slippage.py     (Estimates execution costs)
+│   └── models.py       (Pydantic data models for typed boundaries)
+└── auditor/
+    ├── detector.py     (Orchestrates the pipeline & assembles results)
+    └── report.py       (Persists results to Markdown and JSON)
+
+================================================================================
+Execution Flow
+================================================================================
+
+1. Orchestration start (detector.py -> run_layer3_pipeline)
+   The pipeline receives a ticker and configuration parameters. It acts as
+   the single entry point for Layer 3. It triggers the following stages in order:
+
+2. Stage 1: Path Simulation (engine/simulation.py)
+   Reads historical asset CSV data and calibrates drift (mu) and volatility (sigma).
+   Runs Monte Carlo simulations to generate two sets of paths:
+     - Geometric Brownian Motion (GBM): Normal market conditions
+     - Merton Jump-Diffusion (JD): Extreme crash conditions with fat tails
+   Returns statistical metrics (e.g. kurtosis, skewed minima) representing tail risk.
+
+3. Stage 2: Entropy Analysis (engine/entropy.py)
+   Calculates the Sample Entropy (primary signal) and Permutation Entropy 
+   (confirmation signal) of the historical price series.
+   Measures deviation from an established historical baseline.
+   Classifies the asset's current physiological "Market State":
+     - NORMAL
+     - STRESS
+     - BLACK_SWAN
+   Computes the duration of any critical threshold breach to filter out 
+   short-lived false positives (positive volatility shocks).
+
+4. Stage 3: Slippage Estimation (engine/slippage.py)
+   Uses the outputs from Stage 1 (simulation dynamics) and Stage 2 (market state).
+   Simulates order execution over the synthesized paths. 
+   Crisis/Jump-Diffusion paths receive penalized slippage multipliers depending 
+   on the entropy severity.
+   Computes Implementation Shortfall (IS) in basis points (Mean, Median, P95, P99).
+   Provides an automatic JD/GBM validation gate ratio to ensure realistic 
+   spread deterioration.
+
+5. Assembly & Validation (auditor/detector.py -> _assemble_layer3_report)
+   Takes the unformatted dictionaries from Stages 1, 2, and 3.
+   Injects them into strict Pydantic models defined in `models.py`.
+   Determines the ultimate Recommended Action (HOLD, REDUCE, LIQUIDATE).
+   Runs 6 specific structural coherence checks (e.g., verifying that a 
+   BLACK_SWAN state is corroborated by a sufficient breach duration, or ensuring 
+   JD kurtosis implies fat tails). Non-critical warnings are attached to the payload.
+
+6. Persistence & Presentation (auditor/report.py -> generate_layer3_report)
+   Receives the fully typed `Layer3Report` object.
+   Checks for critical pipeline inconsistencies that would corrupt downstream logic;
+   halts execution if found.
+   If safe, it produces two parallel outputs:
+     - Markdown (.md) in the `reports/` folder for human auditors, featuring
+       interpretative logic built directly into the text (no external templates).
+     - Versioned JSON (.json) saved atomically in `data/simulation_output/` 
+       designed specifically for the convergence engine.
+
+================================================================================
+Key Architectural Principles
+================================================================================
+- Runtime Type Safety: Data passed between independent files is wrapped in 
+  Pydantic models (`models.py`) providing immediate schema validation.
+- Atomicity: File persistence is atomic. Corrupt states from interruptions 
+  cannot be read by downstream engines.
+- Forward Compatibility: The JSON schemas natively ignore extra parameters 
+  (`extra='ignore'`) preventing breakage when new configuration nodes are added.
+- Modular Auditability: Functions are strictly decoupled. You can invoke 
+  the report assembler entirely on flat Python dictionaries without needing 
+  to run computationally expensive Monte Carlo pathways.
