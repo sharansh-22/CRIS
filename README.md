@@ -24,8 +24,5 @@ See BRANCHING.md and CRIS_TREE.md for details.
 | Branch | Layer | Status |
 |--------|-------|--------|
 | feature/bssc | Layer 3 BSSC | In Progress |
-| feature/mmad | Layer 2 MMAD | Not Started |
-| feature/signal | Layer 1 Signal | Not Started |
-| feature/credit | Layer 4 Credit | Not Started |
 | feature/convergence | Convergence | Not Started |
 | feature/dashboard | Dashboard | Not Started |
