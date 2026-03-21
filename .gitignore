@@ -1,14 +1,27 @@
-# Sensitive/System Files
-config.yaml
-.env
-.ipynb_checkpoints/
+# Layer code on feature branches
+layer3_bssc/
+layer2_mmad/
+layer1_signal_harvester/
+layer4_credit_risk/
+convergence_engine/
+backtesting/
+dashboard/
+notebooks/
+reports/
+main.py
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
+.pytest_cache/
+# Environment
+*.egg-info/
+dist/
+build/
+# OS
 .DS_Store
-
-# WandB local cache
+Thumbs.db
+# Secrets
+.env
+*.key
 wandb/
-
-# Deprecated/Removed Files
-requirements.txt
-final_test_results.md
