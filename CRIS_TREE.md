@@ -5,6 +5,7 @@ Last updated: 2026-03-21
 ## Current State
 ```
 CRIS
+<<<<<<< Updated upstream
 ├── Layer 3 BSSC        [IN PROGRESS → feature/bssc]
 ├── Layer 2 XXXX        [NOT STARTED]
 ├── Layer 1 XXXXXX      [NOT STARTED]
@@ -16,6 +17,8 @@ CRIS
 ## After feature/bssc Merges
 ```
 CRIS
+=======
+>>>>>>> Stashed changes
 ├── Layer 3 BSSC        [COMPLETE]
 │   ├── engine/
 │   │   ├── simulation.py
