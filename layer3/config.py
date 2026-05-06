@@ -59,6 +59,8 @@ LSTM_INFLUENCE_CAP = 0.10  # LSTM is advisory, not dominant
 #  CONVERGENCE LAYER
 # ──────────────────────────────────────────────────────────
 
+FIELD_EVOLUTION_WINDOW = 60
+
 # Tighter coupling: max 5% partner influence
 PARTNER_INFLUENCE_CAP = 0.05
 
@@ -88,6 +90,8 @@ STABILIZATION_SHOCK_PENALTY = 0.20 # Fast panic
 # Uncertainty scaling
 UNCERTAINTY_CONFLICT_SCALE = 1.2
 UNCERTAINTY_NOISE_PENALTY = 0.1
+UNCERTAINTY_DISAGREEMENT_THRESHOLD = 0.40
+UNCERTAINTY_LOW_CONFIDENCE_THRESHOLD = 0.30
 
 # ──────────────────────────────────────────────────────────
 #  SIMULATION DEFAULTS

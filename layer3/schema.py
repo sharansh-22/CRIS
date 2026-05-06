@@ -51,12 +51,12 @@ class DecayTrajectoryOutput(BaseModel):
     """Output from the long-horizon deterioration field (DECAY)."""
     model_config = ConfigDict(extra='ignore')
 
-    erosion_strength: float = Field(ge=0.0, le=1.0, description="Overall structural weakening")
-    recovery_failure: float = Field(ge=0.0, le=1.0, description="Inability to sustain rebounds")
-    resilience_quality: float = Field(ge=0.0, le=1.0, description="Quality of participation and bounce durability")
+    erosion_strength: float = Field(ge=0.0, le=1.0, description="Overall structural weakening (composite of fragility and holding failure)")
+    rebound_failure: float = Field(ge=0.0, le=1.0, description="Rate at which sharp bounces are immediately reversed")
+    resilience_deficit: float = Field(ge=0.0, le=1.0, description="Slowness of recovery and weakness of upside participation (high = poor resilience)")
     trajectory_fragility: float = Field(ge=0.0, le=1.0, description="Archetype similarity to long-term deterioration sequences")
-    stabilization_consistency: float = Field(ge=0.0, le=1.0, description="How consistently the market holds recovery levels")
-    confidence: float = Field(ge=0.0, le=1.0, description="Confidence in structural decay estimation")
+    holding_failure: float = Field(ge=0.0, le=1.0, description="Inability to maintain price levels after drawdowns (high = levels break)")
+    confidence: float = Field(ge=0.0, le=1.0, description="Confidence in structural decay estimation (multi-horizon agreement)")
 
 
 class MetaDynamicsOutput(BaseModel):
@@ -96,7 +96,7 @@ class Layer3Output(BaseModel):
             "╠══════════════════════════════════════════════════╣\n"
             f"║  [FAST]  Shock: {self.fast.shock_intensity:.2f} | Liq: {self.fast.liquidity_disruption:.2f} | Vel: {self.fast.instability_velocity:.2f}    ║\n"
             f"║  [SLOW]  Struc: {self.slow.structural_instability:.2f} | Per: {self.slow.stress_persistence:.2f} | Fra: {self.slow.fragility_pressure:.2f}    ║\n"
-            f"║  [DECAY] Erosn: {self.decay.erosion_strength:.2f} | Fai: {self.decay.recovery_failure:.2f} | Fra: {self.decay.trajectory_fragility:.2f}    ║\n"
+            f"║  [DECAY] Erosn: {self.decay.erosion_strength:.2f} | RbF: {self.decay.rebound_failure:.2f} | Fra: {self.decay.trajectory_fragility:.2f}    ║\n"
             "╠══════════════════════════════════════════════════╣\n"
             f"║  [META]  Stab:  {self.meta.stabilization_strength:.2f} | Unc: {self.meta.uncertainty_pressure:.2f} | Coh: {self.meta.signal_coherence:.2f}    ║\n"
             f"║  [FIELD] Dom:   {self.meta.dominant_field.value:<33s}║\n"

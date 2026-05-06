@@ -69,7 +69,7 @@ def run_convergence(
         # Proxy persistence for the weighting logic
         fast_persistence=1, 
         slow_persistence=int(slow.stress_persistence * 15),
-        decay_persistence=int(decay.recovery_failure * 30),
+        decay_persistence=int(decay.rebound_failure * 30),
     )
 
     smoothed_weights = smooth_weights(raw_weights, state.smoother)

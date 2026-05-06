@@ -15,7 +15,7 @@ from typing import Tuple, List, Optional
 from dataclasses import dataclass, field
 
 from ..schema import DominantField
-from ..config import REGIME_EVOLUTION_WINDOW
+from ..config import FIELD_EVOLUTION_WINDOW
 
 
 @dataclass
@@ -77,7 +77,7 @@ def compute_evolution_score(tracker: EvolutionTracker) -> float:
     Returns:
         Score in [0, 1]. 0 = completely stable, 1 = rapid stress_field shift.
     """
-    n = min(REGIME_EVOLUTION_WINDOW, len(tracker.risk_history))
+    n = min(FIELD_EVOLUTION_WINDOW, len(tracker.risk_history))
     if n < 3:
         return 0.0
 

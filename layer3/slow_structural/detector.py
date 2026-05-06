@@ -13,11 +13,11 @@ from .persistence import compute_streak
 from ..schema import SlowStructuralOutput
 from ..config import (
     VOL_STRESS_MULTIPLIER,
-    VOL_BSWAN_MULTIPLIER,
+    VOL_CRITICAL_MULTIPLIER,
     STRESS_PERSISTENCE_DAYS,
-    BSWAN_PERSISTENCE_DAYS,
+    CRITICAL_PERSISTENCE_DAYS,
     ENTROPY_STRESS_THRESHOLD,
-    ENTROPY_BLACK_SWAN_THRESHOLD,
+    ENTROPY_CRITICAL_THRESHOLD,
     CONFIDENCE_FLOOR,
 )
 
@@ -44,25 +44,25 @@ def run_slow_structural(
         vol_ratio,
         low=1.0,
         mid=VOL_STRESS_MULTIPLIER,
-        high=VOL_BSWAN_MULTIPLIER,
+        high=VOL_CRITICAL_MULTIPLIER,
     )
 
     entropy_risk = _gradual_risk(
         max(0.0, entropy_delta),
         low=0.0,
         mid=ENTROPY_STRESS_THRESHOLD,
-        high=ENTROPY_BLACK_SWAN_THRESHOLD,
+        high=ENTROPY_CRITICAL_THRESHOLD,
     )
     
     structural_instability = float(np.clip(0.6 * vol_risk + 0.4 * entropy_risk, 0.0, 1.0))
 
     # ── 2. Stress Persistence ──
     stress_breach = vol_ratio_series > VOL_STRESS_MULTIPLIER
-    bswan_breach = vol_ratio_series > VOL_BSWAN_MULTIPLIER
+    critical_breach = vol_ratio_series > VOL_CRITICAL_MULTIPLIER
     stress_streak = compute_streak(stress_breach)
-    bswan_streak = compute_streak(bswan_breach)
+    critical_streak = compute_streak(critical_breach)
 
-    effective_streak = bswan_streak if bswan_streak >= BSWAN_PERSISTENCE_DAYS else stress_streak
+    effective_streak = critical_streak if critical_streak >= CRITICAL_PERSISTENCE_DAYS else stress_streak
     
     # Map streak directly to a continuous persistence field
     stress_persistence = float(np.clip(effective_streak / (1.5 * STRESS_PERSISTENCE_DAYS), 0.0, 1.0))

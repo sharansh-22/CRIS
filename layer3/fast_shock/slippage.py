@@ -3,12 +3,12 @@ slippage.py — Execution cost modeling for Fast Shocks.
 """
 
 import numpy as np
-from ..config import VOL_STRESS_MULTIPLIER, VOL_BSWAN_MULTIPLIER
+from ..config import VOL_STRESS_MULTIPLIER, VOL_CRITICAL_MULTIPLIER
 
-_REGIME_MULTIPLIERS = {
+_STRESS_MULTIPLIERS = {
     "NORMAL": 1.0,
     "STRESS": 1.5,
-    "BLACK_SWAN": 2.5,
+    "CRITICAL": 2.5,
 }
 
 def compute_implementation_shortfall(decision_price: float, fill_prices: np.ndarray, side: str = "sell") -> float:
@@ -27,4 +27,4 @@ def compute_spread_cost(base_spread_bps: float = 2.0, stress_field_multiplier: f
     return float(base_spread_bps * stress_field_multiplier)
 
 def get_stress_field_multiplier(market_state: str) -> float:
-    return _REGIME_MULTIPLIERS.get(market_state, 1.0)
+    return _STRESS_MULTIPLIERS.get(market_state, 1.0)

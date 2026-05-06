@@ -45,10 +45,10 @@ def run_scenario(returns: pd.Series, warmup: int = 100, baseline_vol: float = 0.
         results.append({
             "date": returns.index[i],
             "decay_ero": output.decay.erosion_strength,
-            "decay_rec_fail": output.decay.recovery_failure,
-            "decay_res_qual": output.decay.resilience_quality,
+            "decay_rb_fail": output.decay.rebound_failure,
+            "decay_res_def": output.decay.resilience_deficit,
             "decay_frag": output.decay.trajectory_fragility,
-            "decay_stab": output.decay.stabilization_consistency,
+            "decay_hold_fail": output.decay.holding_failure,
             "fast_shock": output.fast.shock_intensity
         })
 
@@ -113,9 +113,9 @@ def audit_recovery_quality():
     plt.close()
 
     return {
-        "min_resilience_quality": float(df['decay_res_qual'].min()),
+        "max_resilience_deficit": float(df['decay_res_def'].max()),
         "max_trajectory_fragility": float(df['decay_frag'].max()),
-        "max_recovery_failure": float(df['decay_rec_fail'].max())
+        "max_rebound_failure": float(df['decay_rb_fail'].max())
     }
 
 if __name__ == "__main__":
