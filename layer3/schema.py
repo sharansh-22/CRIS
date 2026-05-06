@@ -82,6 +82,7 @@ class Layer3Output(BaseModel):
     slow: SlowStructuralOutput
     decay: DecayTrajectoryOutput
     meta: MetaDynamicsOutput
+    calibration: Optional[Dict[str, Any]] = Field(default=None, description="Versioned environmental calibration anchors used for this output")
     timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
 
     def to_dict(self) -> Dict[str, Any]:

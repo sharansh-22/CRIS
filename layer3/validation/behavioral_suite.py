@@ -29,6 +29,7 @@ from layer3.validation import stress_interpretation_tests
 from layer3.validation import recovery_tests
 from layer3.validation import oscillation_tests
 from layer3.validation import uncertainty_tests
+from layer3.validation import calibration_tests
 
 
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "validation" / "output"
@@ -195,6 +196,7 @@ def run_all_tests():
         ("RECOVERY DYNAMICS", recovery_tests),
         ("OSCILLATION STABILITY", oscillation_tests),
         ("UNCERTAINTY", uncertainty_tests),
+        ("CALIBRATION GOVERNANCE", calibration_tests),
     ]:
         print(f"\n{'─' * 60}")
         print(f"  SUITE: {name}")
