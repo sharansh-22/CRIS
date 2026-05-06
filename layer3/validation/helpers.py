@@ -127,7 +127,11 @@ def returns_to_prices(returns: pd.Series, S0: float = 100.0) -> pd.Series:
 
 
 def run_walk_forward(returns: pd.Series, warmup: int = 200) -> pd.DataFrame:
-    """Run the orchestrator day-by-day, collecting outputs."""
+    """Run the orchestrator day-by-day, collecting outputs.
+
+    Maps Layer3Output fields to a flat DataFrame using the canonical schema.
+    All stress fields use uniform 'high = more stress' polarity.
+    """
     prices = returns_to_prices(returns)
     state = Layer3State()
     baseline_vol = float(returns.iloc[:warmup].abs().mean()) if len(returns) > warmup else 0.008
@@ -142,27 +146,39 @@ def run_walk_forward(returns: pd.Series, warmup: int = 200) -> pd.DataFrame:
         output, state = run_layer3(r, p, ticker="TEST", baseline_vol=baseline_vol, state=state)
         results.append({
             "date": returns.index[i],
-            "fast_risk": output.fast.risk,
+            # ── FAST (Short-Horizon Instability) ──
+            "fast_risk": output.fast.shock_intensity,
             "fast_conf": output.fast.confidence,
-            "fast_band": output.fast.confidence_band.value,
-            "fast_persist": output.fast.persistence,
-            "slow_risk": output.slow.risk,
+            "fast_liq": output.fast.liquidity_disruption,
+            "fast_vel": output.fast.instability_velocity,
+            # ── SLOW (Persistent Structural Stress) ──
+            "slow_risk": output.slow.structural_instability,
             "slow_conf": output.slow.confidence,
-            "slow_band": output.slow.confidence_band.value,
-            "slow_persist": output.slow.persistence,
-            "decay_risk": output.decay.risk,
+            "slow_persist": output.slow.stress_persistence,
+            "slow_fragility": output.slow.fragility_pressure,
+            # ── DECAY (Trajectory Degradation) ──
+            "decay_risk": output.decay.erosion_strength,
             "decay_conf": output.decay.confidence,
-            "decay_band": output.decay.confidence_band.value,
-            "decay_persist": output.decay.persistence,
-            "overall_risk": output.convergence.overall_risk,
-            "overall_conf": output.convergence.overall_confidence,
-            "dominant": output.convergence.dominant_stress_field.value,
-            "w_fast": output.convergence.weights.fast,
-            "w_slow": output.convergence.weights.slow,
-            "w_decay": output.convergence.weights.decay,
-            "uncertainty": output.convergence.uncertainty_score,
-            "recovery_phase": output.convergence.recovery_phase.value,
-            "action": output.action.value,
+            "decay_rebound_fail": output.decay.rebound_failure,
+            "decay_resilience_def": output.decay.resilience_deficit,
+            "decay_frag": output.decay.trajectory_fragility,
+            "decay_hold_fail": output.decay.holding_failure,
+            # ── META (Convergence Dynamics) ──
+            "overall_risk": (
+                output.fast.shock_intensity * 0.4
+                + output.slow.structural_instability * 0.35
+                + output.decay.erosion_strength * 0.25
+            ),
+            "overall_conf": (
+                output.fast.confidence * 0.4
+                + output.slow.confidence * 0.35
+                + output.decay.confidence * 0.25
+            ),
+            "dominant": output.meta.dominant_field.value,
+            "uncertainty": output.meta.uncertainty_pressure,
+            "stab_strength": output.meta.stabilization_strength,
+            "coherence": output.meta.signal_coherence,
         })
 
     return pd.DataFrame(results)
+

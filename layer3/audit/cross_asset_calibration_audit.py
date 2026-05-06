@@ -56,7 +56,7 @@ def run_scenario(returns: pd.Series, warmup: int = 100) -> pd.DataFrame:
             "slow_struc": output.slow.structural_instability,
             "decay_ero": output.decay.erosion_strength,
             "decay_fail": output.decay.rebound_failure,
-            "decay_weak": output.decay.long_term_weakness,
+            "decay_weak": output.decay.trajectory_fragility,
             "meta_stab": output.meta.stabilization_strength,
             "meta_unc": output.meta.uncertainty_pressure,
             "meta_coh": output.meta.signal_coherence,

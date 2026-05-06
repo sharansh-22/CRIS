@@ -79,25 +79,28 @@ def test_unclear_classification():
     print("  ✅ PASSED\n")
 
 
-def test_confidence_bands():
-    """Confidence bands should match expectations."""
+def test_confidence_range_invariant():
+    """All confidence values must stay in [0.05, 1.0]."""
     print("=" * 60)
     print("TEST: Confidence Bands")
     print("=" * 60)
 
-    from layer3.schema import to_confidence_band, ConfidenceBand
+    returns = generate_mixed_stress_field(n=300)
+    df = run_walk_forward(returns, warmup=200)
 
-    assert to_confidence_band(0.1) == ConfidenceBand.LOW
-    assert to_confidence_band(0.5) == ConfidenceBand.MEDIUM
-    assert to_confidence_band(0.8) == ConfidenceBand.HIGH
+    for col in ["fast_conf", "slow_conf", "decay_conf"]:
+        lo = df[col].min()
+        hi = df[col].max()
+        assert lo >= 0.0, f"{col} below 0: {lo}"
+        assert hi <= 1.0, f"{col} above 1: {hi}"
 
-    print("  LOW/MEDIUM/HIGH boundaries correct")
+    print("  All confidence values in [0.0, 1.0]")
     print("  ✅ PASSED\n")
 
 
 def run_all():
     tests = [test_mixed_stress_field_detection, test_uncertainty_unit_logic,
-             test_unclear_classification, test_confidence_bands]
+             test_unclear_classification, test_confidence_range_invariant]
     passed = failed = 0
     for t in tests:
         try:

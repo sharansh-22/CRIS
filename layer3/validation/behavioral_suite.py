@@ -81,18 +81,18 @@ def plot_probability_evolution(df: pd.DataFrame, title: str, filename: str):
     ax.set_ylim(-0.05, 1.05)
     ax.legend(loc="upper left", fontsize=8)
     ax.grid(True)
-    ax.set_title("Risk Probability Evolution", fontsize=11)
+    ax.set_title("Stress Intensity Evolution", fontsize=11)
 
-    # Panel 2: Dynamic Weights
+    # Panel 2: Confidence
     ax = axes[1]
-    ax.stackplot(x, df["w_fast"], df["w_slow"], df["w_decay"],
-                 colors=[FAST_COLOR + "80", SLOW_COLOR + "80", DECAY_COLOR + "80"],
-                 labels=["Fast wt", "Slow wt", "Decay wt"])
-    ax.set_ylabel("Weight")
-    ax.set_ylim(0, 1)
+    ax.plot(x, df["fast_conf"], color=FAST_COLOR, alpha=0.7, label="FAST conf")
+    ax.plot(x, df["slow_conf"], color=SLOW_COLOR, alpha=0.7, label="SLOW conf")
+    ax.plot(x, df["decay_conf"], color=DECAY_COLOR, alpha=0.7, label="DECAY conf")
+    ax.set_ylabel("Confidence")
+    ax.set_ylim(-0.05, 1.05)
     ax.legend(loc="upper left", fontsize=8)
     ax.grid(True)
-    ax.set_title("Dynamic Weight Evolution", fontsize=11)
+    ax.set_title("Engine Confidence Evolution", fontsize=11)
 
     # Panel 3: Uncertainty + Dominant stress_field
     ax = axes[2]
@@ -101,12 +101,12 @@ def plot_probability_evolution(df: pd.DataFrame, title: str, filename: str):
     ax.set_ylim(-0.05, 1.05)
     ax.legend(loc="upper left", fontsize=8)
     ax.grid(True)
-    ax.set_title("Uncertainty Score", fontsize=11)
+    ax.set_title("Uncertainty Pressure", fontsize=11)
 
     # Color background by dominant stress_field
     stress_field_colors = {
         "NONE": "#0d111700", "FAST_SHOCK": FAST_COLOR + "20",
-        "SLOW_stress_field": SLOW_COLOR + "20", "DECAY_stress_field": DECAY_COLOR + "20",
+        "SLOW_STRUCTURAL": SLOW_COLOR + "20", "TRAJECTORY_DEGRADATION": DECAY_COLOR + "20",
         "MIXED": "#bc8cff20", "TRANSITIONAL": "#e3b34120", "UNCLEAR": "#8b949e20",
     }
     for i in range(len(df) - 1):
@@ -120,7 +120,7 @@ def plot_probability_evolution(df: pd.DataFrame, title: str, filename: str):
 
 
 def plot_recovery_behavior(df: pd.DataFrame, title: str, filename: str):
-    """Plot recovery dynamics."""
+    """Plot recovery dynamics using stabilization_strength."""
     _setup_dark_style()
     fig, axes = plt.subplots(2, 1, figsize=(14, 7), sharex=True)
     fig.suptitle(title, fontsize=14, fontweight="bold")
@@ -136,15 +136,13 @@ def plot_recovery_behavior(df: pd.DataFrame, title: str, filename: str):
     ax.set_title("Risk with Recovery Relaxation", fontsize=11)
 
     ax = axes[1]
-    # Map recovery phases to numbers for visualization
-    phase_map = {"NONE": 0, "EARLY": 1, "SUSTAINED": 2, "CONFIRMED": 3, "FAILED": -1}
-    phases = [phase_map.get(p, 0) for p in df["recovery_phase"]]
-    ax.fill_between(x, phases, alpha=0.6, color=DECAY_COLOR)
-    ax.set_ylabel("Recovery Phase")
-    ax.set_yticks([-1, 0, 1, 2, 3])
-    ax.set_yticklabels(["FAILED", "NONE", "EARLY", "SUSTAINED", "CONFIRMED"])
+    ax.plot(x, df["stab_strength"], color=DECAY_COLOR, linewidth=1.5, label="Stabilization Strength")
+    ax.plot(x, df["coherence"], color=SLOW_COLOR, linewidth=1.5, alpha=0.7, label="Signal Coherence")
+    ax.set_ylabel("Meta Dynamics")
+    ax.set_ylim(-0.05, 1.05)
+    ax.legend(fontsize=8)
     ax.grid(True)
-    ax.set_title("Recovery Lifecycle", fontsize=11)
+    ax.set_title("Recovery & Coherence Dynamics", fontsize=11)
 
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / filename, dpi=150, bbox_inches="tight")
