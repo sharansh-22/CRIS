@@ -1,4 +1,51 @@
-# Layer code on feature branches
+# --- CRIS Repository Gitignore ---
+
+# Python Cache & Build
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.sed
+dist/
+build/
+*.egg-info/
+
+# Environment & Virtualization
+.venv/
+env/
+venv/
+ENV/
+.conda/
+conda-bld/
+
+# Institutional Artifacts & Generated Research (Exclude from Git)
+**/output*/
+**/plots*/
+**/results*/
+reports/
+wandb/
+.tempmediaStorage/
+
+# OS Specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Secrets & Local Config
+.env
+*.key
+config_local.yaml
+
+# Layer placeholders (logic on feature branches)
 layer2_mmad/
 layer1_signal_harvester/
 layer4_credit_risk/
@@ -6,21 +53,3 @@ convergence_engine/
 backtesting/
 dashboard/
 notebooks/
-reports/
-main.py
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-.pytest_cache/
-# Environment
-*.egg-info/
-dist/
-build/
-# OS
-.DS_Store
-Thumbs.db
-# Secrets
-.env
-*.key
-wandb/

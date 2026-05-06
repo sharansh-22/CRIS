@@ -1,5 +1,5 @@
 """
-ingest_data.py — BSSC Historical Market Data Ingestion
+ingest_data.py — Layer 3 Stress Interpretation Historical Market Data Ingestion
 
 Downloads daily OHLCV data for a curated set of tickers using
 yfinance and persists each as a CSV inside asset-class sub-folders

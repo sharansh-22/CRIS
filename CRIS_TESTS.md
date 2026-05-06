@@ -1,59 +1,37 @@
-# CRIS — System Stress Tests
-> This file documents system-level stress tests only.
-> One entry per layer.
-> Individual component tests live inside each
-> layer's tests/ directory.
+# CRIS — System Behavioral Validation
+
+> This file documents system-level behavioral validation suites.
+> Individual component audits live inside each layer's `audit/` directory.
 
 ---
 
-## Test Index
+## Validation Index
 
 | ID | Layer | Date | Status |
 |----|-------|------|--------|
-| ST-L3 | Layer 3 BSSC | 2026-03-22 | ✅ 5/5 PASSED |
+| VAL-L3 | Layer 3 Interpretation | 2026-05-06 | ✅ PASSED |
 
 ---
 
-## ST-L3 — Layer 3 BSSC Stress Test
-**Layer:** Layer 3 BSSC
-**Date:** 2026-03-22
-**Status:** ✅ 5/5 PASSED
+## VAL-L3 — Layer 3 Structural Validation
+**Layer:** Layer 3 Interpretation Engine
+**Date:** 2026-05-06
+**Status:** ✅ PASSED
 
 ### Why Conducted
-Validate the complete Layer 3 pipeline end to end
-against five real historical scenarios representing
-structurally different market conditions.
-Three true positives — system must detect stress.
-Two true negatives — system must stay silent.
+Validate the continuous probabilistic framework across multiple historical and synthetic structural regimes to ensure stability, responsiveness, and resilience accuracy.
 
-### Scenarios
-| ID | Scenario | Type | Severity |
-|----|----------|------|----------|
-| ST-001 | COVID Crash | TRUE_POSITIVE | CRITICAL |
-| ST-002 | Q4 2018 Selloff | TRUE_POSITIVE | HIGH |
-| ST-003 | Vaccine Rally | TRUE_NEGATIVE | CRITICAL |
-| ST-004 | Calm Bull Market 2019 | TRUE_NEGATIVE | HIGH |
-| ST-005 | 2022 Fed Bear Market | TRUE_POSITIVE | HIGH |
+### Scenarios & Expected Dynamics
+| ID | Scenario | Stress Type | Expected Interpretation |
+|----|----------|-------------|-------------------------|
+| ST-001 | COVID Crash | Acute Reflexive | Fast shock escalation + Resilience collapse |
+| ST-002 | Q4 2018 Selloff| Structural | Gradual instability build + Fragility increase |
+| ST-003 | Vaccine Rally | Rebound | Rapid stabilization rebuilding |
+| ST-004 | Calm Bull 2019| Equilibrium | Baseline stress (~0.0) + High stabilization |
+| ST-005 | 2022 Bear | Trajectory | Persistent erosion + Failed rebound cycles |
 
 ### Pass Criteria
-| Scenario | Expected State | Expected Action |
-|----------|---------------|-----------------|
-| COVID Crash | BLACK_SWAN | LIQUIDATE |
-| Q4 2018 Selloff | STRESS or BLACK_SWAN | REDUCE or LIQUIDATE |
-| Vaccine Rally | NORMAL or STRESS | HOLD or REDUCE |
-| Calm 2019 | NORMAL | HOLD |
-| 2022 Bear | STRESS or BLACK_SWAN | REDUCE or LIQUIDATE |
-
-### How To Run
-  conda run -n CRIS python3 -m \
-    layer3_bssc.tests.stress_test_layer3 --no-wandb
-
----
-
-## Future Entries
-| ID | Layer | Status |
-|----|-------|--------|
-| ST-L2 | Layer 2 MMAD | Not Started |
-| ST-L1 | Layer 1 Signal | Not Started |
-| ST-L4 | Layer 4 Credit | Not Started |
-| ST-CV | Convergence | Not Started |
+- **Continuity:** Probabilistic outputs must transition smoothly without oscillation.
+- **Asymmetry:** Recovery stabilization must rebuild slower than panic escalation.
+- **Independence:** Trajectory erosion must decouple from simple price trend.
+- **Normalization:** Probabilities must remain consistent across cross-asset volatility scales.
