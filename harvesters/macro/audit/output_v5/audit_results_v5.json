@@ -1,0 +1,33 @@
+{
+    "long_duration_drift": {
+        "final_year_avg_fast": 0.0008800000000000001,
+        "final_year_avg_slow": 0.0044,
+        "final_year_avg_decay": 0.14395999999999998,
+        "final_year_avg_stab": 1.0
+    },
+    "downstream_usability": {
+        "total_flips_in_10_years": 29,
+        "avg_uncertainty_pressure": 0.20877083333333332,
+        "max_uncertainty_pressure": 0.57
+    },
+    "fast_layer": {
+        "peak_shock_reaction": 0.83,
+        "days_to_decay_below_0.3": 0
+    },
+    "slow_layer": {
+        "peak_structural_stress": 0.4,
+        "avg_structural_stress_during_bear": 0.039400000000000004
+    },
+    "decay_layer": {
+        "peak_erosion_during_bear": 0.64,
+        "peak_erosion_during_flash_crash": 0.52
+    },
+    "recovery_dynamics": {
+        "min_stab_during_crash": 0.0,
+        "max_stab_during_rebound": 0.3
+    },
+    "lstm_generalization": {
+        "max_fragility_in_alien_stress_field": 0.47,
+        "avg_fragility_in_alien_stress_field": 0.28465
+    }
+}

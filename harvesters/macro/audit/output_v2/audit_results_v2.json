@@ -1,0 +1,21 @@
+{
+    "fast": {
+        "max_fast": 1.0,
+        "late_fast": 0.999,
+        "late_slow": 1.0
+    },
+    "decay": {
+        "v_shape_max_erosion": 0.38,
+        "grind_max_erosion": 0.5
+    },
+    "recovery": {
+        "min_stab_during_crash": 0.0,
+        "max_stab_during_bounce": 0.0,
+        "final_stab": 0.0
+    },
+    "uncertainty": {
+        "avg_uncertainty": 0.33086666666666675,
+        "avg_coherence": 0.8301333333333334
+    },
+    "historical": {}
+}

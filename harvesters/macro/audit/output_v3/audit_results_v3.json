@@ -1,0 +1,25 @@
+{
+    "decay": {
+        "max_erosion_pullback": 0.39,
+        "max_erosion_downtrend": 0.16
+    },
+    "lstm": {
+        "avg_lstm_unseen": 0.0,
+        "max_lstm_unseen": 0.0,
+        "std_lstm_unseen": 0.0
+    },
+    "downstream": {
+        "signal_flips": 12,
+        "avg_uncertainty": 0.34125,
+        "max_uncertainty": 0.56
+    },
+    "recovery": {
+        "min_stab_during_crash": 0.66,
+        "max_stab_20d_post_rebound": 0.9
+    },
+    "normalization": {
+        "mean_absolute_difference": 0.0,
+        "spy_max_shock": 0.12,
+        "tsla_max_shock": 0.12
+    }
+}
