@@ -1,55 +1,35 @@
-# --- CRIS Repository Gitignore ---
-
-# Python Cache & Build
+# Python Caches
 __pycache__/
 *.py[cod]
 *$py.class
+.ipynb_checkpoints/
 .pytest_cache/
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
-*.sed
-dist/
-build/
-*.egg-info/
 
-# Environment & Virtualization
-.venv/
-env/
-venv/
-ENV/
-.conda/
-conda-bld/
+# Data & Raw Datasets (Local Only)
+data/credit_risk/
+data/macro/*.csv
+data/Equities/
+data/Indices/
+data/Macro/
 
-# Institutional Artifacts & Generated Research (Exclude from Git)
-**/output*/
-**/plots*/
-**/results*/
-reports/
-wandb/
-.tempmediaStorage/
+# Project Specific Exclusions
+harden_lingering_imports.py
+orchestration/legacy_*.py
 
-# OS Specific
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Scaffolding / Developmental (Local Only)
+systems/governance/
+experiments/
 
-# Secrets & Local Config
-.env
-*.key
-config_local.yaml
+# Intermediate Large Data Files (Keep Repo Lightweight)
+outputs/**/*.parquet
+outputs/**/*.tmp
+outputs/**/*.bak
 
-# Layer placeholders (logic on feature branches)
-layer2_mmad/
-layer1_signal_harvester/
-layer4_credit_risk/
-convergence_engine/
-backtesting/
-dashboard/
-notebooks/
+# Hidden development folders
+.gemini/
+.brain/
+.system_generated/
+scratch/
+
+# Preserve Validated Reports and Visualizations
+# (Implicitly allowed as they are not matched by above rules)

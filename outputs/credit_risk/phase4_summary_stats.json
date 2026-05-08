@@ -1,0 +1,8 @@
+{
+  "total_loans_processed": 1345350,
+  "total_throttled_loans": 2060,
+  "max_monthly_reviews": 18495,
+  "months_with_reserve_flags": 15,
+  "avg_utilization_normal": 0.3062348790322581,
+  "avg_utilization_stress": 0.022083333333333333
+}

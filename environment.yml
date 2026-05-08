@@ -11,6 +11,13 @@ dependencies:
   - wandb
   - psutil
   - pyyaml
+  - scikit-learn
+  - xgboost
+  - lightgbm
+  - shap
+  - pyarrow
+  - joblib
+  - tabulate
   - pip
   - pip:
     - yfinance
