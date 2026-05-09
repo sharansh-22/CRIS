@@ -33,7 +33,7 @@ for i in range(300, 500):
     r = returns.iloc[max(0, i - 252): i + 1]
     p = prices.iloc[max(0, i - 252): i + 1]
     out, state = run_layer3(r, p, ticker="TEST", state=state)
-    results_with.append(out.decay.lstm_deterioration_prob)
+    results_with.append(out.decay.trajectory_fragility)
 
 print(f"Max LSTM prob: {max(results_with)}")
 print(f"Avg LSTM prob: {sum(results_with)/len(results_with)}")

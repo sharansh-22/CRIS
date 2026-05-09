@@ -108,10 +108,12 @@ def run_validation():
     # 3. Generate Predictions
     logger.info("    Generating borrower-centric PDs...")
     model_features = model.feature_name_
-    X_predict = full_df.copy()
-    X_predict.columns = [c.replace(' ', '_') for c in X_predict.columns]
-    X_predict = X_predict[model_features]
+    original_cols = {c.replace(' ', '_'): c for c in full_df.columns}
+    needed_cols = [original_cols.get(f, f) for f in model_features]
+    X_predict = full_df[needed_cols].copy()
+    X_predict.columns = model_features
     full_df['pd_borrower'] = model.predict_proba(X_predict)[:, 1]
+    del X_predict
     
     # 4. CRIS Conditioning (Pipeline B)
     logger.info("    Applying CRIS environmental overlay...")

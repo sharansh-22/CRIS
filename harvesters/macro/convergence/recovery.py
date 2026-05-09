@@ -17,7 +17,15 @@ import numpy as np
 from dataclasses import dataclass
 from typing import Optional
 
-from harvesters.macro.schema import RecoveryPhase
+from enum import Enum
+
+class RecoveryPhase(Enum):
+    NONE = "NONE"
+    EARLY_RECOVERY = "EARLY_RECOVERY"
+    SUSTAINED_RECOVERY = "SUSTAINED_RECOVERY"
+    CONFIRMED_NORMAL = "CONFIRMED_NORMAL"
+    FAILED_RECOVERY = "FAILED_RECOVERY"
+
 from configs.macro_config import (
     RECOVERY_DECAY_RATE,
     RECOVERY_CONFIRM_DAYS,

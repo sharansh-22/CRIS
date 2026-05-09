@@ -18,6 +18,7 @@ dependencies:
   - pyarrow
   - joblib
   - tabulate
+  - seaborn
   - pip
   - pip:
     - yfinance

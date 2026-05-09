@@ -1,38 +1,38 @@
-2026-05-08 19:18:48,674 | INFO     | 
-2026-05-08 19:18:48,674 | INFO     | ============================================================
-2026-05-08 19:18:48,675 | INFO     |   CRIS MASTER EXECUTION PIPELINE
-2026-05-08 19:18:48,675 | INFO     | ============================================================
-2026-05-08 19:18:48,675 | INFO     | 
+2026-05-10 00:26:18,594 | INFO     | 
+2026-05-10 00:26:18,594 | INFO     | ============================================================
+2026-05-10 00:26:18,594 | INFO     |   CRIS MASTER EXECUTION PIPELINE
+2026-05-10 00:26:18,594 | INFO     | ============================================================
+2026-05-10 00:26:18,594 | INFO     | 
   [1/5] Infrastructure Validation
-2026-05-08 19:18:48,675 | INFO     |   [ PASS ] Infrastructure Integrity
-2026-05-08 19:18:48,675 | INFO     | 
+2026-05-10 00:26:18,594 | INFO     |   [ PASS ] Infrastructure Integrity
+2026-05-10 00:26:18,594 | INFO     | 
   [2/5] Macro Intelligence Harvesting
-2026-05-08 19:18:48,676 | INFO     |   [ PASS ] Macro Signal Contract
-2026-05-08 19:18:48,676 | INFO     | 
+2026-05-10 00:26:18,597 | INFO     |   [ PASS ] Macro Signal Contract
+2026-05-10 00:26:18,597 | INFO     | 
   [3/5] Credit Governance Execution
-2026-05-08 19:18:48,676 | INFO     |     Phase 4: Institutional Governance Infrastructure
-2026-05-08 19:18:51,899 | INFO     |     Calculating systemic PDs...
-2026-05-08 19:19:27,917 | INFO     |     Applying portfolio-level exposure throttling...
-2026-05-08 19:19:28,995 | INFO     |     Analyzing review capacity dynamics...
-2026-05-08 19:19:29,443 | INFO     |     Analyzing cross-sectional stress clusters...
-2026-05-08 19:19:29,541 | INFO     |     2008 Peak Capacity Utilization: 1.70%
-2026-05-08 19:19:29,541 | INFO     |     2018 Peak Capacity Utilization: 33.90%
-2026-05-08 19:19:31,700 | INFO     |     Phase 4 complete.
-2026-05-08 19:19:31,999 | INFO     |   [ PASS ] Credit Signal Contract
-2026-05-08 19:19:31,999 | INFO     | 
+2026-05-10 00:26:18,597 | INFO     |     Phase 4: Institutional Governance Infrastructure
+2026-05-10 00:26:21,741 | INFO     |     Calculating systemic PDs...
+2026-05-10 00:26:58,883 | INFO     |     Applying portfolio-level exposure throttling...
+2026-05-10 00:26:59,987 | INFO     |     Analyzing review capacity dynamics...
+2026-05-10 00:27:00,459 | INFO     |     Analyzing cross-sectional stress clusters...
+2026-05-10 00:27:00,569 | INFO     |     2008 Peak Capacity Utilization: 1.70%
+2026-05-10 00:27:00,569 | INFO     |     2018 Peak Capacity Utilization: 33.90%
+2026-05-10 00:27:02,748 | INFO     |     Phase 4 complete.
+2026-05-10 00:27:03,058 | INFO     |   [ PASS ] Credit Signal Contract
+2026-05-10 00:27:03,058 | INFO     | 
   [4/5] Walk-Forward Validation
-2026-05-08 19:19:31,999 | INFO     |     Initiating walk-forward validation...
-2026-05-08 19:19:34,863 | INFO     |     Generating borrower-centric PDs...
-2026-05-08 19:19:36,753 | INFO     |     Applying CRIS environmental overlay...
-2026-05-08 19:20:21,829 | INFO     |     Validation artifacts generated.
-2026-05-08 19:20:21,899 | INFO     |   [ PASS ] Validation Run Complete
-2026-05-08 19:20:21,900 | INFO     | 
+2026-05-10 00:27:03,058 | INFO     |     Initiating walk-forward validation...
+2026-05-10 00:27:06,038 | INFO     |     Generating borrower-centric PDs...
+2026-05-10 00:27:07,702 | INFO     |     Applying CRIS environmental overlay...
+2026-05-10 00:27:55,810 | INFO     |     Validation artifacts generated.
+2026-05-10 00:27:55,893 | INFO     |   [ PASS ] Validation Run Complete
+2026-05-10 00:27:55,893 | INFO     | 
   [5/5] Artifact Stabilization
-2026-05-08 19:20:21,900 | INFO     |   [ PASS ] Outputs Written Successfully
-2026-05-08 19:20:21,900 | INFO     | 
-2026-05-08 19:20:21,900 | INFO     | ============================================================
-2026-05-08 19:20:21,900 | INFO     |   MASTER PIPELINE EXECUTION SUCCESSFUL
-2026-05-08 19:20:21,900 | INFO     | ============================================================
-2026-05-08 19:20:21,900 | INFO     |   Elapsed : 93.2s
-2026-05-08 19:20:21,900 | INFO     |   Outputs : /home/sharansh/CRIS/outputs
-2026-05-08 19:20:21,900 | INFO     | 
+2026-05-10 00:27:55,893 | INFO     |   [ PASS ] Outputs Written Successfully
+2026-05-10 00:27:55,893 | INFO     | 
+2026-05-10 00:27:55,893 | INFO     | ============================================================
+2026-05-10 00:27:55,893 | INFO     |   MASTER PIPELINE EXECUTION SUCCESSFUL
+2026-05-10 00:27:55,893 | INFO     | ============================================================
+2026-05-10 00:27:55,894 | INFO     |   Elapsed : 97.3s
+2026-05-10 00:27:55,894 | INFO     |   Outputs : /home/sharansh/CRIS/outputs
+2026-05-10 00:27:55,894 | INFO     | 

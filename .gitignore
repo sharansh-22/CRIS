@@ -18,12 +18,16 @@ orchestration/legacy_*.py
 
 # Scaffolding / Developmental (Local Only)
 systems/governance/
-experiments/
+# experiments/  <-- RE-ENABLED for institutional research code
+
 
 # Intermediate Large Data Files (Keep Repo Lightweight)
 outputs/**/*.parquet
+outputs/**/*.csv
 outputs/**/*.tmp
 outputs/**/*.bak
+outputs/*.log
+
 
 # Hidden development folders
 .gemini/

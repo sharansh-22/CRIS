@@ -84,6 +84,10 @@ def run_master_pipeline():
         macro_signals_path = PROJECT_ROOT / "outputs" / "credit_risk" / "phase2_layer3_macro_states.csv"
         if not macro_signals_path.exists():
             logger.warning("    Macro signals missing. Triggering harvester regeneration...")
+            # Import and run Phase 2 macro conditioning to generate artifacts
+            from experiments.macro_credit_overlay.phase2_macro_conditioning import run_phase2
+            run_phase2(force_market=True, force_states=True)
+            
         macro_df = pd.read_csv(macro_signals_path)
         SignalContract.validate_macro_signals(macro_df)
         _pass("Macro Signal Contract")

@@ -1,0 +1,1211 @@
+[
+    {
+        "month": "2007-06-01",
+        "aggregate_stress": 0.172,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.03,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.11,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.0
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2007-07-01",
+        "aggregate_stress": 0.167,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.04,
+                "velocity": 0.04,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.04,
+                "velocity": 0.010000000000000002,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.08,
+                "velocity": -0.03,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.0
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2007-08-01",
+        "aggregate_stress": 0.242,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.37,
+                "velocity": 0.33,
+                "contribution": 0.186337,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.05,
+                "velocity": 0.05,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.09,
+                "velocity": 0.049999999999999996,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.12,
+                "velocity": 0.039999999999999994,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.186337
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2007-09-01",
+        "aggregate_stress": 0.267,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.27,
+                "velocity": -0.09999999999999998,
+                "contribution": 0.05510400000000001,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": -0.05,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.17,
+                "velocity": 0.08000000000000002,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.23,
+                "velocity": 0.11000000000000001,
+                "contribution": 0.005232,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.06033600000000001
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2007-10-01",
+        "aggregate_stress": 0.2355,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": -0.27,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.22,
+                "velocity": 0.04999999999999999,
+                "contribution": 0.010427999999999995,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.25,
+                "velocity": 0.01999999999999999,
+                "contribution": 0.007919999999999998,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.018347999999999993
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2007-11-01",
+        "aggregate_stress": 0.2635,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.3,
+                "velocity": 0.3,
+                "contribution": 0.10603999999999998,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.23,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.0141984,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.19,
+                "velocity": -0.06,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.12023839999999998
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2007-12-01",
+        "aggregate_stress": 0.4295,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.54,
+                "velocity": 0.24000000000000005,
+                "contribution": 0.3451136,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.46,
+                "velocity": 0.46,
+                "contribution": 0.12376,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.23,
+                "velocity": 0.0,
+                "contribution": 0.01428,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.22,
+                "velocity": 0.03,
+                "contribution": 0.0032319999999999988,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.48638560000000003
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-01-01",
+        "aggregate_stress": 0.2269999999999999,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": -0.54,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": -0.46,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.25,
+                "velocity": 0.01999999999999999,
+                "contribution": 0.024231999999999993,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.2,
+                "velocity": -0.01999999999999999,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.024231999999999993
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-02-01",
+        "aggregate_stress": 0.3025,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.07,
+                "velocity": 0.07,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.32,
+                "velocity": 0.32,
+                "contribution": 0.05472,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.26,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.0279072,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.15,
+                "velocity": -0.05000000000000002,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.0826272
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-03-01",
+        "aggregate_stress": 0.2845,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.19,
+                "velocity": 0.12,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": -0.32,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.29,
+                "velocity": 0.02999999999999997,
+                "contribution": 0.042548399999999986,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.37,
+                "velocity": 0.22,
+                "contribution": 0.020399999999999998,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.06294839999999999
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-04-01",
+        "aggregate_stress": 0.491,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.53,
+                "velocity": 0.34,
+                "contribution": 0.36115200000000003,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.57,
+                "velocity": 0.57,
+                "contribution": 0.17019999999999996,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.3,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.04691999999999998,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.37,
+                "velocity": 0.0,
+                "contribution": 0.023119999999999995,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.5
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-05-01",
+        "aggregate_stress": 0.2714999999999999,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.1,
+                "velocity": -0.43000000000000005,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": -0.57,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.32,
+                "velocity": 0.020000000000000018,
+                "contribution": 0.05616,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.32,
+                "velocity": -0.04999999999999999,
+                "contribution": 0.0144,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.07056
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-06-01",
+        "aggregate_stress": 0.237,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": -0.1,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.32,
+                "velocity": 0.0,
+                "contribution": 0.0528,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.26,
+                "velocity": -0.06,
+                "contribution": 0.0072,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.06
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-07-01",
+        "aggregate_stress": 0.288,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.28,
+                "velocity": 0.28,
+                "contribution": 0.08035200000000003,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.33,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.057018,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.33,
+                "velocity": 0.07,
+                "contribution": 0.0156,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.15297000000000005
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-08-01",
+        "aggregate_stress": 0.2945,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.11,
+                "velocity": -0.17000000000000004,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.12,
+                "velocity": 0.12,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.31,
+                "velocity": -0.020000000000000018,
+                "contribution": 0.04862,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.32,
+                "velocity": -0.010000000000000009,
+                "contribution": 0.0144,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.06301999999999999
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-09-01",
+        "aggregate_stress": 0.251,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.07,
+                "velocity": -0.039999999999999994,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": -0.12,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.31,
+                "velocity": 0.0,
+                "contribution": 0.04751999999999999,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.32,
+                "velocity": 0.0,
+                "contribution": 0.0144,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.06191999999999999
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-10-01",
+        "aggregate_stress": 0.598,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 1.0,
+                "velocity": 0.9299999999999999,
+                "contribution": 1.334176,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.53,
+                "velocity": 0.53,
+                "contribution": 0.15312,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.33,
+                "velocity": 0.020000000000000018,
+                "contribution": 0.0627328,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.55,
+                "velocity": 0.23000000000000004,
+                "contribution": 0.04984,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.5
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-11-01",
+        "aggregate_stress": 0.7394999999999999,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 1.0,
+                "velocity": 0.0,
+                "contribution": 0.6387200000000001,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 1.0,
+                "velocity": 0.47,
+                "contribution": 0.39840000000000003,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.38,
+                "velocity": 0.04999999999999999,
+                "contribution": 0.09860400000000001,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.48,
+                "velocity": -0.07000000000000006,
+                "contribution": 0.05510399999999999,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.5
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2008-12-01",
+        "aggregate_stress": 0.747,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 1.0,
+                "velocity": 0.0,
+                "contribution": 0.6400000000000001,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 1.0,
+                "velocity": 0.0,
+                "contribution": 0.4,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.42,
+                "velocity": 0.03999999999999998,
+                "contribution": 0.11879999999999999,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.46,
+                "velocity": -0.019999999999999962,
+                "contribution": 0.052000000000000005,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.5
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-01-01",
+        "aggregate_stress": 0.5665,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": -1.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.84,
+                "velocity": -0.16000000000000003,
+                "contribution": 0.31999999999999995,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.45,
+                "velocity": 0.030000000000000027,
+                "contribution": 0.1325,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.47,
+                "velocity": 0.009999999999999953,
+                "contribution": 0.05399999999999999,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.5
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-02-01",
+        "aggregate_stress": 0.544,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.07,
+                "velocity": 0.07,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 0.72,
+                "velocity": -0.12,
+                "contribution": 0.26,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.43,
+                "velocity": -0.020000000000000018,
+                "contribution": 0.11499999999999999,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.48,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.055999999999999994,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.431
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-03-01",
+        "aggregate_stress": 0.6275000000000001,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.13,
+                "velocity": 0.06,
+                "contribution": 0.0,
+                "was_velocity_amplified": true
+            },
+            "structural": {
+                "stress_level": 1.0,
+                "velocity": 0.28,
+                "contribution": 0.4,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.44,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.1224,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.49,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.057999999999999996,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.5
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-04-01",
+        "aggregate_stress": 0.546,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.06,
+                "velocity": -0.07,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.72,
+                "velocity": -0.28,
+                "contribution": 0.26,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.46,
+                "velocity": 0.020000000000000018,
+                "contribution": 0.13520000000000001,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.46,
+                "velocity": -0.02999999999999997,
+                "contribution": 0.052000000000000005,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.4472
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-05-01",
+        "aggregate_stress": 0.601,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": -0.06,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.92,
+                "velocity": 0.20000000000000007,
+                "contribution": 0.36,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.5,
+                "velocity": 0.03999999999999998,
+                "contribution": 0.162,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.48,
+                "velocity": 0.019999999999999962,
+                "contribution": 0.055999999999999994,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.5
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-06-01",
+        "aggregate_stress": 0.491,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.51,
+                "velocity": -0.41000000000000003,
+                "contribution": 0.155,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.47,
+                "velocity": -0.030000000000000027,
+                "contribution": 0.13499999999999998,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.48,
+                "velocity": 0.0,
+                "contribution": 0.055999999999999994,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": true
+        },
+        "confidence_metrics": {
+            "total_shift": 0.346
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-07-01",
+        "aggregate_stress": 0.3505,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": -0.51,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.48,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.13994399999999999,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.44,
+                "velocity": -0.03999999999999998,
+                "contribution": 0.04416,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.184104
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-08-01",
+        "aggregate_stress": 0.3395,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.49,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.14198399999999997,
+                "was_velocity_amplified": true
+            },
+            "volatility": {
+                "stress_level": 0.41,
+                "velocity": -0.030000000000000027,
+                "contribution": 0.03528,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.17726399999999998
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-09-01",
+        "aggregate_stress": 0.316,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.49,
+                "velocity": 0.0,
+                "contribution": 0.13629999999999998,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.33,
+                "velocity": -0.07999999999999996,
+                "contribution": 0.019760000000000003,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.15605999999999998
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-10-01",
+        "aggregate_stress": 0.279,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.46,
+                "velocity": -0.02999999999999997,
+                "contribution": 0.1196,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.22,
+                "velocity": -0.11000000000000001,
+                "contribution": 0.0027199999999999985,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.12232
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-11-01",
+        "aggregate_stress": 0.315,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.06,
+                "velocity": 0.06,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.44,
+                "velocity": -0.020000000000000018,
+                "contribution": 0.11424,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.29,
+                "velocity": 0.06999999999999998,
+                "contribution": 0.014543999999999996,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.12878399999999998
+        },
+        "is_counterfactual": false
+    },
+    {
+        "month": "2009-12-01",
+        "aggregate_stress": 0.2945,
+        "source_contributions": {
+            "liquidity": {
+                "stress_level": 0.0,
+                "velocity": 0.0,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "structural": {
+                "stress_level": 0.0,
+                "velocity": -0.06,
+                "contribution": 0.0,
+                "was_velocity_amplified": false
+            },
+            "macro": {
+                "stress_level": 0.44,
+                "velocity": 0.0,
+                "contribution": 0.11184,
+                "was_velocity_amplified": false
+            },
+            "volatility": {
+                "stress_level": 0.3,
+                "velocity": 0.010000000000000009,
+                "contribution": 0.014559999999999998,
+                "was_velocity_amplified": false
+            }
+        },
+        "state_transition_logic": {
+            "entry_threshold": 0.45,
+            "exit_threshold": 0.35,
+            "is_above_entry": false
+        },
+        "confidence_metrics": {
+            "total_shift": 0.12639999999999998
+        },
+        "is_counterfactual": false
+    }
+]
