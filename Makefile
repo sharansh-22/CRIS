@@ -5,6 +5,7 @@ help:
 	@echo "==========================================="
 	@echo "make setup              - Create conda environment and install dependencies"
 	@echo "make run_full_cris      - Execute the end-to-end CRIS pipeline (Macro, Credit, Validation)"
+	@echo "make run_portfolio      - Execute the Portfolio Intelligence System pipeline"
 	@echo "make run_experiments    - Run Governance Lab Experiments 01-09"
 	@echo "make run_certifications - Run Institutional Audits and Stress Certification (IVSC)"
 	@echo "make clean              - Remove all outputs, logs, and artifacts"
@@ -15,6 +16,9 @@ setup:
 
 run_full_cris:
 	conda run -n CRIS python orchestration/run_full_cris.py
+
+run_portfolio:
+	conda run -n CRIS python orchestration/portfolio/run_portfolio_intelligence.py
 
 run_experiments:
 	conda run -n CRIS python validation/governance_lab/experiments/01_sensitivity_sweep.py

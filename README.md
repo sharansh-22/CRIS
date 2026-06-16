@@ -1,170 +1,261 @@
 # CRIS — Cascade Risk Intelligence System
-### A modular institutional governance architecture for adaptive financial systems operating under uncertainty.
+
+### **Environmental Intelligence Framework**
+> *An environmental intelligence framework that measures systemic risk, market structure, and signal relevance to improve robustness under changing market conditions.*
 
 ---
 
-## **1. Core Philosophy**
-> *"Financial systems fail not only because predictions are wrong, but because institutions continue behaving normally while the surrounding environment structurally deteriorates."*
-
-CRIS is not a predictive engine. It is a systems-engineering response to the problem of **institutional inertia under structural uncertainty**. While traditional risk models focus on high-fidelity borrower prediction, CRIS focuses on **Governance Conditioning**—ensuring that institutional behavior (risk appetite, capital allocation, and execution velocity) adapts dynamically as the surrounding environment destabilizes.
-
----
-
-## **2. What CRIS IS / IS NOT**
-
-| **CRIS IS NOT** | **CRIS IS** |
-| :--- | :--- |
-| A forecasting oracle or market timer | An adaptive governance infrastructure |
-| A black-box optimization machine | An environmental intelligence framework |
-| A speculative AI trading system | A resilience-oriented conditioning system |
-| A magical "crisis predictor" | A modular institutional architecture |
+## Suggested GitHub Homepage Description & Tagline
+*   **Suggested Repository Tagline**: *Dynamically conditioning downstream credit and risk engines using environmental intelligence and market structure analytics.*
+*   **Suggested GitHub Homepage Description**: *CRIS (Cascade Risk Intelligence System) is an Environmental Intelligence Framework designed to harvest, evaluate, validate, and condition financial risk systems using systemic macro and market structure signals. It features the Signal Attribution Engine (SAE) and a multi-phase validation framework.*
 
 ---
 
-## **3. Architecture Overview**
+## 1. Why CRIS Exists
+Traditional credit risk systems operate under a fundamental assumption:
+$$\text{Borrower Risk} = f(\text{Borrower Features})$$
 
-The CRIS architecture is a hierarchical intelligence pipeline designed to translate raw environmental signals into auditable governance outcomes.
+They evaluate debt-to-income, credit scores, and loan-to-value to determine the probability of default (PD). However, in the real world, **environments change**. During systemic stress:
+*   Borrowers with identical credit files exhibit significantly higher default rates.
+*   Correlation structures compress, rendering traditional diversification useless.
+*   Signal relevance drifts through time (attribution drift), making static model rankings unstable.
+
+CRIS answers the question: **What if the environment itself contains useful information?** By harvesting environmental risk signals and conditioning downstream models, CRIS helps prevent sudden model degradation during market crises.
+
+---
+
+## 2. Key Findings
+Through extensive research and replication across consumer loans, retail delinquency, and corporate distress, we validated these core findings:
+*   **✓ Environmental signals contain information**: Conditioning downstream models on macro risk signals improves risk calibration out-of-sample.
+*   **✓ Market Structure is a dominating signal family**: Measures of equity dispersion, breadth, and correlation compression consistently hold the highest attribution weights.
+*   **✓ Signal relevance drifts through time**: No single signal ranking remains stable across all regimes.
+*   **✓ Static rankings are unreliable**: Under different market stress regimes, different signal families become active.
+*   **✓ Signal compression exists**: A small subset of 3–5 signals captures over 80% of the total environmental information.
+*   **✓ Environmental conditioning improves high-stress robustness**: CRIS-conditioned models resist degradation during macro downturns, delivering significant AUC and calibration lifts.
+
+---
+
+## 3. System Architecture
+
+The CRIS architecture is a hierarchical pipeline translating raw market data into downstream model conditioning:
 
 ```mermaid
 graph TD
-    subgraph "I. DATA HARVESTING"
-        A[Market Indices] --> H1[Liquidity Harvester]
-        A --> H2[Structural Harvester]
-        A --> H3[Volatility Harvester]
-        A --> H4[Macro Harvester]
+    subgraph "1. DATA LAYER"
+        A1["Market Data (S&P 500, Sector Indices)"]
+        A2["Macro Data (Interest Rates, Spreads)"]
     end
 
-    subgraph "II. ENVIRONMENTAL INTELLIGENCE"
-        H1 & H2 & H3 & H4 --> B{Signal Convergence}
-        B --> C[Environmental State State]
+    subgraph "2. HARVESTERS"
+        B1["Market Structure Harvester"]
+        B2["Macro Harvester"]
     end
 
-    subgraph "III. MODULAR GOVERNANCE (V2)"
-        C --> D[Source-Aware Conditioning]
-        D --> E[Trajectory Escalation]
-        E --> F[Elastic Posture Scaling]
+    subgraph "3. ENVIRONMENTAL SIGNAL LAYER"
+        C1["Layer 3 Fast Signals"]
+        C2["Layer 3 Slow Signals"]
+        C3["Layer 3 Decay Signals"]
+        C4["Layer 3 Meta Signals"]
+        C5["Market Structure Signals"]
     end
 
-    subgraph "IV. DOWNSTREAM CONDITIONING"
-        F --> G[Credit Risk Engine]
-        G --> H[Institutional Decisions]
+    subgraph "4. EVALUATION & ATTRIBUTION"
+        D1["Signal Attribution Engine (SAE)"]
+        D2["Attribution Weights & Entropy"]
     end
 
-    subgraph "V. FORENSIC AUDIT (GRI/GEL)"
-        H --> I[Governance Ledger]
-        I --> J[Causal Attribution]
+    subgraph "5. CONDITIONING & DOWNSTREAM SYSTEMS"
+        E1["CRIS-Conditioned Downstream Model"]
+        E2["Credit Risk / Valuation Engine"]
     end
+
+    A1 --> B1
+    A2 --> B2
+    B1 --> C5
+    B2 --> C1 & C2 & C3 & C4
+    C1 & C2 & C3 & C4 & C5 --> D1
+    D1 --> D2
+    D2 --> E1
+    E1 --> E2
+```
+
+### Architectural Layers:
+1.  **Data Layer**: Sources raw, historical daily equity indices and monthly macroeconomic variables.
+2.  **Harvesters**: Dynamically compute rolling statistics, jump diffusions, and sectoral correlations.
+3.  **Environmental Signal Layer**: Groups indicators into 5 distinct signal families.
+4.  **Signal Attribution Engine (SAE)**: Evaluates signals using a combination of rank correlation, predictive lift, and stability metrics to assign dynamic attribution weights.
+5.  **Downstream Systems**: Integrates these weights to adjust credit underwriting, pricing, and capital allocation.
+
+---
+
+## 4. Signal Families
+
+CRIS aggregates environmental intelligence into five distinct signal families:
+
+### **Layer 3 Fast**
+*   *What it measures*: Sudden, high-velocity market shifts and volatility shocks.
+*   *Why it exists*: Detects sudden, unexpected liquidity and volatility spikes.
+*   *Examples*: Volatility Jump Indicator, Short-term Liquidity Spread.
+
+### **Layer 3 Slow**
+*   *What it measures*: Long-term macroeconomic trends and structural cycles.
+*   *Why it exists*: Captures the underlying economic expansion or contraction phase.
+*   *Examples*: Rolling GDP Growth, 10Y-2Y Yield Spread, Fed Funds Rate.
+
+### **Layer 3 Decay**
+*   *What it measures*: Mean-reversion failure and persistent weakness.
+*   *Why it exists*: Measures the speed at which a system recovers (or fails to recover) from a shock.
+*   *Examples*: Rebound Failure Index, Decay Persistence.
+
+### **Layer 3 Meta**
+*   *What it measures*: Regime-switching, entropy, and complexity metrics.
+*   *Why it exists*: Identifies when the underlying market regime shifts, altering signal dynamics.
+*   *Examples*: Regime Stress Score, Entropy Concentration.
+
+### **Market Structure**
+*   *What it measures*: Granular internal equity market dynamics (breadth, correlation, dispersion).
+*   *Why it exists*: Serves as a leading indicator of systemic fragility before macro variables react.
+*   *Examples*: Sector Correlation Compression, Equity Dispersion, Breadth Thrust.
+
+---
+
+## 5. Market Structure Intelligence
+Traditional macro models rely on low-frequency indicators (e.g., GDP or unemployment) which lag real-world defaults by quarters. CRIS implements **Market Structure Intelligence** to capture high-frequency equity market behavior:
+*   **Breadth**: The proportion of stocks participating in a market move. Declining breadth indicates fragile indices.
+*   **Dispersion**: The cross-sectional variance of stock returns. High dispersion indicates sector-specific divergence.
+*   **Correlation Compression**: The tendency of sector returns to move together during a crisis. A sudden spike in correlation indicates systemic panics.
+
+### **Validation Insight**:
+Across all validation studies, Market Structure signals consistently dominated, receiving **33% to 35%** of the total attribution weight. This proves that high-frequency market mechanics carry substantial leading information about credit deterioration.
+
+---
+
+## 6. Signal Attribution Engine (SAE)
+The SAE is the core evaluation engine of CRIS. It determines which environmental signals carry the most information about default behavior.
+
+### **Attribution Methodology**:
+The raw attribution score for a signal is a weighted combination of:
+1.  **Correlation Strength (25%)**: Spearman rank correlation with realized default rates.
+2.  **Predictive AUC Lift (30%)**: Out-of-sample classification improvement when added to the base model.
+3.  **Predictive Brier Lift (15%)**: Brier score improvement (calibration).
+4.  **Temporal Window Stability (15%)**: Stability of the signal's correlation over time.
+5.  **Regime Stability (15%)**: Signal stability across different stress regimes.
+
+### **Attribution Drift**:
+SAE validates that signal importance is not static. During normal times, slow macro indicators dominate. During crises, market structure and decay indicators spike in importance.
+
+---
+
+## 7. Validation Framework
+We subjected CRIS to a multi-stage validation framework designed to falsify its core claims:
+
+```text
+Phase 1: SAE Research Mode
+  └─ Establish empirical signal rankings and identify signal compression.
+Phase 1.5: Ablation Studies
+  └─ Systematically remove signal families to verify predictive necessity.
+Phase 2: Statistical Validation
+  └─ Run bootstrapping and stability analyses to verify confidence intervals.
+Phase 3: Cross-Dataset Replication
+  └─ Validate LC findings on independent Give Me Some Credit & Taiwan Bankruptcy datasets.
+Phase 3.5: System Integrity Audit
+  └─ Verify A1-A5 checks (no leakage, no target leakage, no hardcoded overrides, no contamination).
+Phase 4: Downstream Credit Risk Comparison
+  └─ Compare System A (Credit Only) vs System B (Credit + CRIS) under stressed regimes.
 ```
 
 ---
 
-## **4. Current System: CRIS Credit Risk V2**
-The primary validated implementation of the CRIS architecture is applied to **Institutional Credit Risk**. 
+## 8. Evidence Summary
 
-*   **Source-Aware Governance:** Granular adjustments based on specific stress archetypes (e.g., Liquidity freeze vs. Volatility spike).
-*   **Trajectory-Aware Escalation:** Velocity-dependent defensive triggers to mitigate systemic contagion.
-*   **Recovery Persistence:** Integrated hysteresis logic to prevent "regime-thrashing" during false stabilization.
-*   **Governance Explainability (GEL):** Deep causal decomposition of every basis point of credit-risk conditioning.
-*   **Governance Replay (GRI):** Full historical auditability through step-by-step decision reconstruction.
-
-### **Upcoming Systems**
-*   **Portfolio Governance V1:** Cross-asset exposure conditioning.
-*   **Treasury Governance:** Adaptive liquidity buffer management.
-*   **Institutional Exposure Conditioning:** Sector-level concentration throttling.
+| Finding / Claim | Evidence | Status |
+|---|---|---|
+| **Environmental Signals Matter** | Downstream model calibration improves across all datasets. | **VALIDATED** |
+| **Market Structure Dominance** | Consistently holds 33%–35% of total attribution weight. | **VALIDATED** |
+| **Signal Attribution Drift** | Signal rankings change significantly over time. | **VALIDATED** |
+| **Signal Compression** | Top 5 signals capture over 80% of attribution entropy. | **VALIDATED** |
+| **Spurious Noise Rejection** | Injected fake signals receive negligible weights and are rejected. | **VALIDATED** |
+| **Stress-Regime Lift** | Significant AUC lifts (+0.0146) observed strictly in high stress. | **VALIDATED** |
+| **Adaptive SAE recalibration** | Continuous closed-loop feedback weight adjustment. | **NOT YET TESTED** |
 
 ---
 
-## **5. The Governance Lab (Experiments 01–10)**
-The architecture is the result of a rigorous 10-phase research program conducted in a walk-forward simulation environment.
+## 9. Major Results & Visualizations
 
-| Phase | Research Objective | Key Discovery |
-| :--- | :--- | :--- |
-| **01** | Sensitivity Sweep | Governance calibration is a primary driver of institutional utility. |
-| **02** | Recovery Calibration | Slower relaxation (Hysteresis) improves capital efficiency. |
-| **03** | Source-Awareness | Granular signal attribution outperforms monolithic overlays. |
-| **04** | Temporal Cohesion | Trajectory-awareness provides a 3-month lead-time advantage. |
-| **05** | Unified Synthesis | Modular synthesis accounts for 97% of systemic utility gains. |
-| **08** | Operational Realism | Latency reduction is more critical than beta-sensitivity. |
-| **09** | Elasticity Calibration | Continuous response curves reduce "Policy Whiplash." |
-| **10** | Stress Certification | Defined "Stability Zones" prevent governance collapse. |
+### **Stress-Regime AUC Lift**
+Downstream comparison shows that System B (CRIS-conditioned) prevents model degradation under High Stress conditions:
+
+![Stress Regime AUC Comparison](outputs/signal_attribution/stress_regime_auc_comparison.png)
+
+### **Cross-Dataset Validation**
+Replication of SAE weights on independent Give Me Some Credit (GMC) and Taiwan Bankruptcy datasets confirms that Market Structure signals consistently lead:
+
+![Cross-Dataset SAE Weights](outputs/signal_attribution/cross_dataset_sae_weights.png)
 
 ---
 
-## **6. Major Research Discoveries**
-
-### **The Lead-Time Advantage**
-By integrating **Trajectory-Awareness**, CRIS identified the 2008 liquidity deterioration **3 months earlier** than legacy borrower-centric models, enabling a proactive contraction of risk appetite before the default spike.
-
-### **The Latency-Resilience Tradeoff**
-Simulation revealed that an institution with **moderate sensitivity but zero latency** consistently outperforms a highly sensitive institution with a 2-month committee approval delay.
-
-### **Governance Elasticity**
-Redesigning the governance interface from brittle thresholds to **Continuous Elasticity Curves** (Sigmoid-gated response) reduced transition volatility by **62%**, making the system operationally "human-compatible" without reducing resilience.
+## 10. Current Limitations
+*   **Static/Batch Recalibration**: While weights are dynamically computed, the SAE currently runs in batch mode. A real-time closed-loop adaptive weighting mechanism (Phase 3 Adaptive SAE) is not yet implemented.
+*   **Time Lag in Macro Reporting**: Certain macro signals (GDP, Unemployment) are reported with a lag, which could affect the real-time responsiveness of Layer 3 Slow signals.
+*   **Panel Data Autocorrelation**: Macro signals are identical for borrowers in the same monthly cohort, leading to clustering effects that require specialized GEE or mixed-effect corrections.
 
 ---
 
-## **7. Governance Explainability & Replay**
-
-*   **GEL (Governance Explainability Layer):** Decomposes every institutional posture into attributed contributions (e.g., *"Liquidity stress contributed 45bps to PD shift; Trajectory velocity amplified this by 1.2x"*).
-*   **GRI (Governance Replay Infrastructure):** Generates a chronological **Governance Ledger**, allowing risk committees to forensically reconstruct why a specific defensive stance was taken at any point in history.
-
----
-
-## **8. Operational Realism (OSHIL)**
-Unlike idealized models, CRIS is stress-tested against the realities of institutional friction:
-*   **Committee Delay:** Modeling the utility decay of latency.
-*   **Human Overrides:** Simulating the impact of "growth-oriented" committees ignoring defensive escalations.
-*   **Governance Fatigue:** Modeling the desensitization of operators during prolonged crises.
-*   **Trust Evolution:** Tracking the rise and fall of institutional confidence in CRIS intelligence.
+## 11. Future Research
+*   **Phase 3 Adaptive SAE**: Implementing a Kalman-filter or Bayesian regime-switching overlay to dynamically shift model weights in real time.
+*   **ESG & Climate Risk Integration**: Extending environmental signals to include transition and physical climate risk metrics.
+*   **Portfolio Diagnostics**: Moving from single-loan default prediction to portfolio-level value-at-risk (VaR) conditioning.
 
 ---
 
-## **9. Stress Certification (IVSC)**
-Every CRIS configuration undergoes a **Robustness Certification Audit** to identify hidden fragility.
+## 12. Quick Start
 
-| **Certification Metric** | **Findings & Operating Boundaries** |
-| :--- | :--- |
-| **Stability Zone** | Optimal performance at Elasticity $k=15$ and Dampening $d=0.3$. |
-| **Fragility Cliff** | Severe "Policy Whiplash" identified at $k > 30$. |
-| **Adversarial Resilience** | 85% utility retention under +50% synthetic signal noise. |
-| **Certification Status** | **INSTITUTIONALLY CERTIFIED** for GFC-scale regimes. |
+### **Environment Setup**
+Ensure you have Conda installed, then run:
+```bash
+conda env create -f environment.yml
+conda activate CRIS
+```
+
+### **Run Downstream Validation**
+Compare System A vs System B and generate the downstream validation report:
+```bash
+python -m research.signal_attribution.run_downstream_validation
+```
+
+### **Run SAE & Ablation Studies**
+Run the core Signal Attribution Engine:
+```bash
+python -m research.signal_attribution.run_signal_attribution
+python -m research.signal_attribution.run_ablation_study
+```
+
+### **Run System Integrity Audit & Fake Signal Validation**
+Execute the code search, target leakage checks, and noise-injection validations:
+```bash
+python -m research.signal_attribution.system_integrity_audit
+python -m research.signal_attribution.run_advanced_validation
+```
 
 ---
 
-## **10. Repository Skeletal Structure**
+## 13. Repository Structure
 ```text
 CRIS/
-├── configs/                        # System Settings & Policy Thresholds
-├── harvesters/                     # Environmental Interpretation (Layer 3)
-│   └── macro/                      # Structural, Fast-Shock, & Trajectory Detectors
-├── systems/                        # Institutional Intelligence Layers
-│   ├── credit_risk/                # CRIS Credit Risk V2 Engine
-│   └── governance/                 # Modular Policy Control Stack
-├── orchestration/                  # Runtime Execution & Pipelines
-├── validation/                     # The Governance Lab Research Hub
-│   ├── governance_lab/             # Advanced Research Infrastructure (01-10)
-│   └── walk_forward_validation.py  # Temporal integrity testing
-└── data/                           # Validated Institutional Data Lake
+├── configs/                        # System Configurations & Parameters
+├── harvesters/                     # Signal Harvesters (Macro & Market Structure)
+├── systems/                        # Downstream Credit Risk Models & Engines
+├── research/                       # Research & Advanced Validation Hub
+│   └── signal_attribution/         # SAE, Ablation, and Downstream Validation Scripts
+├── outputs/                        # Saved Reports, Datasets, and Visualizations
+└── data/                           # Data Lake (LC, GMC, American Bankruptcy)
 ```
 
 ---
 
-## **11. Scientific Discipline & Limitations**
-
-### **The Rigor Standard**
-*   **Walk-Forward Validation:** No future information is ever leaked into the training or conditioning process.
-*   **Leakage Prevention:** Strict temporal separation between signal harvesting and governance execution.
-*   **Scientific Honesty:** All failure modes (e.g., "Premature Recovery Relaxation") are documented and quantified.
-
-### **Known Weaknesses**
-*   **Probabilistic Nature:** CRIS does not "prevent" crises; it conditions the system to survive them.
-*   **False Stabilization Risk:** A known risk where signals stabilize while structural defaults remain elevated.
-*   **Calibration Drift:** Governance parameters may require periodic recalibration as market macrostructure evolves.
-
----
-
-## **12. Final Closing Statement**
-CRIS is an attempt to move financial intelligence away from pure prediction and toward **adaptive institutional resilience**. By bridging the gap between environmental awareness and governance execution, we transform institutional systems from brittle actors into adaptive organisms capable of navigating structural uncertainty with auditable intelligence.
-
----
-**Institutional Research Platform** | *Cascade Risk Intelligence System*
+## 14. Technical Report & Validation Reports
+For deep-dives into the mathematical methodologies, data mappings, and empirical findings, refer to the following reports:
+*   [Cross-Dataset Validation Report](outputs/signal_attribution/cross_dataset_validation_report.md)
+*   [Statistical Validation Report](outputs/signal_attribution/statistical_validation_report.md)
+*   [System Integrity & Advanced Validation Report](outputs/signal_attribution/advanced_validation_report.md)
+*   [Downstream Credit Risk Comparison Report](outputs/signal_attribution/downstream_validation_report.md)
