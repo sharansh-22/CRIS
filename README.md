@@ -185,12 +185,12 @@ Phase 4: Downstream Credit Risk Comparison
 ### **Stress-Regime AUC Lift**
 Downstream comparison shows that System B (CRIS-conditioned) prevents model degradation under High Stress conditions:
 
-![Stress Regime AUC Comparison](outputs/signal_attribution/stress_regime_auc_comparison.png)
+![Stress Regime AUC Comparison](reports/images/stress_regime_auc_comparison.png)
 
 ### **Cross-Dataset Validation**
 Replication of SAE weights on independent Give Me Some Credit (GMC) and Taiwan Bankruptcy datasets confirms that Market Structure signals consistently lead:
 
-![Cross-Dataset SAE Weights](outputs/signal_attribution/cross_dataset_sae_weights.png)
+![Cross-Dataset SAE Weights](reports/images/cross_dataset_sae_weights.png)
 
 ---
 
@@ -220,21 +220,21 @@ conda activate CRIS
 ### **Run Downstream Validation**
 Compare System A vs System B and generate the downstream validation report:
 ```bash
-python -m research.signal_attribution.run_downstream_validation
+python -m signal_attribution.run_downstream_validation
 ```
 
 ### **Run SAE & Ablation Studies**
 Run the core Signal Attribution Engine:
 ```bash
-python -m research.signal_attribution.run_signal_attribution
-python -m research.signal_attribution.run_ablation_study
+python -m signal_attribution.run_signal_attribution
+python -m signal_attribution.run_ablation_study
 ```
 
 ### **Run System Integrity Audit & Fake Signal Validation**
 Execute the code search, target leakage checks, and noise-injection validations:
 ```bash
-python -m research.signal_attribution.system_integrity_audit
-python -m research.signal_attribution.run_advanced_validation
+python -m signal_attribution.system_integrity_audit
+python -m signal_attribution.run_advanced_validation
 ```
 
 ---
@@ -243,11 +243,14 @@ python -m research.signal_attribution.run_advanced_validation
 ```text
 CRIS/
 ├── configs/                        # System Configurations & Parameters
+├── data_contracts/                 # Formal data schema contracts
 ├── harvesters/                     # Signal Harvesters (Macro & Market Structure)
+├── market_structure/               # High-frequency market structure harvesters
+├── signal_attribution/             # SAE, Ablation, and Downstream Validation Engines
 ├── systems/                        # Downstream Credit Risk Models & Engines
-├── research/                       # Research & Advanced Validation Hub
-│   └── signal_attribution/         # SAE, Ablation, and Downstream Validation Scripts
-├── outputs/                        # Saved Reports, Datasets, and Visualizations
+├── orchestration/                  # Execution pipelines
+├── validation/                     # System test suites and walk-forward code
+├── reports/                        # Visualizations and final validation reports
 └── data/                           # Data Lake (LC, GMC, American Bankruptcy)
 ```
 
@@ -255,7 +258,8 @@ CRIS/
 
 ## 14. Technical Report & Validation Reports
 For deep-dives into the mathematical methodologies, data mappings, and empirical findings, refer to the following reports:
-*   [Cross-Dataset Validation Report](outputs/signal_attribution/cross_dataset_validation_report.md)
-*   [Statistical Validation Report](outputs/signal_attribution/statistical_validation_report.md)
-*   [System Integrity & Advanced Validation Report](outputs/signal_attribution/advanced_validation_report.md)
-*   [Downstream Credit Risk Comparison Report](outputs/signal_attribution/downstream_validation_report.md)
+*   [Signal Attribution Engine Report](reports/signal_attribution_report.md)
+*   [Cross-Dataset Validation Report](reports/cross_dataset_validation_report.md)
+*   [Statistical Validation Report](reports/statistical_validation_report.md)
+*   [System Integrity & Advanced Validation Report](reports/advanced_validation_report.md)
+*   [Downstream Credit Risk Comparison Report](reports/downstream_validation_report.md)
