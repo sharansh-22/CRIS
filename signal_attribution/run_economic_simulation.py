@@ -191,7 +191,9 @@ def main():
     lc_test["probs_a"] = clf_a.predict_proba(lc_test[["borrower_pd"]])[:, 1]
     
     # System B (Credit + CRIS)
-    features_b = ["borrower_pd"] + REAL_SIGNAL_NAMES
+    available_signals = [s for s in REAL_SIGNAL_NAMES if s in lc_train.columns]
+    features_b = ["borrower_pd"] + available_signals
+    logger.info(f"Training System B using {len(available_signals)} available signals: {available_signals}")
     clf_b = lgb.LGBMClassifier(random_state=SEED, n_estimators=100, verbosity=-1)
     clf_b.fit(lc_train[features_b], lc_train["target"])
     lc_test["probs_b"] = clf_b.predict_proba(lc_test[features_b])[:, 1]
@@ -304,7 +306,7 @@ def main():
     family_net_values = {}
     for fam_name, fam_signals in families.items():
         # Exclude this family's signals
-        ablated_features = ["borrower_pd"] + [s for s in REAL_SIGNAL_NAMES if s not in fam_signals]
+        ablated_features = ["borrower_pd"] + [s for s in available_signals if s not in fam_signals]
         clf_abl = lgb.LGBMClassifier(random_state=SEED, n_estimators=100, verbosity=-1)
         clf_abl.fit(lc_train[ablated_features], lc_train["target"])
         probs_abl = clf_abl.predict_proba(lc_test[ablated_features])[:, 1]

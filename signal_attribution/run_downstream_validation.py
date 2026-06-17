@@ -168,7 +168,9 @@ def run_system_comparison(train_df: pd.DataFrame, test_df: pd.DataFrame, dataset
     probs_a = clf_a.predict_proba(test_df[["borrower_pd"]])[:, 1]
     
     # ── Fit System B: Credit Risk + CRIS ──
-    features_b = ["borrower_pd"] + REAL_SIGNAL_NAMES
+    available_signals = [s for s in REAL_SIGNAL_NAMES if s in train_df.columns]
+    features_b = ["borrower_pd"] + available_signals
+    logger.info(f"Training System B ({dataset_name}) using {len(available_signals)} available signals: {available_signals}")
     clf_b = lgb.LGBMClassifier(random_state=SEED, n_estimators=100, verbosity=-1)
     clf_b.fit(train_df[features_b], train_df["target"])
     probs_b = clf_b.predict_proba(test_df[features_b])[:, 1]

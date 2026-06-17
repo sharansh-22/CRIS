@@ -1,0 +1,193 @@
+{
+  "signals": [
+    {
+      "signal_name": "uncertainty_pressure",
+      "source": "Layer3.Meta",
+      "correlation_strength": 0.527833,
+      "predictive_lift_auc": 0.000857,
+      "predictive_lift_brier": 0.000106,
+      "temporal_stability": 0.4694,
+      "regime_stability": 0.9649,
+      "raw_score": 0.369558,
+      "attribution_weight": 0.242105
+    },
+    {
+      "signal_name": "stabilization_strength",
+      "source": "Layer3.Meta",
+      "correlation_strength": 0.529449,
+      "predictive_lift_auc": 3.5e-05,
+      "predictive_lift_brier": 4e-06,
+      "temporal_stability": 0.1542,
+      "regime_stability": 0.4429,
+      "raw_score": 0.222841,
+      "attribution_weight": 0.145988
+    },
+    {
+      "signal_name": "trajectory_fragility",
+      "source": "Layer3.Decay",
+      "correlation_strength": 0.395659,
+      "predictive_lift_auc": 2.9e-05,
+      "predictive_lift_brier": 5e-06,
+      "temporal_stability": 0.3987,
+      "regime_stability": 0.3585,
+      "raw_score": 0.213354,
+      "attribution_weight": 0.139773
+    },
+    {
+      "signal_name": "erosion_strength",
+      "source": "Layer3.Decay",
+      "correlation_strength": 0.386197,
+      "predictive_lift_auc": 3.9e-05,
+      "predictive_lift_brier": 8e-06,
+      "temporal_stability": 0.4497,
+      "regime_stability": 0.1731,
+      "raw_score": 0.191132,
+      "attribution_weight": 0.125214
+    },
+    {
+      "signal_name": "signal_coherence",
+      "source": "Layer3.Meta",
+      "correlation_strength": 0.309946,
+      "predictive_lift_auc": 8.2e-05,
+      "predictive_lift_brier": 1.1e-05,
+      "temporal_stability": 0.2177,
+      "regime_stability": 0.2653,
+      "raw_score": 0.152126,
+      "attribution_weight": 0.099661
+    },
+    {
+      "signal_name": "structural_fragility",
+      "source": "Layer3.Slow",
+      "correlation_strength": 0.178131,
+      "predictive_lift_auc": 2e-06,
+      "predictive_lift_brier": 3e-06,
+      "temporal_stability": 0.6368,
+      "regime_stability": 0.05,
+      "raw_score": 0.147759,
+      "attribution_weight": 0.0968
+    },
+    {
+      "signal_name": "shock_intensity",
+      "source": "Layer3.Fast",
+      "correlation_strength": 0.219526,
+      "predictive_lift_auc": -3e-06,
+      "predictive_lift_brier": 2e-06,
+      "temporal_stability": 0.2228,
+      "regime_stability": 0.0522,
+      "raw_score": 0.096227,
+      "attribution_weight": 0.06304
+    },
+    {
+      "signal_name": "structural_instability",
+      "source": "Layer3.Slow",
+      "correlation_strength": 0.211118,
+      "predictive_lift_auc": 2e-06,
+      "predictive_lift_brier": 0.0,
+      "temporal_stability": 0.1553,
+      "regime_stability": 0.0659,
+      "raw_score": 0.085999,
+      "attribution_weight": 0.05634
+    },
+    {
+      "signal_name": "liquidity_disruption",
+      "source": "Layer3.Fast",
+      "correlation_strength": 0.066507,
+      "predictive_lift_auc": 0.0,
+      "predictive_lift_brier": -0.0,
+      "temporal_stability": 0.1554,
+      "regime_stability": 0.05,
+      "raw_score": 0.047441,
+      "attribution_weight": 0.03108
+    }
+  ],
+  "temporal_windows": [
+    {
+      "window_label": "2007\u20132010",
+      "start_year": 2007,
+      "end_year": 2010,
+      "n_loans": 18065,
+      "n_defaults": 2373,
+      "default_rate": 0.1314,
+      "signal_weights": {
+        "shock_intensity": 0.173159,
+        "liquidity_disruption": 0.266865,
+        "structural_instability": 0.17033,
+        "structural_fragility": 0.074255,
+        "erosion_strength": 0.064015,
+        "trajectory_fragility": 0.046046,
+        "stabilization_strength": 0.008242,
+        "uncertainty_pressure": 0.185131,
+        "signal_coherence": 0.011957
+      }
+    },
+    {
+      "window_label": "2010\u20132013",
+      "start_year": 2010,
+      "end_year": 2013,
+      "n_loans": 221428,
+      "n_defaults": 34452,
+      "default_rate": 0.1556,
+      "signal_weights": {
+        "shock_intensity": 0.002219,
+        "liquidity_disruption": 0.107105,
+        "structural_instability": 0.027145,
+        "structural_fragility": 0.069638,
+        "erosion_strength": 0.090645,
+        "trajectory_fragility": 0.078241,
+        "stabilization_strength": 0.365657,
+        "uncertainty_pressure": 0.187619,
+        "signal_coherence": 0.071731
+      }
+    },
+    {
+      "window_label": "2013\u20132016",
+      "start_year": 2013,
+      "end_year": 2016,
+      "n_loans": 1026558,
+      "n_defaults": 206242,
+      "default_rate": 0.2009,
+      "signal_weights": {
+        "shock_intensity": 0.05756,
+        "liquidity_disruption": 0.076442,
+        "structural_instability": 0.012564,
+        "structural_fragility": 0.154367,
+        "erosion_strength": 0.134265,
+        "trajectory_fragility": 0.180562,
+        "stabilization_strength": 0.043028,
+        "uncertainty_pressure": 0.21665,
+        "signal_coherence": 0.124564
+      }
+    },
+    {
+      "window_label": "2016\u20132018",
+      "start_year": 2016,
+      "end_year": 2018,
+      "n_loans": 518744,
+      "n_defaults": 116295,
+      "default_rate": 0.2242,
+      "signal_weights": {
+        "shock_intensity": 0.119107,
+        "liquidity_disruption": 0.031079,
+        "structural_instability": 0.116787,
+        "structural_fragility": 0.045746,
+        "erosion_strength": 0.169817,
+        "trajectory_fragility": 0.169718,
+        "stabilization_strength": 0.17748,
+        "uncertainty_pressure": 0.012825,
+        "signal_coherence": 0.15744
+      }
+    }
+  ],
+  "entropy": {
+    "attribution_entropy": 2.9713,
+    "max_possible_entropy": 3.1699,
+    "normalized_entropy": 0.9373,
+    "concentration_ratio_top3": 0.5279,
+    "concentration_ratio_top5": 0.7527,
+    "interpretation": "HIGHLY DISTRIBUTED: Information is spread broadly across many signals. No single signal dominates. The environmental state is multi-dimensional."
+  },
+  "n_total_loans": 1345350,
+  "n_total_defaults": 268599,
+  "overall_default_rate": 0.19964990522912254,
+  "validation_status": "PASS \u2014 All checks green"
+}

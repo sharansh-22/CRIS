@@ -123,7 +123,7 @@ def audit_reproducibility() -> tuple:
     logger.info("Running Reproducibility Audit...")
     try:
         df = load_gmc_mapped(PROJECT_ROOT)
-        features = ["borrower_pd", "uncertainty_pressure", "rebound_failure"]
+        features = ["borrower_pd", "uncertainty_pressure", "structural_fragility"]
         X = df[features]
         y = df["target"]
         

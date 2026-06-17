@@ -57,11 +57,11 @@ We implement three institutional approval policies to verify findings across dif
 | Policy | System | Approved Loans | Approved Defaults | Total Exposure ($M) | Expected Loss ($M) | Realized Loss ($M) | Realized Revenue ($M) | Net Realized Value ($M) |
 |---|---|---|---|---|---|---|---|---|
 | **Conservative** | System A | 17,620 | 1,109 | $227.47M | $8.31M | $11.52M | $17.31M | $5.79M |
-| | **System B (CRIS)** | **23,062** | **1,707** | **$298.85M** | **$10.37M** | **$17.43M** | **$25.27M** | **$7.84M** |
+| | **System B (CRIS)** | **17,214** | **1,143** | **$223.82M** | **$8.37M** | **$11.88M** | **$17.04M** | **$5.16M** |
 | **Moderate** | System A | 25,826 | 2,275 | $323.53M | $17.79M | $21.68M | $30.11M | $8.43M |
-| | **System B (CRIS)** | **32,038** | **3,222** | **$419.44M** | **$21.97M** | **$32.44M** | **$41.14M** | **$8.70M** |
+| | **System B (CRIS)** | **25,599** | **2,464** | **$322.90M** | **$18.46M** | **$23.59M** | **$30.44M** | **$6.85M** |
 | **Aggressive** | System A | 34,887 | 3,599 | $466.07M | $33.95M | $37.31M | $43.99M | $6.68M |
-| | **System B (CRIS)** | **38,267** | **4,313** | **$522.16M** | **$33.77M** | **$45.57M** | **$51.18M** | **$5.61M** |
+| | **System B (CRIS)** | **35,325** | **3,849** | **$475.38M** | **$35.42M** | **$40.45M** | **$44.92M** | **$4.47M** |
 
 ## PART 6 — Capital Preservation Analysis
 
@@ -70,9 +70,9 @@ By comparing the realized metrics under LGD = 70%:
 
 | Policy | Approved Defaults Avoided | Capital Preserved (Loss Saved) | Net Value Delta | Loss Rate (A vs B) | Portfolio Quality Delta (DR) |
 |---|---|---|---|---|---|
-| **Conservative** | -598 | $-5.911M | **$+2.051M** | 5.06% vs 5.83% | 6.29% vs 7.40% (--1.11%) |
-| **Moderate** | -947 | $-10.766M | **$+0.266M** | 6.70% vs 7.73% | 8.81% vs 10.06% (--1.25%) |
-| **Aggressive** | -714 | $-8.262M | **$-1.064M** | 8.01% vs 8.73% | 10.32% vs 11.27% (--0.95%) |
+| **Conservative** | -34 | $-0.364M | **$-0.630M** | 5.06% vs 5.31% | 6.29% vs 6.64% (--0.35%) |
+| **Moderate** | -189 | $-1.912M | **$-1.579M** | 6.70% vs 7.31% | 8.81% vs 9.63% (--0.82%) |
+| **Aggressive** | -250 | $-3.137M | **$-2.204M** | 8.01% vs 8.51% | 10.32% vs 10.90% (--0.58%) |
 
 ## PART 7 — Stress-Regime Economic Analysis (Moderate Policy)
 
@@ -81,9 +81,9 @@ We partitioned the test set using the CRIS Macro Stress Score (Low, Medium, High
 
 | Stress Regime | System A Loss ($M) | System B Loss ($M) | Capital Preserved ($M) | Net Value Delta ($M) | System A DR | System B DR |
 |---|---|---|---|---|---|---|
-| **Low Stress** | $7.32M | $14.32M | **$-7.000M** | **$-1.641M** | 9.63% | 12.33% |
-| **Medium Stress** | $7.29M | $10.40M | **$-3.110M** | **$+0.469M** | 8.71% | 9.47% |
-| **High Stress** | $7.07M | $7.72M | **$-0.656M** | **$+1.439M** | 8.19% | 8.17% |
+| **Low Stress** | $7.32M | $7.97M | **$-0.647M** | **$-0.199M** | 9.63% | 10.18% |
+| **Medium Stress** | $4.68M | $3.65M | **$1.024M** | **$-0.344M** | 6.81% | 6.33% |
+| **High Stress** | $9.68M | $11.97M | **$-2.289M** | **$-1.036M** | 9.57% | 11.06% |
 
 ## PART 8 — Sensitivity Analysis
 
@@ -92,15 +92,15 @@ We swept Loss Given Default (LGD) across 25%, 50%, and 75% to check finding stab
 
 | LGD | Policy | Capital Preserved ($M) | Net Value Delta ($M) | Loss Rate (A vs B) |
 |---|---|---|---|---|
-| **25%** | Conservative | $-2.111M | **$+5.851M** | 1.81% vs 2.08% |
-| **25%** | Moderate | $-1.961M | **$+1.078M** | 3.92% vs 4.08% |
-| **25%** | Aggressive | $-2.951M | **$+4.248M** | 2.86% vs 3.12% |
-| **50%** | Conservative | $-4.222M | **$+3.739M** | 3.62% vs 4.17% |
-| **50%** | Moderate | $-7.246M | **$+0.787M** | 5.93% vs 6.55% |
-| **50%** | Aggressive | $-5.902M | **$+1.297M** | 5.72% vs 6.23% |
-| **75%** | Conservative | $-6.334M | **$+1.628M** | 5.43% vs 6.25% |
-| **75%** | Moderate | $-11.256M | **$-0.246M** | 6.85% vs 8.03% |
-| **75%** | Aggressive | $-8.853M | **$-1.654M** | 8.58% vs 9.35% |
+| **25%** | Conservative | $-0.130M | **$-0.396M** | 1.81% vs 1.90% |
+| **25%** | Moderate | $-0.477M | **$+0.272M** | 3.92% vs 3.96% |
+| **25%** | Aggressive | $-1.120M | **$-0.187M** | 2.86% vs 3.04% |
+| **50%** | Conservative | $-0.260M | **$-0.526M** | 3.62% vs 3.79% |
+| **50%** | Moderate | $-2.532M | **$-1.371M** | 5.93% vs 6.35% |
+| **50%** | Aggressive | $-2.240M | **$-1.308M** | 5.72% vs 6.08% |
+| **75%** | Conservative | $-0.390M | **$-0.656M** | 5.43% vs 5.69% |
+| **75%** | Moderate | $-1.376M | **$-1.658M** | 6.85% vs 7.50% |
+| **75%** | Aggressive | $-3.361M | **$-2.428M** | 8.58% vs 9.12% |
 
 ## PART 9 — Bootstrap Confidence Intervals (Moderate Policy)
 
@@ -109,10 +109,10 @@ Using 50 bootstrap trials on the test set, we generated 95% confidence intervals
 
 | Metric | Bootstrap Mean | 95% Confidence Interval | Statistically Significant? |
 |---|---|---|---|
-| **Realized Loss Saved ($M)** | -10.887 | [-11.748, -9.958] | **YES** |
-| **Capital Preserved (%)** | -50.514 | [-56.662, -45.397] | **YES** |
-| **Approved Defaults Avoided** | -952.700 | [-1010.775, -885.900] | **YES** |
-| **Net Portfolio Value Delta ($M)** | +0.134 | [-0.810, +1.073] | **NO** |
+| **Realized Loss Saved ($M)** | -2.010 | [-2.698, -1.215] | **YES** |
+| **Capital Preserved (%)** | -9.331 | [-12.749, -5.462] | **YES** |
+| **Approved Defaults Avoided** | -196.100 | [-254.875, -143.125] | **YES** |
+| **Net Portfolio Value Delta ($M)** | -1.678 | [-2.384, -0.975] | **YES** |
 
 ## PART 10 — Economic Attribution (Moderate Policy)
 
@@ -121,11 +121,11 @@ We measured the economic contribution of each CRIS environmental signal family v
 
 | Signal Family | Net Value Loss if Ablated ($M) | Economic Value Attribution Weight | Description |
 |---|---|---|---|
-| **Layer3.Fast** | $0.911M | **41.1%** | Volatility shocks and sudden jump-diffusion spreads. |
-| **Layer3.Slow** | $0.761M | **34.4%** | Macroeconomic structural trends (GDP, Yield Curve, Fed Funds). |
-| **Layer3.Decay** | $0.096M | **4.3%** | Erosion velocity, rebound failure, and persistent weakness. |
-| **Layer3.Meta** | $0.032M | **1.4%** | Regime Switching Stress score and Shannon entropy. |
-| **MarketStructure** | $0.416M | **18.8%** | Cross-sectional sector dispersion, breadth index, correlation compression. |
+| **Layer3.Fast** | $0.000M | **20.0%** | Volatility shocks and sudden jump-diffusion spreads. |
+| **Layer3.Slow** | $0.000M | **20.0%** | Macroeconomic structural trends (GDP, Yield Curve, Fed Funds). |
+| **Layer3.Decay** | $0.000M | **20.0%** | Erosion velocity, rebound failure, and persistent weakness. |
+| **Layer3.Meta** | $0.000M | **20.0%** | Regime Switching Stress score and Shannon entropy. |
+| **MarketStructure** | $0.000M | **20.0%** | Cross-sectional sector dispersion, breadth index, correlation compression. |
 
 ## PART 11 — External Reviewer Critique
 

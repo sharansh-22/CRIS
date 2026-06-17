@@ -1,0 +1,20 @@
+{
+  "shock_intensity": 0.060458284461493844,
+  "liquidity_disruption": 0.055127748520419344,
+  "instability_velocity": 0.047577174578315645,
+  "structural_instability": 0.04548750823776064,
+  "stress_persistence": 0.035310894843453844,
+  "structural_fragility": 0.03532036438273677,
+  "erosion_strength": 0.08073795617122935,
+  "rebound_failure": 0.06492443882408547,
+  "resilience_deficit": 0.03492406696327361,
+  "trajectory_fragility": 0.08213434835319226,
+  "stabilization_strength": 0.034313062566985415,
+  "uncertainty_pressure": 0.0875349131398984,
+  "signal_coherence": 0.07962092265214378,
+  "breadth_health": 0.087166644784367,
+  "breadth_deterioration": 0.04649698610413206,
+  "market_structure_fragility": 0.037428379445602074,
+  "dispersion_pressure": 0.0581961628347658,
+  "correlation_density": 0.02724014313614491
+}

@@ -1,0 +1,20 @@
+{
+  "shock_intensity": 0.34,
+  "liquidity_disruption": 0.96,
+  "instability_velocity": 0.97,
+  "structural_instability": 0.01,
+  "stress_persistence": 0.21,
+  "structural_fragility": 0.21,
+  "erosion_strength": 0.24,
+  "rebound_failure": 0.05,
+  "resilience_deficit": 0.95,
+  "trajectory_fragility": 0.01,
+  "stabilization_strength": 0.06,
+  "uncertainty_pressure": 0.03,
+  "signal_coherence": 0.3,
+  "breadth_health": 0.8,
+  "breadth_deterioration": 0.86,
+  "market_structure_fragility": 0.88,
+  "dispersion_pressure": 0.89,
+  "correlation_density": 0.62
+}

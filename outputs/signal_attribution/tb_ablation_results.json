@@ -1,0 +1,270 @@
+{
+  "lr": {
+    "train": {
+      "Baseline A (Credit Only)": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 4.690192203906591e-07,
+        "ece": 0.00024325001222907222,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Baseline B (Full CRIS)": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 6.332580416399247e-07,
+        "ece": 0.00025445636609800973,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Fast": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 7.955577501658026e-07,
+        "ece": 0.0002513754344791822,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Slow": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 5.34353698353606e-07,
+        "ece": 0.00022673442669678004,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Decay": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 7.318409019087457e-07,
+        "ece": 0.0002515368409387419,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Meta": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 5.397970120001813e-07,
+        "ece": 0.00022657307595120462,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Market Structure": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 7.25172161849344e-07,
+        "ece": 0.00024249986469147947,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Top-Signal Only": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 5.670610501383221e-07,
+        "ece": 0.00025167666959374926,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      }
+    },
+    "test": {
+      "Baseline A (Credit Only)": {
+        "auc": 1.0,
+        "pr_auc": 1.0000000000000002,
+        "brier": 6.998072513831365e-07,
+        "ece": 0.00026870025689066854,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Baseline B (Full CRIS)": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 1.049430382611089e-06,
+        "ece": 0.0002973309962178403,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Fast": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 1.3470092976094723e-06,
+        "ece": 0.0003028835862352241,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Slow": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 8.986307320906146e-07,
+        "ece": 0.00026501755561284267,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Decay": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 1.6537160479787356e-06,
+        "ece": 0.00030898475078373525,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Meta": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 1.062389868467812e-06,
+        "ece": 0.0002696202967525517,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Market Structure": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 1.5114124999372146e-06,
+        "ece": 0.0002970924552820773,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Top-Signal Only": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 6.597527591071747e-07,
+        "ece": 0.00028467052357962616,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      }
+    }
+  },
+  "lgbm": {
+    "train": {
+      "Baseline A (Credit Only)": {
+        "auc": 0.9999787382573168,
+        "pr_auc": 0.9988700564971751,
+        "brier": 0.00048516831902908555,
+        "ece": 0.000439017748746375,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      },
+      "Baseline B (Full CRIS)": {
+        "auc": 1.0,
+        "pr_auc": 0.9999999999999998,
+        "brier": 4.189542746861614e-05,
+        "ece": 0.0007219676838967646,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Fast": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 9.655147319251725e-05,
+        "ece": 0.000860656176058417,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Slow": {
+        "auc": 1.0,
+        "pr_auc": 0.9999999999999999,
+        "brier": 4.1895427656952465e-05,
+        "ece": 0.0007219676843081182,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Decay": {
+        "auc": 1.0,
+        "pr_auc": 0.9999999999999998,
+        "brier": 4.225022205453189e-05,
+        "ece": 0.0007216190940099846,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Meta": {
+        "auc": 0.9999999999999999,
+        "pr_auc": 0.9999999999999998,
+        "brier": 7.081662216779867e-05,
+        "ece": 0.0008056530388512017,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      },
+      "Remove Market Structure": {
+        "auc": 1.0,
+        "pr_auc": 0.9999999999999997,
+        "brier": 4.035491524803899e-05,
+        "ece": 0.0007163979642573687,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      },
+      "Top-Signal Only": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 0.00013584658996338147,
+        "ece": 0.0009534366919371822,
+        "accuracy": 0.9993951612903226,
+        "default_capture": 1.0
+      }
+    },
+    "test": {
+      "Baseline A (Credit Only)": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 6.961446923287338e-05,
+        "ece": 0.0007775073739781915,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Baseline B (Full CRIS)": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 0.0004935812991857429,
+        "ece": 0.0013666421380497383,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Fast": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 0.00018448242059721567,
+        "ece": 0.0010330504820066685,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Slow": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 0.0004935813013909903,
+        "ece": 0.0013666422151459925,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Decay": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 0.0004638016810245832,
+        "ece": 0.0013362110498476637,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Layer3.Meta": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 8.039362807386432e-06,
+        "ece": 0.0005667002055880549,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Remove Market Structure": {
+        "auc": 1.0,
+        "pr_auc": 1.0,
+        "brier": 0.00047331936588431,
+        "ece": 0.0013476571267352427,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      },
+      "Top-Signal Only": {
+        "auc": 1.0,
+        "pr_auc": 1.0000000000000004,
+        "brier": 9.767041283728395e-05,
+        "ece": 0.0009117797402997511,
+        "accuracy": 1.0,
+        "default_capture": 1.0
+      }
+    }
+  }
+}

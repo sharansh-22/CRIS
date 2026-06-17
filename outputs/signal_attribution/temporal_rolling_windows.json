@@ -1,0 +1,322 @@
+[
+  {
+    "window": "2007\u20132009",
+    "n_loans": 6529,
+    "signal_weights": {
+      "shock_intensity": 0.034010353501932586,
+      "liquidity_disruption": 0.08434176577013458,
+      "instability_velocity": 0.03495714579371418,
+      "structural_instability": 0.03670354249889673,
+      "stress_persistence": 0.008546123513023357,
+      "structural_fragility": 0.00801780588484951,
+      "erosion_strength": 0.04624590731862941,
+      "rebound_failure": 0.053439043387526156,
+      "resilience_deficit": 0.10015296551236756,
+      "trajectory_fragility": 0.050706921558471375,
+      "stabilization_strength": 0.06295477669669121,
+      "uncertainty_pressure": 0.10431700167996281,
+      "signal_coherence": 0.06337705931583192,
+      "breadth_health": 0.044513338712406966,
+      "breadth_deterioration": 0.06469804951455671,
+      "market_structure_fragility": 0.05683094679480976,
+      "dispersion_pressure": 0.0710750796250489,
+      "correlation_density": 0.07511217292114636
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.15330926506578135,
+      "Layer3.Slow": 0.05326747189676959,
+      "Layer3.Decay": 0.25054483777699454,
+      "Layer3.Meta": 0.23064883769248595,
+      "MarketStructure": 0.3122295875679687
+    },
+    "entropy": 0.957507086081242
+  },
+  {
+    "window": "2008\u20132010",
+    "n_loans": 17814,
+    "signal_weights": {
+      "shock_intensity": 0.04473692623484577,
+      "liquidity_disruption": 0.10790330982563427,
+      "instability_velocity": 0.057741886402312606,
+      "structural_instability": 0.05457976823176756,
+      "stress_persistence": 0.025662949686033287,
+      "structural_fragility": 0.026600401324681947,
+      "erosion_strength": 0.0843586890933067,
+      "rebound_failure": 0.06099697742620053,
+      "resilience_deficit": 0.017465034653016732,
+      "trajectory_fragility": 0.06935851587624048,
+      "stabilization_strength": 0.06446569355157335,
+      "uncertainty_pressure": 0.04684973474328407,
+      "signal_coherence": 0.042170100467549314,
+      "breadth_health": 0.06836599078748526,
+      "breadth_deterioration": 0.016394737375171227,
+      "market_structure_fragility": 0.055538036494633305,
+      "dispersion_pressure": 0.08627874845391593,
+      "correlation_density": 0.07053249937234755
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.21038212246279264,
+      "Layer3.Slow": 0.10684311924248278,
+      "Layer3.Decay": 0.23217921704876443,
+      "Layer3.Meta": 0.15348552876240673,
+      "MarketStructure": 0.2971100124835533
+    },
+    "entropy": 0.9657953903370355
+  },
+  {
+    "window": "2009\u20132011",
+    "n_loans": 37973,
+    "signal_weights": {
+      "shock_intensity": 0.09059188212238502,
+      "liquidity_disruption": 0.07996290212961804,
+      "instability_velocity": 0.07531651600244951,
+      "structural_instability": 0.08586284353448817,
+      "stress_persistence": 0.007347635294545301,
+      "structural_fragility": 0.007430251336299911,
+      "erosion_strength": 0.04873750626062131,
+      "rebound_failure": 0.049871122599831064,
+      "resilience_deficit": 0.03473141303652078,
+      "trajectory_fragility": 0.049796926859017474,
+      "stabilization_strength": 0.04741031106827856,
+      "uncertainty_pressure": 0.06328054723958075,
+      "signal_coherence": 0.044242104542693714,
+      "breadth_health": 0.07573673599765986,
+      "breadth_deterioration": 0.06512511052157072,
+      "market_structure_fragility": 0.07263347347628048,
+      "dispersion_pressure": 0.07582562643668193,
+      "correlation_density": 0.026097091541477487
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.24587130025445256,
+      "Layer3.Slow": 0.10064073016533338,
+      "Layer3.Decay": 0.18313696875599061,
+      "Layer3.Meta": 0.15493296285055302,
+      "MarketStructure": 0.31541803797367046
+    },
+    "entropy": 0.9591113854409241
+  },
+  {
+    "window": "2010\u20132012",
+    "n_loans": 86624,
+    "signal_weights": {
+      "shock_intensity": 0.044286721027920875,
+      "liquidity_disruption": 0.04035167203155139,
+      "instability_velocity": 0.05047436006167064,
+      "structural_instability": 0.04630296837264419,
+      "stress_persistence": 0.011052269041650301,
+      "structural_fragility": 0.010998091391894914,
+      "erosion_strength": 0.08549254854341282,
+      "rebound_failure": 0.020025398695194863,
+      "resilience_deficit": 0.14416542628352325,
+      "trajectory_fragility": 0.05937608412268676,
+      "stabilization_strength": 0.019333504147741418,
+      "uncertainty_pressure": 0.09514424623194881,
+      "signal_coherence": 0.08618841368383895,
+      "breadth_health": 0.054837514849131005,
+      "breadth_deterioration": 0.12171591033216256,
+      "market_structure_fragility": 0.04874486127563853,
+      "dispersion_pressure": 0.019056251944627792,
+      "correlation_density": 0.04245375796276097
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.1351127531211429,
+      "Layer3.Slow": 0.06835332880618941,
+      "Layer3.Decay": 0.3090594576448177,
+      "Layer3.Meta": 0.20066616406352916,
+      "MarketStructure": 0.28680829636432087
+    },
+    "entropy": 0.9269445741271712
+  },
+  {
+    "window": "2011\u20132013",
+    "n_loans": 209892,
+    "signal_weights": {
+      "shock_intensity": 0.010092430385165878,
+      "liquidity_disruption": 0.04289938640163011,
+      "instability_velocity": 0.02558749171229763,
+      "structural_instability": 0.015575036425327211,
+      "stress_persistence": 0.03471979431319125,
+      "structural_fragility": 0.03206191195792987,
+      "erosion_strength": 0.06587890074747241,
+      "rebound_failure": 0.1085836617752539,
+      "resilience_deficit": 0.09435137119532867,
+      "trajectory_fragility": 0.08210029675381529,
+      "stabilization_strength": 0.017909107540661395,
+      "uncertainty_pressure": 0.13631302300296808,
+      "signal_coherence": 0.0733897188367502,
+      "breadth_health": 0.020156380542117124,
+      "breadth_deterioration": 0.04847644558052479,
+      "market_structure_fragility": 0.04682057565894741,
+      "dispersion_pressure": 0.03800443380173548,
+      "correlation_density": 0.10708003336888343
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.07857930849909361,
+      "Layer3.Slow": 0.08235674269644833,
+      "Layer3.Decay": 0.35091423047187026,
+      "Layer3.Meta": 0.22761184938037965,
+      "MarketStructure": 0.2605378689522082
+    },
+    "entropy": 0.9282348911816272
+  },
+  {
+    "window": "2012\u20132014",
+    "n_loans": 411274,
+    "signal_weights": {
+      "shock_intensity": 0.013231747242859604,
+      "liquidity_disruption": 0.013231747242859604,
+      "instability_velocity": 0.03864813352368392,
+      "structural_instability": 0.013231747242859604,
+      "stress_persistence": 0.013231747242859604,
+      "structural_fragility": 0.013231747242859604,
+      "erosion_strength": 0.050715787768549556,
+      "rebound_failure": 0.06199455772730664,
+      "resilience_deficit": 0.14432248288853514,
+      "trajectory_fragility": 0.04865151912130467,
+      "stabilization_strength": 0.013237827714650442,
+      "uncertainty_pressure": 0.05862303774480559,
+      "signal_coherence": 0.05043314308553777,
+      "breadth_health": 0.09689133274356206,
+      "breadth_deterioration": 0.07631245213061014,
+      "market_structure_fragility": 0.07506629119977005,
+      "dispersion_pressure": 0.10441291690084951,
+      "correlation_density": 0.11453178123653653
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.06511162800940312,
+      "Layer3.Slow": 0.039695241728578814,
+      "Layer3.Decay": 0.305684347505696,
+      "Layer3.Meta": 0.1222940085449938,
+      "MarketStructure": 0.4672147742113283
+    },
+    "entropy": 0.9123675163116289
+  },
+  {
+    "window": "2013\u20132015",
+    "n_loans": 733453,
+    "signal_weights": {
+      "shock_intensity": 0.03154530337728058,
+      "liquidity_disruption": 0.03162137356620453,
+      "instability_velocity": 0.029560625340936942,
+      "structural_instability": 0.031519299086281205,
+      "stress_persistence": 0.012780577424889132,
+      "structural_fragility": 0.012780577424889132,
+      "erosion_strength": 0.07675494065068227,
+      "rebound_failure": 0.062625560309173,
+      "resilience_deficit": 0.06095054108877638,
+      "trajectory_fragility": 0.08781746869714828,
+      "stabilization_strength": 0.012783449145720537,
+      "uncertainty_pressure": 0.11303474599042226,
+      "signal_coherence": 0.06926886419140664,
+      "breadth_health": 0.04230357340805683,
+      "breadth_deterioration": 0.05900463440495611,
+      "market_structure_fragility": 0.07001622998798192,
+      "dispersion_pressure": 0.14042950280229757,
+      "correlation_density": 0.055202733102896535
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.09272730228442204,
+      "Layer3.Slow": 0.05708045393605947,
+      "Layer3.Decay": 0.2881485107457799,
+      "Layer3.Meta": 0.19508705932754944,
+      "MarketStructure": 0.36695667370618895
+    },
+    "entropy": 0.9365808834853492
+  },
+  {
+    "window": "2014\u20132016",
+    "n_loans": 891754,
+    "signal_weights": {
+      "shock_intensity": 0.03531092417642578,
+      "liquidity_disruption": 0.015070647658125347,
+      "instability_velocity": 0.07141054558447282,
+      "structural_instability": 0.008381774978806279,
+      "stress_persistence": 0.013541751920423855,
+      "structural_fragility": 0.013541751920423855,
+      "erosion_strength": 0.05877964139999048,
+      "rebound_failure": 0.06849493137149232,
+      "resilience_deficit": 0.08051962797016808,
+      "trajectory_fragility": 0.06173195812176843,
+      "stabilization_strength": 0.01356120281291475,
+      "uncertainty_pressure": 0.14446305631856188,
+      "signal_coherence": 0.06517381356035229,
+      "breadth_health": 0.04802286925875439,
+      "breadth_deterioration": 0.04819843045899422,
+      "market_structure_fragility": 0.08186782922554042,
+      "dispersion_pressure": 0.07253147493483328,
+      "correlation_density": 0.09939776832795151
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.12179211741902395,
+      "Layer3.Slow": 0.035465278819653986,
+      "Layer3.Decay": 0.26952615886341935,
+      "Layer3.Meta": 0.22319807269182892,
+      "MarketStructure": 0.35001837220607385
+    },
+    "entropy": 0.9285120687292537
+  },
+  {
+    "window": "2015\u20132017",
+    "n_loans": 837972,
+    "signal_weights": {
+      "shock_intensity": 0.02186195047429228,
+      "liquidity_disruption": 0.028387483774187844,
+      "instability_velocity": 0.07874846192471056,
+      "structural_instability": 0.04078474785483766,
+      "stress_persistence": 0.015559181429329615,
+      "structural_fragility": 0.015559181429329615,
+      "erosion_strength": 0.06847048341632217,
+      "rebound_failure": 0.09619447536890074,
+      "resilience_deficit": 0.09735195462767775,
+      "trajectory_fragility": 0.044767277093264,
+      "stabilization_strength": 0.015577142567618728,
+      "uncertainty_pressure": 0.013294890040563306,
+      "signal_coherence": 0.09710217009461186,
+      "breadth_health": 0.0821642853763837,
+      "breadth_deterioration": 0.04572522246187118,
+      "market_structure_fragility": 0.09490007556447695,
+      "dispersion_pressure": 0.031496303619380175,
+      "correlation_density": 0.11205471288224171
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.12899789617319068,
+      "Layer3.Slow": 0.07190311071349689,
+      "Layer3.Decay": 0.3067841905061647,
+      "Layer3.Meta": 0.12597420270279389,
+      "MarketStructure": 0.36634059990435375
+    },
+    "entropy": 0.9314671839643172
+  },
+  {
+    "window": "2016\u20132018",
+    "n_loans": 518744,
+    "signal_weights": {
+      "shock_intensity": 0.01731888745969408,
+      "liquidity_disruption": 0.016490868167759857,
+      "instability_velocity": 0.011029921835761916,
+      "structural_instability": 0.030593286532165045,
+      "stress_persistence": 0.014853302566750496,
+      "structural_fragility": 0.014853302566750496,
+      "erosion_strength": 0.10049320622381108,
+      "rebound_failure": 0.07363455987450387,
+      "resilience_deficit": 0.0787131259697659,
+      "trajectory_fragility": 0.10376420010601212,
+      "stabilization_strength": 0.014853302566750496,
+      "uncertainty_pressure": 0.11128703536541101,
+      "signal_coherence": 0.10019089489411413,
+      "breadth_health": 0.05335334608715111,
+      "breadth_deterioration": 0.03160568641259347,
+      "market_structure_fragility": 0.0958340402628632,
+      "dispersion_pressure": 0.06262252706870072,
+      "correlation_density": 0.0685085060394409
+    },
+    "family_weights": {
+      "Layer3.Fast": 0.04483967746321585,
+      "Layer3.Slow": 0.06029989166566603,
+      "Layer3.Decay": 0.356605092174093,
+      "Layer3.Meta": 0.22633123282627565,
+      "MarketStructure": 0.31192410587074937
+    },
+    "entropy": 0.9211188070452075
+  }
+]
