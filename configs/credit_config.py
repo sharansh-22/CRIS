@@ -41,3 +41,9 @@ BAD_STATUS = ["Charged Off", "Default"]
 
 # Random seed
 SEED = 42
+
+# Research Hierarchy Configuration
+# Primary research dataset is LendingClub.
+# GMC and American Bankruptcy are isolated from the active research pipeline by default.
+RUN_EXTERNAL_VALIDATION = False
+

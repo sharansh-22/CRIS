@@ -1,320 +1,119 @@
-# CRIS — Cascade Risk Intelligence System
+# CRIS
+### Cascade Risk Intelligence System
 
-### **Environmental Intelligence Framework**
-> *An environmental intelligence framework that measures systemic risk, market structure, and signal relevance to condition downstream financial systems under changing market conditions.*
-
----
-
-# TL;DR
-
-CRIS is an Environmental Intelligence Framework that makes downstream financial systems aware of changing market conditions. Traditional risk models rely primarily on entity-level features. CRIS dynamically conditions these models using macroeconomic, market-structure, and systemic-risk intelligence.
-
-### **Validation Dashboard**
-*   **Validated Scale**: Simulated on **1.3M+ loans** representing **268K+ defaults**.
-*   **Key Discoveries**:
-    *   Environmental signals carry measurable predictive information.
-    *   Market Structure (breadth, dispersion, correlation compression) is the most robust signal family.
-    *   **Signal Compression**: The Top 5 signals capture **>95%** of the full predictive lift.
-    *   **Cross-Dataset Replication**: Validated on LendingClub, Give Me Some Credit, and American Bankruptcy datasets.
-    *   **Signal Relevance Drifts**: Signal weights are dynamic and shift across stable vs. stressed market regimes.
-*   **Downstream Credit Risk Findings (When conditioned with CRIS environmental intelligence)**:
-    *   **78.4%** reduction in realized portfolio default losses ($82.92M saved) compared to unconstrained lending.
-    *   **+5.49 percentage-point** improvement in Return on Capital over the baseline Logistic Regression scorecard.
-    *   All economic outperformance validated as statistically significant at the 95% level via bootstrap resampling.
+A quantitative research program analyzing **1.3M+ resolved consumer loans** and **18 macroeconomic signals** to evaluate whether environmental intelligence (macro and market structure states) improves borrower default prediction or portfolio-level governance.
 
 ---
 
-# What CRIS Is Not
+## Executive Summary
 
-To prevent common misunderstandings of the system's role, the boundary of CRIS is defined as follows:
+CRIS is a quantitative research program that tested whether environmental intelligence can improve consumer credit decisions. Across multiple controlled experiments, borrower-centric signals consistently dominated macroeconomic indicators. Consumer credit default models typically rely on static, borrower-specific profiles. Under systemic downturns, however, borrower-level risk can escalate rapidly. CRIS was designed to bridge this gap by conditioning borrower-level prediction and portfolio-level risk limits on monthly macroeconomic and market-structure indicators.
 
-| What CRIS is NOT | What CRIS DOES |
-|---|---|
-| • **A stock price predictor** | • **Measures environmental conditions** and systemic stress |
-| • **A market crash forecaster** | • **Quantifies macroeconomic state transitions** and volatility shocks |
-| • **A replacement for credit scoring** | • **Determines which environmental signals carry information** |
-| • **A lending decision maker** | • **Conditions downstream systems** with environmental diagnostics |
-| • **A provider of trading signals** | • **Standardizes stress inputs** via Pydantic schemas |
+The research program evaluated:
+1. **Borrower Intrinsic Risk**: Developing a leakage-free default classifier.
+2. **Predictive Macro-Conditioning**: Training models on combined borrower and macro variables.
+3. **Macro-Governed Portfolios**: Adjusting capacity limits and underwriting thresholds dynamically using monthly environmental stress scores.
 
 ---
 
-# Evidence & Key Findings Summary
+## Key Results
 
-CRIS is supported by empirical evidence across multiple datasets and statistical validation steps. The table below outlines the status of the framework's core claims:
-
-| Claimed Finding | Method of Proof | Status |
-|---|---|---|
-| **Environmental Information Utility** | Downstream model calibration improves out-of-sample under environmental conditioning. | **Validated** |
-| **Market Structure Robustness** | Cross-sectional equity dispersion and correlation compression hold the highest attribution weights. | **Validated** |
-| **Attribution Temporal Drift** | Signal rankings change significantly over time across different rolling windows. | **Validated** |
-| **Signal Compression** | A subset of 5 key signals recovers **97.9%** of the full 20-signal model lift. | **Validated** |
-| **Cross-Dataset Replication** | Findings replicate on Give Me Some Credit and American Bankruptcy datasets. | **Validated** |
-| **Spurious Noise Rejection** | Injected random fake signals receive near-zero weights and are rejected by the SAE. | **Validated** |
-| **Adaptive SAE recalibration** | Continuous, real-time closed-loop feedback weight adjustment. | *Future Work* |
-| **Prospective Live Validation** | Testing under live forward-looking market conditions. | *Ongoing* |
-
-### **Signal Attribution Profile**
-SAE analysis demonstrates that Market Structure and Decay signals consistently dominate in-sample and out-of-sample, indicating that high-frequency market mechanics carry substantial leading indicators of economic stress.
-
-![SAE Attribution Weights](reports/images/attribution_ranking.png)
-
-### **Cross-Dataset Validation**
-Replication of SAE weights on independent Give Me Some Credit (GMC) and Taiwan Bankruptcy datasets confirms that Market Structure signals consistently lead:
-
-![Cross-Dataset SAE Weights](reports/images/cross_dataset_sae_weights.png)
-
-### **Downstream Economic Impact**
-Simulating underwriting cash flows on the 2018 vintage (56,318 test loans) shows that conditioning a LightGBM Credit Risk model with CRIS environmental intelligence leads to a massive preservation of capital and reduction in realized default losses:
-
-![Economic Net Value Comparison](reports/images/economic_net_value_comparison.png)
+| Finding / Result | Evidence Quality & Outcome |
+| :--- | :--- |
+| **✓ Leakage-free Credit Risk platform validated** | **High**: Ingested 1.34M resolved LendingClub loans, certified a clean pipeline by removing 45 post-origination columns. |
+| **✓ LightGBM selected as champion** | **High**: Benchmarked classifiers under out-of-time splits (Train $\le 2015$, Test $\ge 2018$). LightGBM achieved superior **0.70687** ROC-AUC. |
+| **✓ 11.83x risk segmentation** | **High**: Decile sorting monotonically segments actual default rates from **3.02% (D1)** to **35.74% (D10)**. |
+| **✓ Borrower-only model retains 96.5% predictive power** | **High**: Retraining without lender pricing details (grade, rate, term) retains **96.5%** of ROC-AUC (**0.68240** vs. **0.70687**). |
+| **✗ Direct CRIS feature injection degraded performance** | **High (Falsified)**: Directly adding macro features to LightGBM degraded out-of-time ROC-AUC to **0.70061** (p = 0.000). |
+| **✗ Signal reduction did not show out-of-sample utility** | **High (Falsified)**: Out-of-sample performance degraded monotonically as macro variables were added; no optimal subset was found. |
+| **✗ Governance attribution showed no macro value** | **High (Falsified)**: System B (PD-Only, no macro signals) achieved a HIGHER Return on Capital (**21.82%** vs. **21.48%**) than System C (CRIS Macro Governance). |
 
 ---
 
-# Why CRIS Exists
+## Research Journey
 
-Traditional credit risk modeling assumes that borrower creditworthiness is independent of the macroeconomic environment:
-
-$$\text{Borrower Risk} = f(\text{Borrower Features})$$
-
-However, this assumption is violated during systemic stress. A borrower with a pristine credit history during stable conditions may face high default risk during sudden liquidity disruptions or structural market shifts. 
-
-The core hypothesis of CRIS is that **the usefulness of a model changes depending on the environment in which it operates**. Risk systems that do not account for environmental state shifts degrade rapidly during market crises. 
-
-To validate this hypothesis, a baseline borrower-centric Credit Risk system (underwriting consumer loans) was developed and used as the primary validation sandbox. By integrating environmental intelligence with borrower features, we measure the marginal value of environmental awareness.
+- **Phase 0 & 0.5 — Data Ingestion & Leakage Audit**: Certified clean ingestion of 1.3M resolved loans, dropping 45 post-origination columns to prevent lookahead target leakage.
+- **Phase 1 & 1.5 — Champion Model Selection & Economics**: Benchmarked 5 classifiers under out-of-time splits (Train $\le 2015$, Test $\ge 2018$ with a 2-year temporal gap). Certified LightGBM as champion with **0.70687** ROC-AUC.
+- **Phase 2 — Borrower Profiling & Signal Decomposition**: Validated monotonic decile-level risk segmentation, profiled high-risk cohorts, and proved that borrower-only traits contain 96.5% of full model predictive power.
+- **Phase 3 & 3.1 — Direct Signal Integration & Signal Reduction Studies**: Evaluated models trained on combined borrower-intrinsic and macro variables. Direct integration of macro features degraded out-of-time performance due to panel-data overfitting.
+- **Phase 4 & Final Audit — Governance Attribution**: Simulating dynamic regime-switching policy caps under downturn LGD. Isolated the value of CRIS signals against standard borrower-centric tightening.
 
 ---
 
-# Architecture Overview
+## What CRIS Proved
 
-The CRIS architecture consists of a hierarchical processing pipeline that transforms raw economic and equity market data into downstream model adjustments:
-
-```text
-Data Layer (Daily Equity Indices & Monthly Macro Stats)
-                 ↓
-            Harvesters (Rolling Stats & Volatility Jumps)
-                 ↓
-      Environmental Signals (Fast, Slow, Decay, Meta, Market Structure)
-                 ↓
-       Signal Attribution Engine (SAE) (Attribution & Ablation)
-                 ↓
-       Environmental Diagnostics (Pydantic Schema Output)
-                 ↓
-   Downstream Systems (Credit Underwriting & Risk Calibration)
-```
-
-```mermaid
-graph TD
-    subgraph "1. DATA LAYER"
-        A1["Market Data (S&P 500, Sector Indices)"]
-        A2["Macro Data (Interest Rates, Spreads)"]
-    end
-
-    subgraph "2. HARVESTERS"
-        B1["Market Structure Harvester"]
-        B2["Macro Harvester"]
-    end
-
-    subgraph "3. ENVIRONMENTAL SIGNAL LAYER"
-        C1["Layer 3 Fast Signals"]
-        C2["Layer 3 Slow Signals"]
-        C3["Layer 3 Decay Signals"]
-        C4["Layer 3 Meta Signals"]
-        C5["Market Structure Signals"]
-    end
-
-    subgraph "4. EVALUATION & ATTRIBUTION"
-        D1["Signal Attribution Engine (SAE)"]
-        D2["Attribution Weights & Entropy"]
-    end
-
-    subgraph "5. CONDITIONING & DOWNSTREAM SYSTEMS"
-        E1["CRIS-Conditioned Downstream Model"]
-        E2["Credit Risk / Valuation Engine"]
-    end
-
-    A1 --> B1
-    A2 --> B2
-    B1 --> C5
-    B2 --> C1 & C2 & C3 & C4
-    C1 & C2 & C3 & C4 & C5 --> D1
-    D1 --> D2
-    D2 --> E1
-    E1 --> E2
-```
+1. **Borrower-Centric Sufficiency**: Borrower-intrinsic variables (FICO, DTI, Income, Utilization) contain sufficient information to build a high-performing risk engine.
+2. **Borrower PD Governance works**: Adjusting maximum credit limits dynamically using borrower-only PD distributions (System B) successfully contains realized portfolio default rates under downturn stress.
 
 ---
 
-# Harvesters
+## Hypotheses Not Supported by Empirical Evidence
 
-CRIS harvesters continuously extract signals from five thematic families:
-
-*   **Layer 3 Fast Signals**
-    *   *Purpose*: Detect volatile, short-term shocks and sudden liquidity contractions.
-    *   *Why they exist*: Traditional macro indicators lag market shifts; fast signals catch sudden liquidity panics.
-    *   *Examples*: `shock_intensity`, `liquidity_disruption`, `instability_velocity`.
-*   **Layer 3 Slow Signals**
-    *   *Purpose*: Measure structural, long-term macroeconomic cycles.
-    *   *Why they exist*: Captures the underlying economic expansion or contraction phase.
-    *   *Examples*: `structural_instability`, `stress_persistence`, `structural_fragility`.
-*   **Layer 3 Decay Signals**
-    *   *Purpose*: Quantify recovery lag and persistent distress.
-    *   *Why they exist*: Distinguishes temporary shocks from prolonged economic downturns.
-    *   *Examples*: `erosion_strength`, `rebound_failure`, `resilience_deficit`, `trajectory_fragility`.
-*   **Layer 3 Meta Signals**
-    *   *Purpose*: Track regime-switching and signal information entropy.
-    *   *Why they exist*: Signals switch relevance depending on the regime; meta signals indicate when the regime shifts.
-    *   *Examples*: `stabilization_strength`, `uncertainty_pressure`, `signal_coherence`.
-*   **Market Structure Signals**
-    *   *Purpose*: Analyze cross-sectional equity market dynamics (dispersion, correlation, breadth).
-    *   *Why they exist*: Serves as a high-frequency, forward-looking indicator of systemic fragility before macro defaults materialize.
-    *   *Examples*: `breadth_health`, `breadth_deterioration`, `market_structure_fragility`, `dispersion_pressure`, `correlation_density`.
+1. **Direct Macro Feature Injection**: Adding low-frequency macro features to high-dimension borrower profiles does not improve prediction. This causes panel-data overfitting and dilutes the ranking power of borrower-intrinsic signals.
+2. **Macro-Driven Governance Overlays**: Empirical testing did not support the hypothesis that macro-environmental signals improve portfolio governance over borrower-centric limits. System B (PD-Only) achieves a better risk-return profile than System C (CRIS Macro Governance).
 
 ---
 
-# Signal Attribution Engine (SAE)
+## Final Conclusion
 
-The SAE is the core evaluation mechanism of CRIS. It determines which environmental signals carry the most information about default behavior, preventing the model from overfitting to transient macro noise.
+Across the tested LendingClub consumer credit environment, borrower-centric information consistently dominated macroeconomic indicators. Macro signals are low-frequency (monthly) and static across cohorts, whereas borrower profiles are high-dimensional. Machine learning classifiers overfit to low-frequency indicators, leading to out-of-sample performance degradation. Furthermore, dynamic governance tightening causes severe yield compression on high-yield consumer loans.
 
-*   **Attribution Scoring**: raw attribution weights are computed using rank correlation (Spearman correlation with default rates, 25%), predictive AUC lift (30%), Brier score calibration lift (15%), temporal window stability (15%), and regime stability (15%).
-*   **Attribution Drift**: The SAE confirms that signal importance is highly dynamic. Rolling-window analysis shows signal weights shifting significantly over time. Market Structure and Fast shock signals rise during stress regimes, while Decay and Meta signals dominate during expansions.
-*   **Signal Compression**: The SAE discovered a high degree of information concentration. Using a compressed subset of the **Top 5 signals** (`trajectory_fragility`, `uncertainty_pressure`, `rebound_failure`, `erosion_strength`, `signal_coherence`) recovers **97.9%** (95% CI: [71.6%, 132.8%]) of the full model predictive lift, supporting a lean, high-efficiency implementation.
+This research program is highly valuable because it establishes a rigorous falsification framework: it proves that direct integration of macro signals is counterproductive and isolates portfolio governance benefits entirely to borrower-centric credit limits.
 
 ---
 
-# Downstream Systems
+## Validated System
 
-CRIS provides environmental intelligence; it does not directly make credit decisions. Instead, downstream systems consume environmental diagnostics to optimize their respective policies.
+### Credit Risk Platform
+The Credit Risk Platform emerged as the primary validated production candidate from the CRIS research program. It implements a leakage-certified, out-of-time trained LightGBM champion model that achieves strong risk segmentation and is independent of lender pricing variables.
 
-### Implemented: Downstream Credit Risk System
-
-The Credit Risk system is a standalone underwriting project used to evaluate the economic impact of CRIS environmental conditioning.
-*   **Dataset**: Loan-level underwriting simulation based on **1,345,350 loans** and **268,599 defaults** from LendingClub. The out-of-time test split covers the 2018 vintage (56,318 loans).
-*   **Model Selection**: A LightGBM classifier was selected as the champion model over Logistic Regression, delivering superior default concentration (AUC: 0.703 vs 0.698).
-*   **Economic Impact of Conditioning**: At a 15% risk threshold, conditioning the LightGBM Credit Risk model with CRIS environmental intelligence improves the Return on Capital to **21.66%** (+5.49% lift over the Logistic Regression scorecard) and reduces realized default losses to **$22.86M** (a **78.4%** absolute reduction compared to unconstrained lending).
-*   **Stress Testing**: During high monthly default stress periods in 2018, the borrower-only baseline model degraded, while the CRIS-conditioned model maintained stable default concentration and capital preservation.
-
-![Stress Regime Performance Comparison](reports/images/stress_regime_auc_comparison.png)
-
-### Planned (Future Work)
-
-*   **Portfolio Intelligence**: Extends single-loan default prediction to portfolio-level Value-at-Risk (VaR) and capital reserve conditioning under stress.
-*   **ESG & Climate Intelligence**: Integrates physical and transition climate risks into corporate default modeling.
-*   **Position Diagnostics**: Probabilistic environmental diagnostics for individual asset holdings.
+For detailed architecture, model parameters, and setup guides, see the platform documentation:
+👉 **[systems/credit_risk/README.md](systems/credit_risk/README.md)**
 
 ---
 
-# Validation Framework
-
-The validation framework is designed to verify the robustness of CRIS findings through multiple validation stages:
-
-### **1. System Integrity Audit**
-*   **Purpose**: Ensure results are not artificially inflated by leakage or hardcoding.
-*   **Method**: Evaluated using five automated checks (A1: Future Leakage, A2: Target Leakage, A3: Hardcoded Logic, A4: Contamination, A5: Reproducibility).
-*   **Finding**: **Passed (GREEN)**. The codebase enforces strict temporal splits and deterministic reproducibility under SEED=42.
-
-### **2. Signal Attribution Validation**
-*   **Purpose**: Confirm environmental signals carry predictive information.
-*   **Method**: Out-of-sample AUC/Brier lift analysis when adding environmental overlays.
-*   **Finding**: **Validated**. CRIS-conditioned models consistently outperform borrower-only baselines.
-
-### **3. Statistical Validation**
-*   **Purpose**: Establish confidence intervals and test for random chance.
-*   **Method**: 200 bootstrap iterations for signal weights and 100 permutation tests shuffling targets.
-*   **Finding**: **Validated**. Signal families like Market Structure and Decay hold statistically significant weights (p < 0.05).
-
-### **4. Cross-Dataset Validation**
-*   **Purpose**: Test model generalization on independent datasets.
-*   **Method**: Replication on Give Me Some Credit (GMC, N=150,000) and American Bankruptcy (N=78,682) datasets.
-*   **Finding**: **Validated**. The dominance of Market Structure and Decay signals replicates across consumer, retail, and corporate risk.
-
-### **5. Economic Validation**
-*   **Purpose**: Quantify downstream financial outcomes of model-conditioned policies.
-*   **Method**: Simulating cash flows (Capital Lent, Interest Collected, LGD Realized Losses) for four origination policies.
-*   **Finding**: **Validated**. The conditioned Credit Risk Model (LightGBM) achieved a **78.4%** reduction in realized losses ($82.92M saved) compared to unconstrained lending.
-
-### **6. Stress-Regime Validation**
-*   **Purpose**: Test model resilience during systemic stress.
-*   **Method**: Partitioning the test set into Low Stress and High Stress monthly cohorts.
-*   **Finding**: **Validated**. The CRIS overlay protects the portfolio return on capital during high stress, keeping defaults restricted.
-
----
-
-# Current Limitations
-
-*   **No Live Adaptive SAE**: The SAE currently computes weights in batch mode; real-time adaptive recalibration (e.g., via Kalman filter or Bayesian regime-switching) is not yet implemented.
-*   **Time Lag in Macro Reporting**: Certain macro signals (such as GDP or Unemployment) are reported with a lag, which can introduce latency in slow-moving signal components.
-*   **Clustering in Panel Data**: Environmental signals are identical for borrowers in the same monthly cohort, requiring specialized mixed-effect corrections to avoid panel autocorrelation.
-*   **Single Downstream System Implemented**: Downstream economic simulation has only been fully implemented and validated for consumer credit underwriting.
-
----
-
-# Future Research
-
-*   **Adaptive SAE (Phase 3)**: Implementing dynamic, real-time feedback weighting using Bayesian online updating.
-*   **Portfolio Diagnostics V1**: Extending the environmental overlay to portfolio-level VaR adjustments.
-*   **ESG & Transition Risk Integration**: Expanding the signal universe to include environmental transition risks.
-*   **Live Prospective Validation**: Deploying the system in a real-time paper portfolio to monitor out-of-time calibration.
-
----
-
-# Repository Structure
+## Repository Structure
 
 ```text
 CRIS/
-├── configs/             # System Configurations (credit_config, macro_config)
-├── data_contracts/      # Pydantic Schemas & Data Contracts (signal_attribution_schema)
-├── data/                # Data Lake (LendingClub, Give Me Some Credit, American Bankruptcy)
-├── harvesters/          # Signal Harvesters (Macro & Market Structure)
-├── market_structure/    # Sector Correlation, Equity Dispersion & Breadth Harvesters
-├── orchestration/       # Execution pipelines for running CRIS and Credit Risk systems
-├── reports/             # Visualizations & Final validation reports
-├── signal_attribution/  # SAE, Ablation Study, and Downstream Validation Engines
-├── systems/             # Implemented Downstream Systems (Credit Risk Underwriting)
-└── validation/          # Walk-forward validation and test suites
+├── configs/                     # Global paths, seeds, and target leakage lists
+├── reports/
+│   ├── images/                  # Core visualizations (CAP, decile default rates)
+│   └── final/                   # Audited research reports and verification ledgers
+├── systems/
+│   └── credit_risk/             # Validated Credit Risk Platform (features, models)
+├── validation/                  # Walk-forward, behavioral, and calibration tests
+├── requirements.txt             # Pip package dependencies
+├── environment.yml              # Conda environment configuration
+└── README.md                    # Main Repository README
 ```
 
 ---
 
-# Quick Start
+## Reproducibility
 
-### **1. Environment Setup**
-Create and activate the Conda environment:
-```bash
-conda env create -f environment.yml
-conda activate CRIS
-```
+To replicate the final validation audit and regenerate all reports and figures:
 
-### **2. Run the Signal Attribution Engine (SAE)**
-Run the master orchestrator to load data, merge signals, compute temporal stability, and write the SAE report:
 ```bash
-python -m signal_attribution.run_signal_attribution
-```
+# 1. Setup Conda environment
+conda env create -f environment.yml && conda activate CRIS
 
-### **3. Run Downstream System Validation**
-Evaluate System A (Credit Only) vs System B (Credit + CRIS) across multiple datasets:
-```bash
-python -m signal_attribution.run_downstream_validation
-```
+# 2. Ingest and engineer LendingClub data
+python systems/credit_risk/features/ingestion.py
+python systems/credit_risk/features/engineering.py
 
-### **4. Run Economic Impact Simulation**
-Simulate underwriting cash flows and generate the economic impact report:
-```bash
-python -m signal_attribution.run_economic_simulation
-```
-
-### **5. Run System Integrity Audit**
-Verify the A1-A5 checks and reproducibility:
-```bash
-python -m signal_attribution.system_integrity_audit
+# 3. Train models and execute the validation audit
+python systems/credit_risk/models/train.py
+python systems/credit_risk/evaluation/final_governance_validation_audit.py
 ```
 
 ---
 
-# Technical Report & Validation Reports
-For deep-dives into the mathematical methodologies, data mappings, and empirical findings, refer to the following reports:
-*   [Signal Attribution Engine Report](reports/signal_attribution_report.md)
-*   [Cross-Dataset Validation Report](reports/cross_dataset_validation_report.md)
-*   [Statistical Validation Report](reports/statistical_validation_report.md)
-*   [System Integrity & Advanced Validation Report](reports/advanced_validation_report.md)
-*   [Downstream Credit Risk Comparison Report](reports/downstream_validation_report.md)
-*   [Credit Risk System Economic Validation Report](reports/credit_risk_economic_impact_report.md)
+## Reports
+
+The complete technical details of the research are archived in the following validation reports:
+- [FINAL_REPOSITORY_AUDIT.md](reports/final/FINAL_REPOSITORY_AUDIT.md) — System audit, folder checks, and reproducibility verification.
+- [RESEARCH_CONSISTENCY_AUDIT.md](reports/final/RESEARCH_CONSISTENCY_AUDIT.md) — Cross-phase consistency check and metric reconciliations.
+- [CLAIM_VALIDATION_MATRIX.md](reports/final/CLAIM_VALIDATION_MATRIX.md) — Validation checklist of all core CRIS hypotheses.
+- [FINAL_GOVERNANCE_ATTRIBUTION_REPORT.md](reports/final/FINAL_GOVERNANCE_ATTRIBUTION_REPORT.md) — Comparison of Systems A, B, and C under stress regimes.
+- [CRIS_FINAL_VERDICT_REPORT.md](reports/final/CRIS_FINAL_VERDICT_REPORT.md) — Final model risk committee verdict report.
