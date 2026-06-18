@@ -1,0 +1,10 @@
+Metric,Value,Formatted
+Total Evaluation Cohort,50000.0,"50,000"
+Total Defaults,7865.0,"7,865"
+Total Non-Defaults,42135.0,"42,135"
+Captured Defaulters (True Positives),4562.0,"4,562"
+Stealth Defaulters (False Negatives),3303.0,"3,303"
+False Positives (Good Borrowers Flagged Risk),12002.0,"12,002"
+True Negatives (Good Borrowers Approved),30133.0,"30,133"
+False Negative Rate (Stealth / Total Defaults),0.4199618563254927,42.00%
+Model Decision Threshold,0.20438713820955512,0.20439

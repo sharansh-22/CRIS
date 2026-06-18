@@ -1,0 +1,5 @@
+Attribute,Value
+Stealth Predictability Verdict,Weakly structured; dominated by high variance and irreducible noise.
+ROC-AUC,0.59134
+PR-AUC,0.08728
+Baseline Default Rate,0.0661

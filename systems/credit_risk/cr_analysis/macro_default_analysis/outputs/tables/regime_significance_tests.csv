@@ -1,0 +1,3 @@
+Performance_Metric,Low_Stress_Regime_Mean,High_Stress_Regime_Mean,Mann_Whitney_U_Stat,MW_P_Value,Significant_Difference_05
+Realized Default Rate,0.19905804650912792,0.14090147928112415,1065.0,1.1008712653360339e-07,True
+Stealth Default Rate,0.4142073016165182,0.7950964418180405,15.0,2.3066529650472277e-12,True
