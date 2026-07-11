@@ -1,0 +1,240 @@
+[
+    {
+        "step_name": "schema_standardization",
+        "rows_before": 2,
+        "rows_after": 2,
+        "columns_before": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker",
+            "Extra",
+            "__row_id"
+        ],
+        "columns_after": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker"
+        ],
+        "outcome": "ok",
+        "details": {
+            "added_columns": [],
+            "dropped_columns": [
+                "Extra"
+            ],
+            "schema_drift": {
+                "schema_matched": false,
+                "missing_columns": [],
+                "extra_columns": [
+                    "Extra"
+                ],
+                "version_changed": false,
+                "alerts": [
+                    "extra columns: ['Extra']"
+                ]
+            }
+        }
+    },
+    {
+        "step_name": "datetime_parsing",
+        "rows_before": 2,
+        "rows_after": 2,
+        "columns_before": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker",
+            "Extra",
+            "__row_id"
+        ],
+        "columns_after": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker"
+        ],
+        "outcome": "ok",
+        "details": {
+            "date_format": "%Y-%m-%d"
+        }
+    },
+    {
+        "step_name": "missing_value_handling",
+        "rows_before": 2,
+        "rows_after": 2,
+        "columns_before": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker",
+            "Extra",
+            "__row_id"
+        ],
+        "columns_after": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker"
+        ],
+        "outcome": "ok",
+        "details": {
+            "strategy": "none",
+            "pre_missing_count": 1,
+            "pre_missing_ratio": 0.05555555555555555
+        }
+    },
+    {
+        "step_name": "duplicate_removal",
+        "rows_before": 2,
+        "rows_after": 1,
+        "columns_before": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker",
+            "Extra",
+            "__row_id"
+        ],
+        "columns_after": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker"
+        ],
+        "outcome": "ok",
+        "details": {
+            "strategy": "drop_first",
+            "duplicate_rows_removed": 0,
+            "duplicate_timestamps_removed": 1,
+            "affected_row_indices": [
+                1
+            ]
+        }
+    },
+    {
+        "step_name": "numeric_casting",
+        "rows_before": 2,
+        "rows_after": 1,
+        "columns_before": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker",
+            "Extra",
+            "__row_id"
+        ],
+        "columns_after": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker"
+        ],
+        "outcome": "ok",
+        "details": {
+            "numeric_columns": [
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume"
+            ]
+        }
+    },
+    {
+        "step_name": "outlier_handling",
+        "rows_before": 2,
+        "rows_after": 1,
+        "columns_before": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker",
+            "Extra",
+            "__row_id"
+        ],
+        "columns_after": [
+            "Date",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume",
+            "Ticker"
+        ],
+        "outcome": "ok",
+        "details": {
+            "method": "winsorize",
+            "diagnostics": {
+                "columns": [
+                    "Open",
+                    "High",
+                    "Low",
+                    "Close",
+                    "Volume"
+                ],
+                "method": "winsorize",
+                "adjusted_columns": [
+                    {
+                        "column": "Open",
+                        "lower": 1.0,
+                        "upper": 1.0
+                    },
+                    {
+                        "column": "High",
+                        "lower": 1.1,
+                        "upper": 1.1
+                    },
+                    {
+                        "column": "Low",
+                        "lower": 0.9,
+                        "upper": 0.9
+                    },
+                    {
+                        "column": "Close",
+                        "lower": 1.05,
+                        "upper": 1.05
+                    },
+                    {
+                        "column": "Volume",
+                        "lower": 100.0,
+                        "upper": 100.0
+                    }
+                ]
+            }
+        }
+    }
+]

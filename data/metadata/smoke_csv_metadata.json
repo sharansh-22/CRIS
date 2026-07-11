@@ -1,0 +1,303 @@
+{
+    "dataset_name": "smoke_csv",
+    "provider": "csv",
+    "version": "1.0.0",
+    "timestamp_generated": "2026-07-08T09:15:52.409769+00:00",
+    "num_rows": 1,
+    "num_columns": 7,
+    "columns": [
+        "Date",
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Volume",
+        "Ticker"
+    ],
+    "missing_value_strategy": "none",
+    "schema_version": "1.0.0",
+    "cleaning_version": "1.0.0",
+    "provider_version": "pandas-read-csv",
+    "fetch_timestamp": "2026-07-08T09:15:52.401614",
+    "source_url": "/tmp/cris_data_smoke_lilszjk5/invalid.csv",
+    "expected_columns": [
+        "Date",
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Volume",
+        "Ticker"
+    ],
+    "duplicate_strategy": "drop_first",
+    "output_format": "csv",
+    "publication_state": "quarantined",
+    "transformation_history": [
+        {
+            "step_name": "schema_standardization",
+            "rows_before": 2,
+            "rows_after": 2,
+            "columns_before": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker",
+                "Extra",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "added_columns": [],
+                "dropped_columns": [
+                    "Extra"
+                ],
+                "schema_drift": {
+                    "schema_matched": false,
+                    "missing_columns": [],
+                    "extra_columns": [
+                        "Extra"
+                    ],
+                    "version_changed": false,
+                    "alerts": [
+                        "extra columns: ['Extra']"
+                    ]
+                }
+            }
+        },
+        {
+            "step_name": "datetime_parsing",
+            "rows_before": 2,
+            "rows_after": 2,
+            "columns_before": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker",
+                "Extra",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "date_format": "%Y-%m-%d"
+            }
+        },
+        {
+            "step_name": "missing_value_handling",
+            "rows_before": 2,
+            "rows_after": 2,
+            "columns_before": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker",
+                "Extra",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "strategy": "none",
+                "pre_missing_count": 1,
+                "pre_missing_ratio": 0.05555555555555555
+            }
+        },
+        {
+            "step_name": "duplicate_removal",
+            "rows_before": 2,
+            "rows_after": 1,
+            "columns_before": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker",
+                "Extra",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "strategy": "drop_first",
+                "duplicate_rows_removed": 0,
+                "duplicate_timestamps_removed": 1,
+                "affected_row_indices": [
+                    1
+                ]
+            }
+        },
+        {
+            "step_name": "numeric_casting",
+            "rows_before": 2,
+            "rows_after": 1,
+            "columns_before": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker",
+                "Extra",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "numeric_columns": [
+                    "Open",
+                    "High",
+                    "Low",
+                    "Close",
+                    "Volume"
+                ]
+            }
+        },
+        {
+            "step_name": "outlier_handling",
+            "rows_before": 2,
+            "rows_after": 1,
+            "columns_before": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker",
+                "Extra",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "method": "winsorize",
+                "diagnostics": {
+                    "columns": [
+                        "Open",
+                        "High",
+                        "Low",
+                        "Close",
+                        "Volume"
+                    ],
+                    "method": "winsorize",
+                    "adjusted_columns": [
+                        {
+                            "column": "Open",
+                            "lower": 1.0,
+                            "upper": 1.0
+                        },
+                        {
+                            "column": "High",
+                            "lower": 1.1,
+                            "upper": 1.1
+                        },
+                        {
+                            "column": "Low",
+                            "lower": 0.9,
+                            "upper": 0.9
+                        },
+                        {
+                            "column": "Close",
+                            "lower": 1.05,
+                            "upper": 1.05
+                        },
+                        {
+                            "column": "Volume",
+                            "lower": 100.0,
+                            "upper": 100.0
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "row_lineage_column": "__row_id",
+    "extra": {
+        "source_metadata": {
+            "file_path": "/tmp/cris_data_smoke_lilszjk5/invalid.csv"
+        },
+        "source_row_count": 2,
+        "source_column_count": 8,
+        "schema_drift": {
+            "schema_matched": false,
+            "missing_columns": [],
+            "extra_columns": [
+                "Extra"
+            ],
+            "version_changed": false,
+            "alerts": [
+                "extra columns: ['Extra']"
+            ]
+        },
+        "semantic_diagnostics": {
+            "expected_frequency": "daily",
+            "coverage_window": "smoke",
+            "rules_checked": 5,
+            "missingness_ratio": 0.0
+        },
+        "raw_missing_count": 1,
+        "raw_missing_ratio": 0.05555555555555555,
+        "transformation_log_path": "/home/sharansh/CRIS/data/metadata/smoke_csv_transformation_log.json"
+    }
+}

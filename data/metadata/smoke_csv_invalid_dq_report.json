@@ -1,0 +1,81 @@
+{
+    "dataset_name": "smoke_csv_invalid",
+    "is_valid": false,
+    "missing_values_count": 0,
+    "duplicate_rows_count": 0,
+    "duplicate_timestamps_count": 0,
+    "is_chronological": true,
+    "schema_matched": false,
+    "schema_version": "1.0.0",
+    "expected_frequency": "daily",
+    "coverage_window": "smoke",
+    "missing_value_strategy": "none",
+    "duplicate_strategy": "drop_first",
+    "dropped_columns": [
+        "Extra"
+    ],
+    "extra_columns": [
+        "Extra"
+    ],
+    "schema_drift_detected": true,
+    "semantic_errors": [],
+    "semantic_warnings": [
+        "daily dataset has short history relative to expectation"
+    ],
+    "outlier_columns": [
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Volume"
+    ],
+    "outlier_diagnostics": {
+        "columns": [
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume"
+        ],
+        "method": "winsorize",
+        "adjusted_columns": [
+            {
+                "column": "Open",
+                "lower": 1.0,
+                "upper": 1.0
+            },
+            {
+                "column": "High",
+                "lower": 1.1,
+                "upper": 1.1
+            },
+            {
+                "column": "Low",
+                "lower": 0.9,
+                "upper": 0.9
+            },
+            {
+                "column": "Close",
+                "lower": 1.05,
+                "upper": 1.05
+            },
+            {
+                "column": "Volume",
+                "lower": 100.0,
+                "upper": 100.0
+            }
+        ]
+    },
+    "missingness_ratio": 0.05555555555555555,
+    "duplicate_rows_affected": [
+        1
+    ],
+    "errors": [
+        "unexpected columns: ['Extra']",
+        "expected coverage or minimum row requirement not met"
+    ],
+    "warnings": [
+        "extra columns: ['Extra']",
+        "daily dataset has short history relative to expectation"
+    ]
+}

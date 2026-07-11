@@ -1,0 +1,240 @@
+{
+    "dataset_name": "test_macro",
+    "provider": "csv",
+    "version": "1.0.0",
+    "timestamp_generated": "2026-07-08T10:45:28.053442+00:00",
+    "num_rows": 5,
+    "num_columns": 7,
+    "columns": [
+        "Date",
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Volume",
+        "Ticker"
+    ],
+    "missing_value_strategy": "forward_fill",
+    "schema_version": "1.0.0",
+    "cleaning_version": "1.0.0",
+    "provider_version": "1.0",
+    "fetch_timestamp": "2026-07-08T10:45:28.048203+00:00",
+    "source_url": "dummy",
+    "expected_columns": [
+        "Date",
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Volume",
+        "Ticker"
+    ],
+    "duplicate_strategy": "drop_first",
+    "output_format": "parquet",
+    "publication_state": "quarantined",
+    "transformation_history": [
+        {
+            "step_name": "schema_standardization",
+            "rows_before": 5,
+            "rows_after": 5,
+            "columns_before": [
+                "Date",
+                "Open",
+                "Close",
+                "High",
+                "Low",
+                "Volume",
+                "Ticker",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "added_columns": [],
+                "dropped_columns": [],
+                "schema_drift": {
+                    "schema_matched": true,
+                    "missing_columns": [],
+                    "extra_columns": [],
+                    "version_changed": false,
+                    "alerts": []
+                }
+            }
+        },
+        {
+            "step_name": "datetime_parsing",
+            "rows_before": 5,
+            "rows_after": 5,
+            "columns_before": [
+                "Date",
+                "Open",
+                "Close",
+                "High",
+                "Low",
+                "Volume",
+                "Ticker",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "date_format": "%Y-%m-%d"
+            }
+        },
+        {
+            "step_name": "missing_value_handling",
+            "rows_before": 5,
+            "rows_after": 5,
+            "columns_before": [
+                "Date",
+                "Open",
+                "Close",
+                "High",
+                "Low",
+                "Volume",
+                "Ticker",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "strategy": "forward_fill",
+                "pre_missing_count": 0,
+                "pre_missing_ratio": 0.0
+            }
+        },
+        {
+            "step_name": "duplicate_removal",
+            "rows_before": 5,
+            "rows_after": 5,
+            "columns_before": [
+                "Date",
+                "Open",
+                "Close",
+                "High",
+                "Low",
+                "Volume",
+                "Ticker",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "strategy": "drop_first",
+                "duplicate_rows_removed": 0,
+                "duplicate_timestamps_removed": 0,
+                "affected_row_indices": []
+            }
+        },
+        {
+            "step_name": "numeric_casting",
+            "rows_before": 5,
+            "rows_after": 5,
+            "columns_before": [
+                "Date",
+                "Open",
+                "Close",
+                "High",
+                "Low",
+                "Volume",
+                "Ticker",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "numeric_columns": []
+            }
+        },
+        {
+            "step_name": "outlier_handling",
+            "rows_before": 5,
+            "rows_after": 5,
+            "columns_before": [
+                "Date",
+                "Open",
+                "Close",
+                "High",
+                "Low",
+                "Volume",
+                "Ticker",
+                "__row_id"
+            ],
+            "columns_after": [
+                "Date",
+                "Open",
+                "High",
+                "Low",
+                "Close",
+                "Volume",
+                "Ticker"
+            ],
+            "outcome": "ok",
+            "details": {
+                "method": "clip",
+                "diagnostics": {
+                    "columns": [],
+                    "method": "clip",
+                    "adjusted_columns": []
+                }
+            }
+        }
+    ],
+    "row_lineage_column": "__row_id",
+    "extra": {
+        "source_metadata": {},
+        "source_row_count": 5,
+        "source_column_count": 7,
+        "schema_drift": {
+            "schema_matched": true,
+            "missing_columns": [],
+            "extra_columns": [],
+            "version_changed": false,
+            "alerts": []
+        },
+        "semantic_diagnostics": {},
+        "raw_missing_count": 0,
+        "raw_missing_ratio": 0.0,
+        "transformation_log_path": "/home/sharansh/CRIS/data/metadata/test_macro_transformation_log.json"
+    }
+}

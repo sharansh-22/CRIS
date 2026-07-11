@@ -5,6 +5,7 @@ channels:
 dependencies:
   - python=3.10
   - pandas
+  - polars
   - numpy
   - matplotlib
   - scipy
@@ -19,6 +20,9 @@ dependencies:
   - joblib
   - tabulate
   - seaborn
+  - pytest
+  - dagster
+  - dagster-webserver
   - pip
   - pip:
     - yfinance

@@ -1,0 +1,31 @@
+{
+    "dataset_name": "test_macro",
+    "is_valid": false,
+    "missing_values_count": 0,
+    "duplicate_rows_count": 0,
+    "duplicate_timestamps_count": 0,
+    "is_chronological": true,
+    "schema_matched": true,
+    "schema_version": "1.0.0",
+    "expected_frequency": "daily",
+    "coverage_window": "unspecified",
+    "missing_value_strategy": "forward_fill",
+    "duplicate_strategy": "drop_first",
+    "dropped_columns": [],
+    "extra_columns": [],
+    "schema_drift_detected": false,
+    "semantic_errors": [],
+    "semantic_warnings": [],
+    "outlier_columns": [],
+    "outlier_diagnostics": {
+        "columns": [],
+        "method": "clip",
+        "adjusted_columns": []
+    },
+    "missingness_ratio": 0.0,
+    "duplicate_rows_affected": [],
+    "errors": [
+        "Pandera Schema Violation: Column 'Open' failed element-wise validator number 0: greater_than_or_equal_to(0.0) failure cases: -5.0"
+    ],
+    "warnings": []
+}
